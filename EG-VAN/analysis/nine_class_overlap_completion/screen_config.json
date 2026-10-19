@@ -1,0 +1,13 @@
+{
+  "input_sha256": {
+    "analysis\\nine_class_similarity\\candidates.csv": "f530179d366d7b9f99ab6ffa5a55110e6c78f05451803849c016ab6f5d1c79bf",
+    "analysis\\nine_class_similarity\\fingerprints.csv": "d265f3fc54ede87c27e478289fccf7947c74609bf778b5ba8ac83d90d3126fd2",
+    "data\\raw\\HAM10000_metadata.csv": "06aee5e603d313ba69de38263053c792a1dff030eb9c44a96ceb477ceefb99a5",
+    "analysis\\nine_class_overlap_review\\review_decisions.csv": "9d78f993e508e68bada8c71bc166bd5e52070c44cd01a7ea492da7c864555d19"
+  },
+  "batch_size": 2000,
+  "full_review_rule": "min(pHash,dHash)<=2 OR max<=8 OR coarse_MAE<=10/255 OR grayscale_correlation>=0.96 OR Laplacian_correlation>=0.85",
+  "confirmation_rule": "full native-binary-pixel MAE<=2/255 AND correlation>=0.999",
+  "coarse_rule": "64x64 grayscale INTER_AREA; all broad pairs scored",
+  "unresolved_rule": "never infer nonmatch from low similarity; no human adjudication"
+}

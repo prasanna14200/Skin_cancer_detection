@@ -1,0 +1,40 @@
+{
+  "stage": "proposed_protocol_not_manifest_or_split",
+  "broad_pairs_screened": 38584,
+  "broad_full_pixel_scored": 3038,
+  "broad_new_confirmed_pairs": 0,
+  "priority_pairs_second_pass": 449,
+  "priority_assistant_visual_confirmed": 24,
+  "assistant_visual_review_sha256": "6c31ae97cfe69dacb705b6c9c165d1162d0a371de9e604ba80dd34e57ada1523",
+  "priority_still_unresolved": 425,
+  "broad_still_unresolved": 38584,
+  "human_review_queue_pairs_touching_retained_binary": 760,
+  "low_priority_unresolved_pairs_touching_retained_binary": 6755,
+  "retained_binary_records_with_unresolved_candidate": 344,
+  "confirmed_duplicate_groups": 2368,
+  "proposed_binary_exclusions": 2369,
+  "retained_binary_by_label_split": {
+    "benign/train": 64,
+    "benign/test": 19,
+    "malignant/train": 680,
+    "malignant/test": 165
+  },
+  "retained_binary_total": 928,
+  "ham_class_counts": {
+    "akiec": 327,
+    "bcc": 514,
+    "bkl": 1099,
+    "df": 115,
+    "mel": 1113,
+    "nv": 6705,
+    "vasc": 142
+  },
+  "potential_source_entry_upper_bound": 10943,
+  "source_test_confirmed_ham_overlap": 476,
+  "input_sha256": {
+    "analysis\\nine_class_similarity\\candidates.csv": "f530179d366d7b9f99ab6ffa5a55110e6c78f05451803849c016ab6f5d1c79bf",
+    "analysis\\nine_class_similarity\\fingerprints.csv": "d265f3fc54ede87c27e478289fccf7947c74609bf778b5ba8ac83d90d3126fd2",
+    "data\\raw\\HAM10000_metadata.csv": "06aee5e603d313ba69de38263053c792a1dff030eb9c44a96ceb477ceefb99a5",
+    "analysis\\nine_class_overlap_review\\review_decisions.csv": "9d78f993e508e68bada8c71bc166bd5e52070c44cd01a7ea492da7c864555d19"
+  }
+}
