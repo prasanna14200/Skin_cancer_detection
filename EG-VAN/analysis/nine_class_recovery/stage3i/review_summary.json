@@ -1,0 +1,28 @@
+{
+  "review_timestamp_utc": "2026-10-19T13:52:06+00:00",
+  "model_name_version": "Codex, GPT-6 family (exact vision build/version not exposed)",
+  "prompt_configuration_version": "stage3i_ai_visual_review_v1_2026-10-19",
+  "total_unique_pairs": 429,
+  "visually_inspected_from_original_image_sheets": 429,
+  "numerical_only_assessments": 0,
+  "ai_assessment_counts": {
+    "AI_SAME_PHOTO": 83,
+    "AI_DISTINCT": 326,
+    "AI_UNCERTAIN": 20
+  },
+  "strong_pair_count": 83,
+  "strong_pair_ai_uncertain": 0,
+  "prior_human_choices_copied_or_modified": false,
+  "prior_source_evidence_sha256": {
+    "analysis\\nine_class_recovery\\benign_pair_review_ledger.csv": "ba89c8f9c54a96c08f58c2ac55db801a05d4018b470332eaa5dc6c0f0dd51999",
+    "analysis\\nine_class_recovery\\geometric_pair_evidence.csv": "ab1a4a37671637d2433af900e66d22eb9f90102b54d3912e9764b04bf04d50bd",
+    "analysis\\nine_class_recovery\\stage3g\\strong_pair_identity_evidence.csv": "f5e44d3174b96f596f460c771f519783b063787379cfdc9baaf5f6dc08416b69",
+    "analysis\\nine_class_recovery\\stage3i\\sheet_manifest.csv": "6181f50a36200fc02a16da045e0c8c7caded29f53d00ca9b19b0a70f5c3b04da",
+    "analysis\\nine_class_overlap_completion\\proposed_binary_exclusions.csv": "03fd32b04d14149a4add0168fbea442be1ae03d39c6307ea1e7a6fbf0efccb42"
+  },
+  "overlap_edge_count": 2477,
+  "proposed_overlap_group_count": 2444,
+  "clinical_patient_lesion_identity_verified": false,
+  "detector_error_rates_available": false,
+  "stage4_split_ready": false
+}

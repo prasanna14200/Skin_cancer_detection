@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EG-VAN BENIGN pair review</title>
+<style>
+:root { font-family: system-ui, sans-serif; color: #202b35; background: #f4f6f8; }
+body { margin: 0 auto; max-width: 1600px; padding: 1rem 1.5rem 3rem; }
+h1 { margin: .2rem 0; }
+.notice { background: #fff3d6; border-left: 5px solid #d58b00; padding: .9rem; }
+.bar, .nav, .pair, .summary { background: white; border: 1px solid #d5dce3; border-radius: 8px; padding: 1rem; margin: 1rem 0; }
+.bar { display: flex; flex-wrap: wrap; gap: .7rem; align-items: center; }
+button, select, textarea { font: inherit; }
+button { cursor: pointer; padding: .5rem .75rem; }
+button:disabled { cursor: not-allowed; opacity: .45; }
+.batch { display: inline-block; margin: .25rem; }
+.batch button { min-width: 9rem; }
+.active { outline: 3px solid #1769aa; }
+.images { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 1rem; }
+.images figure { margin: 0; min-width: 0; }
+.images img { width: 100%; height: auto; max-height: 720px; object-fit: contain; background: #222; }
+.images figcaption { overflow-wrap: anywhere; font-size: .9rem; }
+.images a { display: block; }
+.metrics { font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.choices { display: flex; gap: 1rem; flex-wrap: wrap; margin: .8rem 0; }
+.choices label { padding: .35rem; white-space: nowrap; }
+textarea { width: min(100%, 900px); min-height: 3rem; display: block; margin: .5rem 0; box-sizing: border-box; }
+.saved { color: #146135; }
+.pending { color: #995b00; }
+.error { color: #ae1f1f; }
+.automated { background: #edf4fb; border-left: 4px solid #4283b8; padding: .7rem; }
+.feedback { border-top: 1px solid #d5dce3; margin-top: .8rem; padding-top: .5rem; }
+.small { font-size: .9rem; }
+@media (max-width: 750px) { .images { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<h1>EG-VAN BENIGN pair review</h1>
+<p class="notice">Judge only whether each pair depicts the same photograph, the same lesion, or distinct images. UNCERTAIN is an explicit review decision. Do not infer a clinical diagnosis. Every pair starts unreviewed, and saving a choice does not apply an exclusion.</p>
+<p><a href="/strong">Focused 83 strong pairs</a> · <a href="/">All 429 candidate pairs</a> <span id="reviewerLabel"></span></p>
+<div id="summary" class="summary" aria-live="polite"></div>
+<div id="batchNav" class="bar"></div>
+<div class="nav">
+  <button id="prev">Previous record</button>
+  <select id="recordSelect" aria-label="Select BENIGN record"></select>
+  <button id="next">Next record</button>
+  <span id="recordInfo"></span>
+  <span id="sheets"></span>
+</div>
+<main id="pairs"></main>
+<script>
+"use strict";
+const labels = ["SAME_PHOTO", "SAME_LESION", "DISTINCT", "UNCERTAIN"];
+const batches = ["T1_source_test", "T2_source_train", "T3_source_train", "T4_source_train", "T5_source_train"];
+const strongMode = location.pathname === "/strong";
+let state, index = 0;
+const el = (tag, className, text) => {
+  const node = document.createElement(tag);
+  if (className) node.className = className;
+  if (text !== undefined) node.textContent = text;
+  return node;
+};
+const imageUrl = path => "/image/" + path.split("/").map(encodeURIComponent).join("/");
+const number = value => value === "" ? "—" : value;
+function linkedFigure(title, path) {
+  const fig = el("figure");
+  const a = el("a"); a.href = imageUrl(path); a.target = "_blank"; a.rel = "noopener";
+  a.title = "Open original image at native resolution";
+  const img = el("img"); img.src = imageUrl(path); img.alt = title + ": " + path; img.loading = "lazy";
+  a.append(img); fig.append(a, el("figcaption", "", title + " — " + path));
+  return fig;
+}
+function summary() {
+  const s = state.summary;
+  if (strongMode) {
+    const focused = state.pairs.filter(p => state.strong[p.candidate_pair_id]);
+    const done = focused.filter(p => p.reviewer_decision).length;
+    const test = focused.filter(p => p.source_split === "test");
+    document.getElementById("summary").textContent =
+      `Focused strong pairs: ${done}/83 reviewed; source-test ${test.filter(p => p.reviewer_decision).length}/19 reviewed. ` +
+      `Across all candidate relations: ${s.reviewed_pair_count}/429 reviewed. Automated evidence does not apply exclusions.`;
+    const nav = document.getElementById("batchNav"); nav.replaceChildren();
+    for (const [label, target, total] of [["Source test", 0, 19], ["Warp outlier", 19, 1], ["Remaining train", 20, 63]]) {
+      const button = el("button", index === target ? "active" : "", `${label} (${total})`);
+      button.onclick = () => { index = target; render(); }; nav.append(button);
+    }
+    return;
+  }
+  document.getElementById("summary").textContent =
+    `Reviewed ${s.reviewed_pair_count} / ${s.reviewed_pair_count + s.unreviewed_pair_count} pairs; ` +
+    `unreviewed ${s.unreviewed_pair_count}. SAME_PHOTO ${s.SAME_PHOTO}, ` +
+    `SAME_LESION ${s.SAME_LESION}, DISTINCT ${s.DISTINCT}, UNCERTAIN ${s.UNCERTAIN}. ` +
+    `BENIGN records with all related pairs resolved ${s.binary_records_all_relations_resolved} / 83; ` +
+    `source-test blockers ${s.remaining_source_test_blockers} / 19.`;
+  const nav = document.getElementById("batchNav"); nav.replaceChildren();
+  batches.forEach(batch => {
+    const p = s.batch_progress[batch];
+    const box = el("span", "batch");
+    const button = el("button", state.records[index].review_batch === batch ? "active" : "", batch.replace("_", " "));
+    button.onclick = () => { index = state.records.findIndex(r => r.review_batch === batch); render(); };
+    box.append(button, el("span", "small", ` ${p.records_fully_resolved}/${p.records_total} records, ${p.related_pairs_reviewed}/${p.related_pairs_total} pairs`));
+    nav.append(box);
+  });
+}
+function render() {
+  summary();
+  const record = state.records[index];
+  const select = document.getElementById("recordSelect");
+  select.value = String(index);
+  document.getElementById("prev").disabled = index === 0;
+  document.getElementById("next").disabled = index === state.records.length - 1;
+  document.getElementById("recordInfo").textContent = `Record ${index + 1} / 83 · ${record.review_batch} · source ${record.source_split}`;
+  const sheets = document.getElementById("sheets"); sheets.replaceChildren();
+  if (record.review_batch === "T1_source_test") {
+    for (const n of ["01", "02"]) {
+      const link = el("a", "", ` Contact sheet ${n} `); link.href = `/sheet/${n}`;
+      link.target = "_blank"; link.rel = "noopener"; sheets.append(link);
+    }
+  }
+  const pairs = state.pairs.filter(p => (p.binary_image_path === record.image_path || p.candidate_path === record.image_path) &&
+    (!strongMode || state.strong[p.candidate_pair_id]));
+  const area = document.getElementById("pairs"); area.replaceChildren();
+  area.append(el("h2", "", `${record.image_path} — ${pairs.filter(p => p.reviewer_decision).length}/${pairs.length} pairs reviewed`));
+  pairs.forEach((pair, pairIndex) => {
+    const other = pair.binary_image_path === record.image_path ? pair.candidate_path : pair.binary_image_path;
+    const otherSource = other.startsWith("data/raw/HAM10000_images_part_") ? "HAM10000" : "binary";
+    const identifier = otherSource === "HAM10000" ? other.split("/").at(-1).replace(/\.jpg$/i, "") : "local:" + other.split("/").at(-1);
+    const card = el("section", "pair");
+    card.append(el("h3", "", `Pair ${pairIndex + 1} / ${pairs.length} · ${pair.reviewer_decision || "UNREVIEWED"}`));
+    card.append(el("p", "small", `Pair ID: ${pair.candidate_pair_id} · Candidate: ${otherSource} ${identifier} · Source partition: ${record.source_split}`));
+    const images = el("div", "images");
+    images.append(linkedFigure("BENIGN image", record.image_path), linkedFigure("Candidate image", other)); card.append(images);
+    card.append(el("p", "metrics", `pHash distance ${number(pair.phash_distance)} · dHash distance ${number(pair.dhash_distance)} · pixel MAE ${number(pair.pixel_mae)}/255 · pixel correlation ${number(pair.pixel_correlation)} · coarse correlation ${number(pair.coarse_correlation)} · Evidence ${pair.evidence_reference}`));
+    const geo = state.geometry[pair.candidate_pair_id];
+    if (geo) {
+      const automated = el("div", "automated");
+      automated.append(el("strong", "", `Automated evidence: ${geo.automated_evidence_category}`));
+      automated.append(el("p", "", geo.evidence_explanation));
+      automated.append(el("p", "metrics", `Method ${geo.method}; candidate view ${geo.candidate_view}; keypoints ${geo.keypoints_binary}/${geo.keypoints_candidate}; mutual matches ${geo.mutual_matches}; RANSAC inliers ${geo.inlier_count}; inlier ratio ${geo.inlier_ratio}; median reprojection error ${number(geo.median_reprojection_error_px)} px; geometry ${geo.geometry_status}${geo.failure_reason ? "; limitation " + geo.failure_reason : ""}.`));
+      if (geo.landmark_visualization_available === "true") {
+        const link = el("a", "", "Open matched landmarks (original images remain available above)");
+        link.href = `/landmarks/${pair.candidate_pair_id}`; link.target = "_blank"; link.rel = "noopener";
+        automated.append(link);
+      }
+      card.append(automated);
+    } else {
+      card.append(el("p", "automated", "Geometric evidence has not been generated for this pair."));
+    }
+    const focused = state.strong[pair.candidate_pair_id];
+    if (focused) {
+      const evidence = el("div", "automated");
+      evidence.append(el("strong", "", `Stage 3G identity status: ${focused.identity_conclusion_status}`));
+      evidence.append(el("p", "metrics", `HAM image ID ${focused.ham_image_id}; recorded HAM lesion ID ${focused.ham_lesion_id}; HAM dx ${focused.ham_dx} (${focused.ham_dx_type}). Geometry ${focused.transformation_plausibility}; aligned correlation ${focused.aligned_grayscale_correlation}; central inlier fraction ${focused.central_inlier_fraction}. Lesion-structure match: ${focused.lesion_structure_match_status}.`));
+      evidence.append(el("p", "", focused.review_requirement));
+      const links = el("div", "images");
+      for (const [kind, title] of [["overlay", "Aligned overlay"], ["difference", "Amplified difference"], ["landmark", "Inlier locations"]]) {
+        const figure = el("figure"), link = el("a");
+        link.href = `/evidence/${kind}/${pair.candidate_pair_id}`; link.target = "_blank"; link.rel = "noopener";
+        const img = el("img"); img.src = link.href; img.loading = "lazy"; img.alt = title;
+        link.append(img); figure.append(link, el("figcaption", "", title)); links.append(figure);
+      }
+      evidence.append(links); card.append(evidence);
+    }
+    const form = el("form");
+    const choices = el("div", "choices");
+    labels.forEach(label => {
+      const wrapper = el("label"); const input = el("input"); input.type = "radio";
+      input.name = "decision"; input.value = label; input.checked = pair.reviewer_decision === label;
+      wrapper.append(input, " " + label); choices.append(wrapper);
+    });
+    const notes = el("textarea"); notes.placeholder = "Describe visual evidence; at least 20 characters for SAME_PHOTO or SAME_LESION";
+    notes.maxLength = 4000; notes.value = pair.reviewer_notes;
+    const save = el("button", "", "Save this pair"); save.type = "submit";
+    const status = el("span", pair.reviewer_decision ? "saved" : "pending",
+      pair.reviewer_decision ? ` Saved ${pair.review_timestamp_utc}` : " Unreviewed");
+    form.append(choices, notes, save, status);
+    form.onsubmit = async event => {
+      event.preventDefault();
+      const checked = form.querySelector('input[name="decision"]:checked');
+      if (!checked) { status.className = "error"; status.textContent = " Select a decision before saving."; return; }
+      if (["SAME_PHOTO", "SAME_LESION"].includes(checked.value) && notes.value.trim().length < 20) {
+        status.className = "error"; status.textContent = " Explain the positive identity judgment in at least 20 characters."; return;
+      }
+      save.disabled = true;
+      try {
+        const response = await fetch("/api/decision", {method: "POST", headers: {"Content-Type": "application/json"},
+          body: JSON.stringify({pair_id: pair.candidate_pair_id, decision: checked.value, notes: notes.value})});
+        const result = await response.json();
+        if (!response.ok) throw Error(result.error || "Save failed");
+        Object.assign(pair, result.saved); state.summary = result.summary;
+        status.className = "saved"; status.textContent = ` Saved ${pair.review_timestamp_utc}`;
+        card.querySelector("h3").textContent = `Pair ${pairIndex + 1} / ${pairs.length} · ${pair.reviewer_decision}`;
+        area.querySelector("h2").textContent = `${record.image_path} — ${pairs.filter(p => p.reviewer_decision).length}/${pairs.length} pairs reviewed`;
+        summary();
+      } catch (error) { status.className = "error"; status.textContent = " " + error.message; }
+      finally { save.disabled = false; }
+    };
+    card.append(form);
+    if (geo) {
+      const existingFeedback = state.feedback[pair.candidate_pair_id];
+      const feedbackForm = el("form", "feedback");
+      const label = el("label");
+      const disagree = el("input"); disagree.type = "checkbox";
+      disagree.checked = existingFeedback?.disagrees_with_automated_category === "true";
+      label.append(disagree, " I disagree with the automated evidence category");
+      const why = el("textarea"); why.maxLength = 4000;
+      why.placeholder = "Reason for disagreement (required if checked)";
+      why.value = existingFeedback?.disagreement_reason || "";
+      const saveFeedback = el("button", "", "Save evidence feedback"); saveFeedback.type = "submit";
+      const feedbackStatus = el("span", "small", existingFeedback?.feedback_timestamp_utc ?
+        ` Saved ${existingFeedback.feedback_timestamp_utc}` : " No evidence feedback saved");
+      feedbackForm.append(label, why, saveFeedback, feedbackStatus);
+      feedbackForm.onsubmit = async event => {
+        event.preventDefault(); saveFeedback.disabled = true;
+        try {
+          const response = await fetch("/api/evidence_feedback", {method: "POST",
+            headers: {"Content-Type": "application/json"}, body: JSON.stringify({pair_id: pair.candidate_pair_id,
+              disagrees: disagree.checked, reason: why.value})});
+          const result = await response.json();
+          if (!response.ok) throw Error(result.error || "Save failed");
+          state.feedback[pair.candidate_pair_id] = result.saved;
+          feedbackStatus.className = "saved";
+          feedbackStatus.textContent = ` Saved ${result.saved.feedback_timestamp_utc}`;
+        } catch (error) { feedbackStatus.className = "error"; feedbackStatus.textContent = " " + error.message; }
+        finally { saveFeedback.disabled = false; }
+      };
+      card.append(feedbackForm);
+    }
+    area.append(card);
+  });
+}
+async function start() {
+  const response = await fetch("/api/review");
+  if (!response.ok) throw Error("Could not load review queue");
+  state = await response.json();
+  document.getElementById("reviewerLabel").textContent = `Reviewer ledger: ${state.reviewer_id}`;
+  if (strongMode) {
+    if (state.strong_records.length !== 83) throw Error("Stage 3G strong review evidence is unavailable");
+    state.records = state.strong_records;
+  }
+  const select = document.getElementById("recordSelect");
+  state.records.forEach((r, i) => {
+    const option = el("option", "", `${i + 1}. ${r.review_batch} · ${r.image_path}`);
+    option.value = String(i); select.append(option);
+  });
+  select.onchange = () => { index = Number(select.value); render(); };
+  document.getElementById("prev").onclick = () => { index--; render(); };
+  document.getElementById("next").onclick = () => { index++; render(); };
+  render();
+}
+start().catch(error => { document.getElementById("pairs").textContent = error.message; });
+</script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+{
+  "strong_pairs_investigated": 83,
+  "identity_status_counts": {
+    "REQUIRES_REVIEW": 82,
+    "INSUFFICIENT_EVIDENCE": 1
+  },
+  "transformation_plausibility": {
+    "plausible_geometric_mapping": 82,
+    "requires_manual_geometry_check": 1
+  },
+  "source_test_pairs": 19,
+  "prior_human_same_photo_decisions": 1,
+  "independently_verified_negative_pairs": 0,
+  "detector_error_metrics_available": false,
+  "source_evidence_sha256": {
+    "analysis\\nine_class_recovery\\geometric_pair_evidence.csv": "ab1a4a37671637d2433af900e66d22eb9f90102b54d3912e9764b04bf04d50bd",
+    "analysis\\nine_class_recovery\\benign_pair_review_ledger.csv": "ba89c8f9c54a96c08f58c2ac55db801a05d4018b470332eaa5dc6c0f0dd51999",
+    "analysis\\nine_class_recovery\\geometric_validation_manifest.csv": "ab21f24df8c38e6ca9e404b39506e7dff769b6a1498559db04becb9b4bcd9dbe",
+    "data\\raw\\HAM10000_metadata.csv": "06aee5e603d313ba69de38263053c792a1dff030eb9c44a96ceb477ceefb99a5"
+  },
+  "human_decision_ledger_unchanged": true,
+  "exclusions_applied": false
+}

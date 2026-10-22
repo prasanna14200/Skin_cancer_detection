@@ -1,0 +1,18 @@
+{
+  "pairs": 429,
+  "automated_categories": {
+    "NEEDS_HUMAN_REVIEW": 83,
+    "INSUFFICIENT_EVIDENCE": 346
+  },
+  "geometry_status": {
+    "coherent": 83,
+    "unreliable": 346
+  },
+  "methods": {
+    "ORB": 429
+  },
+  "source_queue_sha256": "1094dfe129e3a4a75b6cbed76f11c2d6972dd959686ec36d920f12c01ae0d5f3",
+  "source_ledger_pair_list_hash": "ca8442b4652a691712cf246e53ed0f46cba07c601ad9bd33195902ea009a6f50",
+  "human_decisions_not_modified": true,
+  "detector_precision_recall_not_validated": true
+}

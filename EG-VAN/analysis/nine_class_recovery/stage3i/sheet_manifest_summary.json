@@ -1,0 +1,11 @@
+{
+  "pair_count": 429,
+  "sheet_count": 36,
+  "ordering": "19 strong source test, 64 strong source train, 346 remaining",
+  "source_sha256": {
+    "analysis\\nine_class_recovery\\benign_pair_review_ledger.csv": "ba89c8f9c54a96c08f58c2ac55db801a05d4018b470332eaa5dc6c0f0dd51999",
+    "analysis\\nine_class_recovery\\geometric_pair_evidence.csv": "ab1a4a37671637d2433af900e66d22eb9f90102b54d3912e9764b04bf04d50bd",
+    "analysis\\nine_class_recovery\\stage3g\\strong_pair_identity_evidence.csv": "f5e44d3174b96f596f460c771f519783b063787379cfdc9baaf5f6dc08416b69"
+  },
+  "purpose": "visual review aids; sheets alone do not constitute identity decisions"
+}

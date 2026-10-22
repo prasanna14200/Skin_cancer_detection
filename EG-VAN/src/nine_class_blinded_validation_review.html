@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Stage 3G blind validation review</title>
+<style>
+body{font:16px system-ui,sans-serif;color:#202b35;background:#f3f6f8;max-width:1500px;margin:auto;padding:1.2rem}
+main,.nav{background:white;border:1px solid #d5dce3;border-radius:8px;padding:1rem;margin:1rem 0}
+.images{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+figure{margin:0}img{width:100%;max-height:800px;object-fit:contain;background:#222}a{display:block}
+.choices{display:flex;gap:1rem;flex-wrap:wrap;margin:1rem 0}button,textarea{font:inherit}button{padding:.5rem;cursor:pointer}
+textarea{display:block;width:min(100%,900px);min-height:4rem;margin:.5rem 0}.warning{background:#fff2d0;padding:.8rem}
+@media(max-width:700px){.images{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<h1>Blind validation review</h1>
+<p class="warning">Judge the visual relationship only. Source IDs, lesion metadata, similarity scores and automated findings are hidden. Different metadata IDs are not proof of distinct photographs. Use UNCERTAIN when the images cannot settle the relation. Work independently; do not inspect the mapping queue until both reviewers finish.</p>
+<div id="progress"></div>
+<div class="nav"><button id="previous">Previous</button> <button id="next">Next</button> <span id="case"></span></div>
+<main>
+<div class="images"><figure><a id="aLink" target="_blank" rel="noopener"><img id="imageA" alt="Blind image A"></a><figcaption>Image A — click to inspect at original resolution</figcaption></figure><figure><a id="bLink" target="_blank" rel="noopener"><img id="imageB" alt="Blind image B"></a><figcaption>Image B — click to inspect at original resolution</figcaption></figure></div>
+<form id="decisionForm"><div class="choices" id="choices"></div><textarea id="notes" maxlength="4000" placeholder="Visual evidence; at least 20 characters for SAME_PHOTO or SAME_LESION"></textarea><button type="submit">Save this case</button> <span id="status"></span></form>
+</main>
+<script>
+"use strict";
+const decisions=["SAME_PHOTO","SAME_LESION","DISTINCT","UNCERTAIN"];
+let data,index=0;
+function show(){
+ const item=data.cases[index], id=item.blind_case_id;
+ document.getElementById("progress").textContent=`Reviewer ${data.reviewer_id}: ${data.reviewed}/${data.total} cases saved`;
+ document.getElementById("case").textContent=`Case ${index+1}/${data.total}: ${id}`;
+ document.getElementById("previous").disabled=index===0;
+ document.getElementById("next").disabled=index===data.cases.length-1;
+ for(const [side,img,link] of [["a","imageA","aLink"],["b","imageB","bLink"]]){
+  const url=`/image/${encodeURIComponent(id)}/${side}`;
+  document.getElementById(img).src=url;document.getElementById(link).href=url;
+ }
+ const choices=document.getElementById("choices");choices.replaceChildren();
+ for(const choice of decisions){
+  const label=document.createElement("label"),radio=document.createElement("input");
+  radio.type="radio";radio.name="decision";radio.value=choice;radio.checked=item.reviewer_decision===choice;
+  label.append(radio," "+choice);choices.append(label);
+ }
+ document.getElementById("notes").value=item.reviewer_notes;
+ document.getElementById("status").textContent=item.review_status==="reviewed"?`Saved ${item.review_timestamp_utc}`:"Unreviewed";
+}
+async function start(){const response=await fetch("/api/cases");if(!response.ok)throw Error("Could not load cases");data=await response.json();show();}
+document.getElementById("previous").onclick=()=>{index--;show()};
+document.getElementById("next").onclick=()=>{index++;show()};
+document.getElementById("decisionForm").onsubmit=async e=>{
+ e.preventDefault();const selected=document.querySelector('input[name="decision"]:checked');
+ if(!selected){document.getElementById("status").textContent="Choose a decision before saving";return;}
+ if(["SAME_PHOTO","SAME_LESION"].includes(selected.value)&&document.getElementById("notes").value.trim().length<20){document.getElementById("status").textContent="Explain the positive identity judgment in at least 20 characters";return;}
+ const response=await fetch("/api/decision",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({case_id:data.cases[index].blind_case_id,decision:selected.value,notes:document.getElementById("notes").value})});
+ const result=await response.json();if(!response.ok){document.getElementById("status").textContent=result.error||"Save failed";return;}
+ data.cases[index]=result.saved;data.reviewed=result.reviewed;show();
+};
+start().catch(error=>{document.getElementById("progress").textContent=error.message});
+</script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+{
+  "reviewed_pair_count": 1,
+  "unreviewed_pair_count": 428,
+  "SAME_PHOTO": 1,
+  "SAME_LESION": 0,
+  "DISTINCT": 0,
+  "UNCERTAIN": 0,
+  "binary_records_all_relations_resolved": 1,
+  "source_test_records_total": 19,
+  "remaining_source_test_blockers": 18,
+  "batch_progress": {
+    "T1_source_test": {
+      "records_total": 19,
+      "records_fully_resolved": 1,
+      "related_pairs_total": 120,
+      "related_pairs_reviewed": 1
+    },
+    "T2_source_train": {
+      "records_total": 16,
+      "records_fully_resolved": 0,
+      "related_pairs_total": 44,
+      "related_pairs_reviewed": 0
+    },
+    "T3_source_train": {
+      "records_total": 16,
+      "records_fully_resolved": 0,
+      "related_pairs_total": 55,
+      "related_pairs_reviewed": 0
+    },
+    "T4_source_train": {
+      "records_total": 16,
+      "records_fully_resolved": 0,
+      "related_pairs_total": 145,
+      "related_pairs_reviewed": 0
+    },
+    "T5_source_train": {
+      "records_total": 16,
+      "records_fully_resolved": 0,
+      "related_pairs_total": 76,
+      "related_pairs_reviewed": 0
+    }
+  },
+  "no_exclusions_applied": true
+}
