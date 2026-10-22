@@ -44,3 +44,15 @@ class EGVAN(nn.Module):
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         features = self.forward_features(x)
         return self.classifier(self.pool(features["combined"]).flatten(1))
+
+
+def build_nine_class_egvan(*, pretrained_efficient: bool = False,
+                           pretrained_resnet: bool = False,
+                           fusion_channels: int = 128) -> EGVAN:
+    """Explicit Stage 5 nine-logit construction; no weight download by default.
+
+    The legacy EGVAN default stays seven-class for existing experiments. Callers
+    must obtain approval before requesting pretrained weights that are not local.
+    """
+    return EGVAN(num_classes=9, pretrained_efficient=pretrained_efficient,
+                 pretrained_resnet=pretrained_resnet, fusion_channels=fusion_channels)

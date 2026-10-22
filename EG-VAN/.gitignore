@@ -182,3 +182,11 @@ settings.local.*
 
 # Local experiment notes
 LOCAL_NOTES.md
+
+EG-VAN/data/
+EG-VAN/checkpoints/
+.venv/
+__pycache__/
+*.pth
+*.pt
+*.ckpt

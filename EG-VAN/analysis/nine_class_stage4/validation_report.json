@@ -1,0 +1,41 @@
+{
+  "rows": 13312,
+  "unique_groups": 8303,
+  "publisher_train_test_overlap_groups": 90,
+  "quarantine_by_class": {
+    "BENIGN": 83,
+    "MEL": 230,
+    "NV": 475
+  },
+  "binary_status_by_class": {
+    "BENIGN": {
+      "AI_SAME_PHOTO_QUARANTINE": 83,
+      "PRIOR_PROPOSED_EXCLUSION_NOT_APPROVED": 1717
+    },
+    "MALIGNANT": {
+      "BINARY_PROVISIONAL_SOURCE_TRAIN": 680,
+      "PRIOR_PROPOSED_EXCLUSION_NOT_APPROVED": 652,
+      "PROTECTED_SOURCE_TEST_UNADJUDICATED": 165
+    }
+  },
+  "smoke": [
+    {
+      "path": "data/raw/HAM10000_images_part_1/ISIC_0027419.jpg",
+      "shape": [
+        3,
+        64,
+        64
+      ],
+      "dtype": "torch.float32"
+    },
+    {
+      "path": "data/isic/data/train/benign/100.jpg",
+      "shape": [
+        3,
+        64,
+        64
+      ],
+      "dtype": "torch.float32"
+    }
+  ]
+}

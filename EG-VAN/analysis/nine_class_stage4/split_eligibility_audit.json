@@ -1,0 +1,70 @@
+{
+  "source_counts": {
+    "AKIEC": 327,
+    "BCC": 514,
+    "BENIGN": 1800,
+    "BKL": 1099,
+    "DF": 115,
+    "MALIGNANT": 1497,
+    "MEL": 1113,
+    "NV": 6705,
+    "VASC": 142
+  },
+  "eligibility_status_counts": {
+    "AI_SAME_PHOTO_QUARANTINE": 83,
+    "BINARY_PROVISIONAL_SOURCE_TRAIN": 680,
+    "HAM_AVAILABLE_NOT_FINAL_ELIGIBLE": 9310,
+    "PRIOR_PROPOSED_EXCLUSION_NOT_APPROVED": 2369,
+    "PROTECTED_SOURCE_TEST_UNADJUDICATED": 165,
+    "PROTECTED_TEST_LINK_QUARANTINE": 705
+  },
+  "evidence_tier_counts": {
+    "AI_SUPPORTED_SAME_PHOTO": 166,
+    "PRIOR_ESTABLISHED_PHOTO_RELATION": 4740,
+    "SUSPECTED_UNRESOLVED_OVERLAP": 26
+  },
+  "exact_duplicate_sha_groups": 3,
+  "protected_source_test_records": 660,
+  "protected_test_link_groups": 645,
+  "known_group_crossings_in_output": 0,
+  "train_counts": {
+    "AKIEC": 0,
+    "BCC": 0,
+    "BKL": 0,
+    "DF": 0,
+    "MEL": 0,
+    "NV": 0,
+    "VASC": 0,
+    "BENIGN": 0,
+    "MALIGNANT": 0
+  },
+  "validation_counts": {
+    "AKIEC": 0,
+    "BCC": 0,
+    "BKL": 0,
+    "DF": 0,
+    "MEL": 0,
+    "NV": 0,
+    "VASC": 0,
+    "BENIGN": 0,
+    "MALIGNANT": 0
+  },
+  "test_counts": {
+    "AKIEC": 0,
+    "BCC": 0,
+    "BKL": 0,
+    "DF": 0,
+    "MEL": 0,
+    "NV": 0,
+    "VASC": 0,
+    "BENIGN": 0,
+    "MALIGNANT": 0
+  },
+  "final_split_created": false,
+  "split_gate": "BLOCKED: BENIGN source-test upper bound 19; all 83 retained BENIGN have AI-supported HAM same-photo candidates, without independent adjudication",
+  "source_evidence_sha256": {
+    "proposed_exclusions": "03fd32b04d14149a4add0168fbea442be1ae03d39c6307ea1e7a6fbf0efccb42",
+    "stage3i_edges": "154a6394803ceb7550041d14335d4382e675694ff02d82327d21808f5b929233",
+    "stage3i_ai_review": "6553e9d9490439e336c4945b60d2fe223ca5738c6bf3e405a8ddd0467b14651a"
+  }
+}
