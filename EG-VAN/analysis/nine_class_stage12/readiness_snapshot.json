@@ -1,0 +1,44 @@
+{
+  "stage": "12",
+  "audit_date_local": "2026-10-23",
+  "status": "HUMAN_REVIEW_PENDING",
+  "primary_pairs": 19,
+  "primary_reviewed": 0,
+  "additional_relations": 101,
+  "additional_affected_review_ids": [
+    "R03",
+    "R05",
+    "R07",
+    "R09",
+    "R16",
+    "R17"
+  ],
+  "stage11b_primary_categories": {
+    "AUTO_SAME_PHOTO": 19
+  },
+  "stage11b_additional_categories": {
+    "AUTO_UNCERTAIN": 101
+  },
+  "stage11b_exact_sha256_pairs": 0,
+  "post_proposal_benign_train_upper_bound": 64,
+  "post_proposal_benign_protected_test_upper_bound": 19,
+  "approved_benign_train": 0,
+  "approved_benign_test": 0,
+  "approved_inventory_rows": 0,
+  "production_approval_file_exists": false,
+  "production_approved_split_file_exists": false,
+  "approved_cohort_validated": false,
+  "full_training_enabled": false,
+  "executable_training_commands_issued": false,
+  "source_file_sha256": {
+    "analysis/nine_class_stage11a/review_id_mapping.csv": "0b0ab29bb6dbfde60dfccbadae4ee30f2645e26045b924561063bd2e86c520c0",
+    "analysis/nine_class_stage11a/additional_candidate_relations.csv": "51326aa1dbac77a2d89ecfb4e33066eaa569b92ea5fe1c0448931b088fff79c0",
+    "analysis/nine_class_stage11a/decision_ledger.csv": "dac216e5c68281f9bc07502233b2ffb5c59cb415ab778d8b72c327e6967239ce",
+    "analysis/nine_class_stage11b/primary_19_auto_evidence.csv": "d8cf238cab8b4fffaac0c4c515e5840ecc7892cfc38c9855ddd383a508cea148",
+    "analysis/nine_class_stage11b/additional_101_auto_evidence.csv": "ba7ec87aa201938d62c5d84b2e9949309df736575d7a09fd6b4ae203be4df689",
+    "analysis/nine_class_stage11b/automated_review_summary.json": "0b5b05bd087779ab3ee8d94fa4321cf211d4795c3aa2eae8df7d58977c75fc89",
+    "analysis/nine_class_stage4/nine_class_source_manifest.csv": "93802ff0f1907320c9e2d32cf53ed25395cda9c58e70d09774faaefa08d98186",
+    "config/nine_class_training_colab_2026_07.json": "36874985d359ecff38112f3af46d6558ab6563c144ae2362c23d48adc27175e1",
+    "notebooks/nine_class_colab_training.ipynb": "c1b2e7a9f162146e57eb70b26dd722ddd32e4c8bf2efd4662e0732bce6a83f97"
+  }
+}

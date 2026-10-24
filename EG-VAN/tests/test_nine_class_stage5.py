@@ -4,6 +4,7 @@ import sys
 from pathlib import Path
 
 import torch
+from torch import nn
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 from models.egvan import EGVAN, build_nine_class_egvan
@@ -19,6 +20,7 @@ def test_explicit_nine_class_factory_and_legacy_default():
     torch.manual_seed(42)
     model = build_nine_class_egvan().eval()
     assert model.classifier.out_features == len(CLASS_NAMES)
+    assert not any(isinstance(module, nn.Softmax) for module in model.modules())
     assert model.efficient.output_channels == (48, 64, 160, 1280)
     assert model.resnet.output_channels == (256, 512, 1024, 2048)
     assert len(model.fusions) == 4

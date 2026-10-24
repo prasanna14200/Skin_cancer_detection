@@ -1,0 +1,15 @@
+{
+  "status": "SYNTHETIC_SOFTWARE_VERIFICATION_ONLY",
+  "external_clinical_validation_performed": false,
+  "external_dataset_downloaded": false,
+  "trained_egvan_checkpoint_used": false,
+  "approved_external_manifest_created": false,
+  "test_file": "tests/test_nine_class_stage9.py",
+  "test_scope": [
+    "manifest schema and mapping rejection",
+    "exact and perceptual overlap candidate retrieval",
+    "quarantine and synthetic-only approval gates",
+    "subset-specific metrics and comparison compatibility",
+    "tiny-model frozen inference, provenance and image integrity"
+  ]
+}

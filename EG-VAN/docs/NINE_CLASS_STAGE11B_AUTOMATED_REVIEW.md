@@ -1,0 +1,34 @@
+# Stage 11B: bounded automated BENIGN overlap re-review
+
+Date: 2026-10-22. This is **automated photographic triage**, not independent human adjudication, clinical identity, an approved exclusion or an eligible cohort. The nine-label objective and source labels are unchanged. The Stage 11A independent-review ledger remains blank. No full dataset search, source-image edit, final split or model training occurred.
+
+## Inputs and scope
+
+The [Stage 11A mapping](../analysis/nine_class_stage11a/review_id_mapping.csv) names 19 protected Fanconic BENIGN ↔ HAM pairs. Its [additional-relations file](../analysis/nine_class_stage11a/additional_candidate_relations.csv) names another 101 candidate relations affecting six of those Fanconic records. The bounded [review script](../src/nine_class_stage11b_auto_review.py) requires exactly these 120 unique pair IDs and a blank Stage 11A human ledger. It verifies image paths and SHA-256 against Stage 3I and the Stage 4 source inventory, and binds all source CSVs by SHA-256 in the [summary](../analysis/nine_class_stage11b/automated_review_summary.json). Earlier hash distances, directly resized pixel scores and ORB/SIFT RANSAC results are reused from their frozen evidence. The 19 strong pairs also carry Stage 3G transformation plausibility, aligned correlation and inlier-spread measures. No independent reviewer decision was read to make categories.
+
+The new calculation tests six bounded HAM center-crop/aspect hypotheses per pair: 100%, 90% and 80% field sizes, each either stretched to the Fanconic aspect or center-squared, then directly compares grayscale intensities. It records the best whole-field correlation, plus correlations for a central 60% rectangle and its surrounding field. These are **photographic-layout proxies**, not lesion segmentation or validated lesion-structure identity. The bounded crop search can miss offset crops, rotations, severe recoloring and different views. A low correlation or failed feature matcher cannot prove different photographs or patients. The Stage 3G homography was previously computed on these images and is a separate geometric check, though the visual and geometric reviews were not blind to one another.
+
+## Automated findings
+
+| Scope | Pairs | `AUTO_SAME_PHOTO` | `AUTO_DISTINCT_PHOTO` | `AUTO_UNCERTAIN` | Exact SHA-256 |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Primary protected pairs | 19 | 19 | 0 | 0 | 0 |
+| Additional relations | 101 | 0 | 0 | 101 | 0 |
+
+For the 19 primary pairs, the bounded crop correlation is at least **0.9956** (median **0.9986**); prior Stage 3G aligned correlation is at least **0.9891** (median **0.9975**); the frozen geometry has 59–2,219 inliers and plausible mappings. These three kinds of evidence support `AUTO_SAME_PHOTO`, but the images are **not byte-identical**, and no independently verified image-ID bridge or held-out detector error rate exists. The [19-row evidence table](../analysis/nine_class_stage11b/primary_19_auto_evidence.csv) keeps exact paths, SHA-256s, metrics, rationale and limitations per pair. It does not mark a pair independently verified.
+
+All 101 [additional relations](../analysis/nine_class_stage11b/additional_101_auto_evidence.csv) lack coherent frozen geometry; their bounded crop correlations range **0.476–0.912**. The previously computed dHash distances are only 0–8 across this subset, so dHash does not discriminate these photos safely. The strict auto-distinct rule requires several mutually corroborating dissimilarity signals and therefore assigns **zero** `AUTO_DISTINCT_PHOTO` here. The prior AI visual assessment called 92 of these `AI_DISTINCT` and nine `AI_UNCERTAIN`; this remains an **analyst-only separate column**, not newly validated ground truth. The nine priority uncertain relations remain unresolved. There is no independently verified negative set with which to estimate a false-positive or false-negative rate. Thresholds are conservative triage heuristics, not calibrated confidence or exclusions.
+
+No same-photo relation was independently confirmed here. The phrase `AUTO_SAME_PHOTO` means the bounded automated evidence is strongly supportive, not that a human or source record established identity. There were **zero confirmed exact-byte duplicates** among the 120 cross-source pairs. No previous reviewer choice was changed.
+
+## BENIGN feasibility and leakage
+
+The Stage 4 inventory's numerical *post-proposal upper bounds* remain **64 publisher-train BENIGN** and **19 publisher-test BENIGN**, with **zero approved eligible** in either partition. These bounds do not account for final adjudication. All 19 protected-test upper-bound records have an auto-same primary relation; 101 other candidate relations affect six of them. The Stage 3I evidence also gives auto/AI photographic concern for the 64 retained publisher-train BENIGN records. If all 83 primary photo relations were independently confirmed and exclusions approved, the current retained BENIGN remainder would be zero; this is a **conditional scenario** and no exclusion was applied. The strict present-time usable count for approved nine-label train/test is **zero**, since no cohort has approval. The [summary JSON](../analysis/nine_class_stage11b/automated_review_summary.json) reports per-record conditional photo-review status and explicitly sets all `approved_eligible` flags false.
+
+The conservative Stage 4 graph has 90 groups spanning Fanconic publisher train/test boundaries after HAM lesion links. Do not move a publisher-test record into training or let a high-risk linked group cross the test boundary. HAM has lesion IDs but no verified patient IDs; Fanconic has neither. Version, image-level label origin and rights remain unresolved. `AUTO_DISTINCT_PHOTO` would not establish lesion or patient independence even if assigned. A defensible nine-class train/validation/test protocol is **not currently possible**.
+
+## Next evidence decision
+
+Have the independent reviewer complete the [19-pair blinded package](NINE_CLASS_STAGE11A_REVIEW_GUIDE.md), then reconcile each returned decision with this analyst-only automated evidence. If the protected-test photo relations are independently confirmed, the smallest data requirement is a documented, image-rights-cleared, label-compatible **additional BENIGN protected-test cohort** with verifiable source identity and enough independent cases/groups; the 64 train-side records also need resolution. If a primary match is rejected, its other candidate relations and unknown patient/lesion identity still require review. No download or merge was made.
+
+`python -m pytest tests/test_nine_class_stage11b.py tests/test_nine_class_stage6.py tests/test_nine_class_stage11a.py -q` returned **21 passed**; the Windows installation emitted its existing optional torchvision image-extension warning. No real training, human review or final evaluation result was simulated.

@@ -1,0 +1,10 @@
+# Versions published for the Google Colab 2026.07 GPU runtime.
+# PyTorch 2.11.0+cu128 and torchvision 0.26.0+cu128 are checked in the notebook,
+# not reinstalled, to avoid replacing the CUDA-matched runtime wheels.
+numpy==2.0.2
+pandas==2.2.2
+Pillow==11.3.0
+matplotlib==3.10.0
+scikit-learn==1.6.1
+opencv-python==5.0.0.93
+pytest==8.4.2

@@ -1,0 +1,10 @@
+class_name,inventory_count,post_proposal_total_upper_bound,post_proposal_nonpublisher_test_upper_bound,post_proposal_publisher_test_upper_bound,after_19_quarantine_publisher_test_planning_bound,approved_train,approved_validation,approved_test,notes
+AKIEC,327,327,327,0,0,0,0,0,HAM pool unsplit; no approved protected test
+BCC,514,514,514,0,0,0,0,0,HAM pool unsplit; no approved protected test
+BKL,1099,1099,1099,0,0,0,0,0,HAM pool unsplit; no approved protected test
+DF,115,115,115,0,0,0,0,0,HAM pool unsplit; no approved protected test
+MEL,1113,1113,1113,0,0,0,0,0,HAM pool unsplit; no approved protected test
+NV,6705,6705,6705,0,0,0,0,0,HAM pool unsplit; no approved protected test
+VASC,142,142,142,0,0,0,0,0,HAM pool unsplit; no approved protected test
+BENIGN,1800,83,64,19,0,0,0,0,All 19 retained publisher-test BENIGN held for planning; 64 non-test remain unresolved AI same-photo candidates
+MALIGNANT,1497,845,680,165,165,0,0,0,165 publisher-test upper bound remains unapproved

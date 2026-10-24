@@ -1,0 +1,52 @@
+{
+  "date_local": "2026-10-24",
+  "protocol_status": "NINE_CLASS_DATA_BLOCKED",
+  "paper_table2_original_total": 13312,
+  "paper_table2_test_total": 1332,
+  "paper_table2_train_total": 11980,
+  "paper_table2_augmented_column_total": 34554,
+  "paper_text_train_count": 37883,
+  "paper_text_validation_count": 6686,
+  "paper_augmentation_accounting_unreconciled": true,
+  "fanconic_local_original_count": 3297,
+  "paper_binary_original_count": 3297,
+  "paper_binary_source_name": "ISIC 2017",
+  "fanconic_publisher_split_benign": {
+    "train": 1440,
+    "test": 360
+  },
+  "paper_split_benign": {
+    "train": 1620,
+    "test": 180
+  },
+  "fanconic_publisher_split_malignant": {
+    "train": 1197,
+    "test": 300
+  },
+  "paper_split_malignant": {
+    "train": 1347,
+    "test": 150
+  },
+  "protected_benign_auto_same_quarantined_for_planning": 19,
+  "additional_unresolved_relations_preserved": 101,
+  "post_proposal_benign_nonpublisher_test_upper_bound": 64,
+  "post_proposal_benign_protected_test_after_quarantine_planning_bound": 0,
+  "approved_eligible_all_classes": 0,
+  "human_review_decisions": 0,
+  "approved_split_present": false,
+  "approval_record_present": false,
+  "source_sha256": {
+    "analysis/nine_class_stage10/dataset_eligibility_audit.json": "43f45e4fb95940a53fe571444e72086f9b215148a031d2f2de3579f0b7bd5d6b",
+    "analysis/nine_class_stage11b/automated_review_summary.json": "0b5b05bd087779ab3ee8d94fa4321cf211d4795c3aa2eae8df7d58977c75fc89",
+    "analysis/nine_class_stage11a/decision_ledger.csv": "dac216e5c68281f9bc07502233b2ffb5c59cb415ab778d8b72c327e6967239ce",
+    "analysis/nine_class_stage11a/review_id_mapping.csv": "0b0ab29bb6dbfde60dfccbadae4ee30f2645e26045b924561063bd2e86c520c0",
+    "analysis/nine_class_stage11a/additional_candidate_relations.csv": "51326aa1dbac77a2d89ecfb4e33066eaa569b92ea5fe1c0448931b088fff79c0",
+    "analysis/nine_class_stage4/nine_class_source_manifest.csv": "93802ff0f1907320c9e2d32cf53ed25395cda9c58e70d09774faaefa08d98186",
+    "config/nine_class_training_colab_2026_07.json": "36874985d359ecff38112f3af46d6558ab6563c144ae2362c23d48adc27175e1",
+    "notebooks/nine_class_colab_training.ipynb": "c1b2e7a9f162146e57eb70b26dd722ddd32e4c8bf2efd4662e0732bce6a83f97"
+  },
+  "local_paper_sha256": "bac1b99167ad820232ecc6b47a3d562d2d9ca55ce19de36fba97b919e8aacee3",
+  "no_new_overlap_search": true,
+  "no_exclusions_applied": true,
+  "no_training_run": true
+}

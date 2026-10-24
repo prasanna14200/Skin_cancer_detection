@@ -1,0 +1,59 @@
+{
+  "schema_version": "nine_class_gpu_smoke_v1",
+  "timestamp_utc": "2026-10-24T07:31:46.877259+00:00",
+  "synthetic_only": true,
+  "checkpoint_created": false,
+  "clinical_dataset_accessed": false,
+  "training_cohort_approval_required": false,
+  "torch_version": "2.11.0+cu130",
+  "torch_cuda_version": "13.0",
+  "device": "cuda:0",
+  "batchnorm_policy": "freeze_running_stats",
+  "results": [
+    {
+      "status": "PASSED",
+      "synthetic_only": true,
+      "batch_size": 1,
+      "input_shape": [
+        1,
+        3,
+        384,
+        384
+      ],
+      "logits_shape": [
+        1,
+        9
+      ],
+      "label_indices": [
+        2
+      ],
+      "focal_loss": 0.49453094601631165,
+      "gradient_norm": 4.787317752838135,
+      "classifier_parameters_updated": true,
+      "gradient_reset": true,
+      "batchnorm_policy": "freeze_running_stats",
+      "batchnorm_modules": 167,
+      "batchnorm_running_stats_changed": false,
+      "cuda_fp16_autocast": true,
+      "cuda_grad_scaler": true,
+      "gradient_scale_before": 1024.0,
+      "gradient_scale_after": 1024.0,
+      "duration_seconds_step_only": 7.280198155000107,
+      "baseline_allocated_bytes": 239245312,
+      "baseline_reserved_bytes": 249561088,
+      "peak_allocated_bytes": 1208690688,
+      "peak_reserved_bytes": 1241513984,
+      "peak_allocated_mib": 1152.7,
+      "peak_reserved_mib": 1184.0,
+      "model_setup_seconds": 0.8922977289998926
+    }
+  ],
+  "gpu_name": "Tesla T4",
+  "memory_total_bytes": 15637086208,
+  "memory_free_before_bytes": 15420162048,
+  "supported_batch_sizes_observed": [
+    1
+  ],
+  "status": "PASSED",
+  "oom_recommendation": "If batch 2 OOMs, retain observed batch 1 with frozen BatchNorm running statistics; gradient accumulation is a separate future training configuration and does not reproduce batch-32 BatchNorm."
+}

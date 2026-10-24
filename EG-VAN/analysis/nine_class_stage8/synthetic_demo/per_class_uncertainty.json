@@ -1,0 +1,47 @@
+[
+  {
+    "class_name": "AKIEC",
+    "support": 3,
+    "mean_normalized_entropy": 0.41702188357323483
+  },
+  {
+    "class_name": "BCC",
+    "support": 3,
+    "mean_normalized_entropy": 0.41702188357323483
+  },
+  {
+    "class_name": "BKL",
+    "support": 3,
+    "mean_normalized_entropy": 0.41702188357323483
+  },
+  {
+    "class_name": "DF",
+    "support": 3,
+    "mean_normalized_entropy": 0.41702188357323483
+  },
+  {
+    "class_name": "MEL",
+    "support": 3,
+    "mean_normalized_entropy": 0.41702188357323483
+  },
+  {
+    "class_name": "NV",
+    "support": 3,
+    "mean_normalized_entropy": 0.41702188357323483
+  },
+  {
+    "class_name": "VASC",
+    "support": 3,
+    "mean_normalized_entropy": 0.41702188357323483
+  },
+  {
+    "class_name": "BENIGN",
+    "support": 3,
+    "mean_normalized_entropy": 0.41702188357323483
+  },
+  {
+    "class_name": "MALIGNANT",
+    "support": 3,
+    "mean_normalized_entropy": 0.41702188357323483
+  }
+]

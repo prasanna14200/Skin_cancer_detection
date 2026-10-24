@@ -1,0 +1,101 @@
+{
+  "version": "stage10_descriptive_v1",
+  "inventory_sha256": "93802ff0f1907320c9e2d32cf53ed25395cda9c58e70d09774faaefa08d98186",
+  "review_sha256": "6553e9d9490439e336c4945b60d2fe223ca5738c6bf3e405a8ddd0467b14651a",
+  "proposed_exclusions_sha256": "03fd32b04d14149a4add0168fbea442be1ae03d39c6307ea1e7a6fbf0efccb42",
+  "source_records": 13312,
+  "source_dataset_counts": {
+    "HAM10000": 10015,
+    "FANCONIC_LOCAL_UNVERIFIED_VERSION": 3297
+  },
+  "provisional_status_counts": {
+    "HAM_AVAILABLE_NOT_FINAL_ELIGIBLE": 9310,
+    "PROTECTED_TEST_LINK_QUARANTINE": 705,
+    "PRIOR_PROPOSED_EXCLUSION_NOT_APPROVED": 2369,
+    "AI_SAME_PHOTO_QUARANTINE": 83,
+    "BINARY_PROVISIONAL_SOURCE_TRAIN": 680,
+    "PROTECTED_SOURCE_TEST_UNADJUDICATED": 165
+  },
+  "ai_pair_counts": {
+    "AI_SAME_PHOTO": 83,
+    "AI_DISTINCT": 326,
+    "AI_UNCERTAIN": 20
+  },
+  "source_train_test_overlap_groups": 90,
+  "class_upper_bounds_not_eligible_counts": {
+    "AKIEC": {
+      "inventory_records": 327,
+      "post_proposal_records_upper_bound": 327,
+      "post_proposal_source_train_upper_bound": 327,
+      "post_proposal_source_test_upper_bound": 0,
+      "post_proposal_distinct_overlap_groups_upper_bound": 228,
+      "approved_eligible": 0
+    },
+    "BCC": {
+      "inventory_records": 514,
+      "post_proposal_records_upper_bound": 514,
+      "post_proposal_source_train_upper_bound": 514,
+      "post_proposal_source_test_upper_bound": 0,
+      "post_proposal_distinct_overlap_groups_upper_bound": 327,
+      "approved_eligible": 0
+    },
+    "BKL": {
+      "inventory_records": 1099,
+      "post_proposal_records_upper_bound": 1099,
+      "post_proposal_source_train_upper_bound": 1099,
+      "post_proposal_source_test_upper_bound": 0,
+      "post_proposal_distinct_overlap_groups_upper_bound": 727,
+      "approved_eligible": 0
+    },
+    "DF": {
+      "inventory_records": 115,
+      "post_proposal_records_upper_bound": 115,
+      "post_proposal_source_train_upper_bound": 115,
+      "post_proposal_source_test_upper_bound": 0,
+      "post_proposal_distinct_overlap_groups_upper_bound": 73,
+      "approved_eligible": 0
+    },
+    "MEL": {
+      "inventory_records": 1113,
+      "post_proposal_records_upper_bound": 1113,
+      "post_proposal_source_train_upper_bound": 1113,
+      "post_proposal_source_test_upper_bound": 0,
+      "post_proposal_distinct_overlap_groups_upper_bound": 614,
+      "approved_eligible": 0
+    },
+    "NV": {
+      "inventory_records": 6705,
+      "post_proposal_records_upper_bound": 6705,
+      "post_proposal_source_train_upper_bound": 6705,
+      "post_proposal_source_test_upper_bound": 0,
+      "post_proposal_distinct_overlap_groups_upper_bound": 5391,
+      "approved_eligible": 0
+    },
+    "VASC": {
+      "inventory_records": 142,
+      "post_proposal_records_upper_bound": 142,
+      "post_proposal_source_train_upper_bound": 142,
+      "post_proposal_source_test_upper_bound": 0,
+      "post_proposal_distinct_overlap_groups_upper_bound": 98,
+      "approved_eligible": 0
+    },
+    "BENIGN": {
+      "inventory_records": 1800,
+      "post_proposal_records_upper_bound": 83,
+      "post_proposal_source_train_upper_bound": 64,
+      "post_proposal_source_test_upper_bound": 19,
+      "post_proposal_distinct_overlap_groups_upper_bound": 76,
+      "approved_eligible": 0
+    },
+    "MALIGNANT": {
+      "inventory_records": 1497,
+      "post_proposal_records_upper_bound": 845,
+      "post_proposal_source_train_upper_bound": 680,
+      "post_proposal_source_test_upper_bound": 165,
+      "post_proposal_distinct_overlap_groups_upper_bound": 845,
+      "approved_eligible": 0
+    }
+  },
+  "approved_split_exists": false,
+  "full_training_ready": false
+}

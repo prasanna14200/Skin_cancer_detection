@@ -1,0 +1,23 @@
+{
+  "status": "SYNTHETIC_DEMONSTRATION_ONLY",
+  "label_order": [
+    "AKIEC",
+    "BCC",
+    "BKL",
+    "DF",
+    "MEL",
+    "NV",
+    "VASC",
+    "BENIGN",
+    "MALIGNANT"
+  ],
+  "n": 27,
+  "figures": [
+    "confidence_histogram.png",
+    "entropy_distribution.png",
+    "reliability_diagram.png",
+    "risk_coverage.png",
+    "per_class_uncertainty.png"
+  ],
+  "numeric_values_are_not_model_or_clinical_results": true
+}

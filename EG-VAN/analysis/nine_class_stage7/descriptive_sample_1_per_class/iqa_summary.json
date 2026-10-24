@@ -1,0 +1,49 @@
+{
+  "status": "DESCRIPTIVE_ONLY_NOT_ELIGIBILITY_OR_PERFORMANCE",
+  "iqa_config_version": "nine_class_iqa_v1",
+  "manifest_sha256": "93802ff0f1907320c9e2d32cf53ed25395cda9c58e70d09774faaefa08d98186",
+  "preprocess_config_sha256": "a55c731900a02428d7e1b9b4b27a32461ae84830f0780621bb1fb19c06fed9bc",
+  "preprocess_config": {
+    "image_size": 384,
+    "hair_kernel_size": 17,
+    "hair_threshold": 10,
+    "inpaint_radius": 1.0,
+    "retinex_sigmas": [
+      15.0,
+      80.0,
+      250.0
+    ],
+    "retinex_weights": [
+      0.3333333333333333,
+      0.3333333333333333,
+      0.3333333333333333
+    ],
+    "mean": [
+      0.485,
+      0.456,
+      0.406
+    ],
+    "std": [
+      0.229,
+      0.224,
+      0.225
+    ]
+  },
+  "source_test_excluded": true,
+  "sample_per_class": 1,
+  "source_images": 9,
+  "measurements": 18,
+  "status_counts": {
+    "OK": 18
+  },
+  "figures": [
+    "distribution_sharpness_laplacian_variance.png",
+    "distribution_brightness_mean.png",
+    "distribution_contrast_std.png",
+    "distribution_underexposed_fraction.png",
+    "distribution_overexposed_fraction.png",
+    "raw_feature_correlation.png",
+    "example_1_raw_vs_processed.png",
+    "example_2_raw_vs_processed.png"
+  ]
+}

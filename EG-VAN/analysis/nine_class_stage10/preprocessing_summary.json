@@ -1,0 +1,58 @@
+{
+  "version": "stage10_descriptive_v1",
+  "sample_count": 26,
+  "metric_rows": 104,
+  "source_test_sample_count": 0,
+  "legacy_preprocess_sha256": "a55c731900a02428d7e1b9b4b27a32461ae84830f0780621bb1fb19c06fed9bc",
+  "candidate_raw_preprocess_sha256": "93ea2577432511fd047f3d5a855d498aaabe63e6ff69094b5b758c16f85a3c68",
+  "variants": {
+    "A_raw": {
+      "brightness_mean": 151.1928948296441,
+      "contrast_std": 24.182928365479682,
+      "underexposed_fraction": 0.0,
+      "overexposed_fraction": 0.0,
+      "color_cast_range": 0.19442025643807864,
+      "sharpness_laplacian_variance": 61.13263384351667,
+      "channel_clip_fraction": 0.0,
+      "luminance_histogram_l1": 0.0,
+      "luminance_pixel_correlation": 1.0,
+      "laplacian_edge_correlation": 1.0
+    },
+    "B_hair_grayworld": {
+      "brightness_mean": 160.38512844509546,
+      "contrast_std": 24.22026763854919,
+      "underexposed_fraction": 0.0,
+      "overexposed_fraction": 0.0,
+      "color_cast_range": 0.09461356102770972,
+      "sharpness_laplacian_variance": 27.68109548634585,
+      "channel_clip_fraction": 1.3563368055555555e-05,
+      "luminance_histogram_l1": 0.401604562997818,
+      "luminance_pixel_correlation": 0.9795961037344734,
+      "laplacian_edge_correlation": 0.46468955605698026
+    },
+    "C_stage4_full": {
+      "brightness_mean": 67.78124660915799,
+      "contrast_std": 47.66533124068924,
+      "underexposed_fraction": 0.191314697265625,
+      "overexposed_fraction": 0.016872829861111112,
+      "color_cast_range": 0.06282474958299292,
+      "sharpness_laplacian_variance": 226.85262706411294,
+      "channel_clip_fraction": 0.016722502531828706,
+      "luminance_histogram_l1": 1.6197509765625,
+      "luminance_pixel_correlation": -0.9228297419325004,
+      "laplacian_edge_correlation": -0.4306260960043811
+    },
+    "D_mild_luminance_retinex": {
+      "brightness_mean": 160.6287197536892,
+      "contrast_std": 26.081571742610915,
+      "underexposed_fraction": 0.0,
+      "overexposed_fraction": 4.4080946180555555e-05,
+      "color_cast_range": 0.09531417547487739,
+      "sharpness_laplacian_variance": 36.260079504968026,
+      "channel_clip_fraction": 5.764431423611111e-05,
+      "luminance_histogram_l1": 0.4666951596736908,
+      "luminance_pixel_correlation": 0.9798070456092243,
+      "laplacian_edge_correlation": 0.46481020299129233
+    }
+  }
+}

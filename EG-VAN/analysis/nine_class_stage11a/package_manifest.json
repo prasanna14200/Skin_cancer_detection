@@ -1,0 +1,20 @@
+{
+  "primary_pairs": 19,
+  "unique_protected_binary_images": 19,
+  "additional_candidate_relations_not_reviewed": 101,
+  "additional_uncertain_relations_not_reviewed": 9,
+  "binary_images_with_additional_relations": 6,
+  "source_sha256": {
+    "analysis/nine_class_recovery/stage3g/strong_pair_identity_evidence.csv": "f5e44d3174b96f596f460c771f519783b063787379cfdc9baaf5f6dc08416b69",
+    "analysis/nine_class_recovery/stage3i/ai_pair_review.csv": "6553e9d9490439e336c4945b60d2fe223ca5738c6bf3e405a8ddd0467b14651a",
+    "analysis/nine_class_recovery/stage3i/sheet_manifest.csv": "6181f50a36200fc02a16da045e0c8c7caded29f53d00ca9b19b0a70f5c3b04da",
+    "analysis/nine_class_stage4/nine_class_source_manifest.csv": "93802ff0f1907320c9e2d32cf53ed25395cda9c58e70d09774faaefa08d98186"
+  },
+  "missing_original_images": 0,
+  "ambiguous_primary_mappings": 0,
+  "reviewer_decisions_recorded": 0,
+  "review_gallery_has_prior_ai_assessments": false,
+  "visual_presentation": "HTML displays byte-identical neutral-name JPEG copies at native pixel dimensions; no enhancement",
+  "neutral_original_byte_identical_copies": 38,
+  "additional_relation_evidence_issues": []
+}

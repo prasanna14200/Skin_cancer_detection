@@ -1,0 +1,13 @@
+{
+  "schema_version": "nine_class_gpu_smoke_v1",
+  "status": "PREFLIGHT_ONLY",
+  "timestamp_utc": "2026-10-24T07:11:09.023391+00:00",
+  "synthetic_only": true,
+  "checkpoint_created": false,
+  "clinical_dataset_accessed": false,
+  "torch_version": "2.11.0+cpu",
+  "torch_cuda_version": null,
+  "cuda_available": false,
+  "gpu_name": null,
+  "note": "No forward, backward or optimizer step was run"
+}

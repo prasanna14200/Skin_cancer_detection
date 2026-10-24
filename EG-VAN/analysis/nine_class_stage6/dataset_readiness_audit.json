@@ -1,0 +1,25 @@
+{
+  "stage3i_assessment_counts": {
+    "AI_DISTINCT": 326,
+    "AI_SAME_PHOTO": 83,
+    "AI_UNCERTAIN": 20
+  },
+  "stage4_inventory_records": 13312,
+  "benign_status_counts": {
+    "AI_SAME_PHOTO_QUARANTINE": 83,
+    "PRIOR_PROPOSED_EXCLUSION_NOT_APPROVED": 1717
+  },
+  "approved_eligible_records_in_stage4_inventory": 0,
+  "stage4_final_split_created": false,
+  "publisher_source_test_entries": 660,
+  "paper_exact_binary_version_verified": false,
+  "binary_patient_or_lesion_ids_available": false,
+  "independent_benign_photo_adjudication_complete": false,
+  "nine_class_training_approved": false,
+  "nine_class_final_test_approved": false,
+  "source_hashes": {
+    "stage3i_ai_review": "6553e9d9490439e336c4945b60d2fe223ca5738c6bf3e405a8ddd0467b14651a",
+    "stage4_inventory": "93802ff0f1907320c9e2d32cf53ed25395cda9c58e70d09774faaefa08d98186",
+    "stage4_split_audit": "1d68ef083446fa8949f9ce14769f1b7bc2776ef63947a07bfe3da64be81b1d07"
+  }
+}

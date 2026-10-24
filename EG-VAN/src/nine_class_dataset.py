@@ -3,7 +3,9 @@
 from __future__ import annotations
 
 import csv
-from dataclasses import dataclass
+import hashlib
+import json
+from dataclasses import asdict, dataclass
 from pathlib import Path
 
 import cv2
@@ -25,6 +27,27 @@ class PreprocessConfig:
     retinex_weights: tuple[float, ...] = (1 / 3, 1 / 3, 1 / 3)
     mean: tuple[float, float, float] = (0.485, 0.456, 0.406)
     std: tuple[float, float, float] = (0.229, 0.224, 0.225)
+    pipeline_version: str = "stage4_full_v1"
+
+    def __post_init__(self) -> None:
+        if self.pipeline_version not in ("stage4_full_v1", "raw_resize_imagenet_v2"):
+            raise ValueError("Unknown preprocessing pipeline version")
+        if self.image_size < 1 or any(value <= 0 for value in self.std):
+            raise ValueError("Invalid image size or normalization std")
+
+
+def preprocessing_hash(config: PreprocessConfig) -> str:
+    """Preserve the Stage 4 hash while binding new pipelines to their version."""
+    settings = asdict(config)
+    if config.pipeline_version == "stage4_full_v1":
+        settings.pop("pipeline_version")
+    return hashlib.sha256(json.dumps(settings, sort_keys=True).encode()).hexdigest()
+
+
+def preprocessing_for_training(config: dict) -> PreprocessConfig:
+    """Resolve the frozen preprocessing choice embedded in a training run."""
+    return PreprocessConfig(image_size=int(config["image_size"]),
+                            pipeline_version=config.get("preprocessing_mode", "stage4_full_v1"))
 
 
 def image_tensor(path: Path, config: PreprocessConfig, *, train: bool = False) -> torch.Tensor:
@@ -33,9 +56,10 @@ def image_tensor(path: Path, config: PreprocessConfig, *, train: bool = False) -
     bgr = cv2.imread(str(path), cv2.IMREAD_COLOR)
     if bgr is None:
         raise ValueError(f"Image could not be decoded: {path}")
-    bgr = remove_hair(bgr, config.hair_kernel_size, config.hair_threshold, config.inpaint_radius)
-    bgr = gray_world(bgr)
-    bgr = retinex(bgr, config.retinex_sigmas, config.retinex_weights)
+    if config.pipeline_version == "stage4_full_v1":
+        bgr = remove_hair(bgr, config.hair_kernel_size, config.hair_threshold, config.inpaint_radius)
+        bgr = gray_world(bgr)
+        bgr = retinex(bgr, config.retinex_sigmas, config.retinex_weights)
     rgb = cv2.cvtColor(bgr, cv2.COLOR_BGR2RGB)
     rgb = cv2.resize(rgb, (config.image_size, config.image_size), interpolation=cv2.INTER_AREA)
     tensor = torch.from_numpy(np.ascontiguousarray(rgb.transpose(2, 0, 1))).float().div_(255.0)

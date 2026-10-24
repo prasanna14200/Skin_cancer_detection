@@ -1,0 +1,167 @@
+{
+  "total_primary_pairs": 19,
+  "reviewed_pairs": 0,
+  "unreviewed_pairs": 19,
+  "decision_counts": {
+    "DISTINCT_PHOTO": 0,
+    "SAME_PHOTO": 0,
+    "UNCERTAIN": 0
+  },
+  "remaining_primary_or_related_photo_review_blockers": 19,
+  "records": [
+    {
+      "review_id": "R01",
+      "binary_image_path": "data/isic/data/test/benign/1443.jpg",
+      "primary_pair_decision": "UNREVIEWED",
+      "additional_candidate_relations_not_adjudicated": 0,
+      "remaining_photo_identity_blocker": true,
+      "approved_eligible": false
+    },
+    {
+      "review_id": "R02",
+      "binary_image_path": "data/isic/data/test/benign/670.jpg",
+      "primary_pair_decision": "UNREVIEWED",
+      "additional_candidate_relations_not_adjudicated": 0,
+      "remaining_photo_identity_blocker": true,
+      "approved_eligible": false
+    },
+    {
+      "review_id": "R03",
+      "binary_image_path": "data/isic/data/test/benign/1646.jpg",
+      "primary_pair_decision": "UNREVIEWED",
+      "additional_candidate_relations_not_adjudicated": 1,
+      "remaining_photo_identity_blocker": true,
+      "approved_eligible": false
+    },
+    {
+      "review_id": "R04",
+      "binary_image_path": "data/isic/data/test/benign/1018.jpg",
+      "primary_pair_decision": "UNREVIEWED",
+      "additional_candidate_relations_not_adjudicated": 0,
+      "remaining_photo_identity_blocker": true,
+      "approved_eligible": false
+    },
+    {
+      "review_id": "R05",
+      "binary_image_path": "data/isic/data/test/benign/1074.jpg",
+      "primary_pair_decision": "UNREVIEWED",
+      "additional_candidate_relations_not_adjudicated": 36,
+      "remaining_photo_identity_blocker": true,
+      "approved_eligible": false
+    },
+    {
+      "review_id": "R06",
+      "binary_image_path": "data/isic/data/test/benign/912.jpg",
+      "primary_pair_decision": "UNREVIEWED",
+      "additional_candidate_relations_not_adjudicated": 0,
+      "remaining_photo_identity_blocker": true,
+      "approved_eligible": false
+    },
+    {
+      "review_id": "R07",
+      "binary_image_path": "data/isic/data/test/benign/878.jpg",
+      "primary_pair_decision": "UNREVIEWED",
+      "additional_candidate_relations_not_adjudicated": 2,
+      "remaining_photo_identity_blocker": true,
+      "approved_eligible": false
+    },
+    {
+      "review_id": "R08",
+      "binary_image_path": "data/isic/data/test/benign/802.jpg",
+      "primary_pair_decision": "UNREVIEWED",
+      "additional_candidate_relations_not_adjudicated": 0,
+      "remaining_photo_identity_blocker": true,
+      "approved_eligible": false
+    },
+    {
+      "review_id": "R09",
+      "binary_image_path": "data/isic/data/test/benign/1393.jpg",
+      "primary_pair_decision": "UNREVIEWED",
+      "additional_candidate_relations_not_adjudicated": 3,
+      "remaining_photo_identity_blocker": true,
+      "approved_eligible": false
+    },
+    {
+      "review_id": "R10",
+      "binary_image_path": "data/isic/data/test/benign/61.jpg",
+      "primary_pair_decision": "UNREVIEWED",
+      "additional_candidate_relations_not_adjudicated": 0,
+      "remaining_photo_identity_blocker": true,
+      "approved_eligible": false
+    },
+    {
+      "review_id": "R11",
+      "binary_image_path": "data/isic/data/test/benign/311.jpg",
+      "primary_pair_decision": "UNREVIEWED",
+      "additional_candidate_relations_not_adjudicated": 0,
+      "remaining_photo_identity_blocker": true,
+      "approved_eligible": false
+    },
+    {
+      "review_id": "R12",
+      "binary_image_path": "data/isic/data/test/benign/1297.jpg",
+      "primary_pair_decision": "UNREVIEWED",
+      "additional_candidate_relations_not_adjudicated": 0,
+      "remaining_photo_identity_blocker": true,
+      "approved_eligible": false
+    },
+    {
+      "review_id": "R13",
+      "binary_image_path": "data/isic/data/test/benign/1191.jpg",
+      "primary_pair_decision": "UNREVIEWED",
+      "additional_candidate_relations_not_adjudicated": 0,
+      "remaining_photo_identity_blocker": true,
+      "approved_eligible": false
+    },
+    {
+      "review_id": "R14",
+      "binary_image_path": "data/isic/data/test/benign/532.jpg",
+      "primary_pair_decision": "UNREVIEWED",
+      "additional_candidate_relations_not_adjudicated": 0,
+      "remaining_photo_identity_blocker": true,
+      "approved_eligible": false
+    },
+    {
+      "review_id": "R15",
+      "binary_image_path": "data/isic/data/test/benign/678.jpg",
+      "primary_pair_decision": "UNREVIEWED",
+      "additional_candidate_relations_not_adjudicated": 0,
+      "remaining_photo_identity_blocker": true,
+      "approved_eligible": false
+    },
+    {
+      "review_id": "R16",
+      "binary_image_path": "data/isic/data/test/benign/575.jpg",
+      "primary_pair_decision": "UNREVIEWED",
+      "additional_candidate_relations_not_adjudicated": 55,
+      "remaining_photo_identity_blocker": true,
+      "approved_eligible": false
+    },
+    {
+      "review_id": "R17",
+      "binary_image_path": "data/isic/data/test/benign/559.jpg",
+      "primary_pair_decision": "UNREVIEWED",
+      "additional_candidate_relations_not_adjudicated": 4,
+      "remaining_photo_identity_blocker": true,
+      "approved_eligible": false
+    },
+    {
+      "review_id": "R18",
+      "binary_image_path": "data/isic/data/test/benign/1342.jpg",
+      "primary_pair_decision": "UNREVIEWED",
+      "additional_candidate_relations_not_adjudicated": 0,
+      "remaining_photo_identity_blocker": true,
+      "approved_eligible": false
+    },
+    {
+      "review_id": "R19",
+      "binary_image_path": "data/isic/data/test/benign/1642.jpg",
+      "primary_pair_decision": "UNREVIEWED",
+      "additional_candidate_relations_not_adjudicated": 0,
+      "remaining_photo_identity_blocker": true,
+      "approved_eligible": false
+    }
+  ],
+  "dataset_approval_created": false,
+  "interpretation": "Pair decisions only; DISTINCT_PHOTO does not establish different lesions, patients, rights or dataset eligibility"
+}

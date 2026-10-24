@@ -1,0 +1,1 @@
+source_dataset,source_version,image_path,source_image_id,patient_id,lesion_id,identifier_namespace,original_clinical_label,target_label,mapping_status,mapping_justification,sha256,source_license,permitted_use_status,overlap_status,overlap_decision_reference,eligibility_status

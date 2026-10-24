@@ -1,0 +1,166 @@
+{
+  "primary_pairs": 19,
+  "additional_relations": 101,
+  "primary_automated_categories": {
+    "AUTO_SAME_PHOTO": 19
+  },
+  "additional_automated_categories": {
+    "AUTO_UNCERTAIN": 101
+  },
+  "exact_sha256_pairs": 0,
+  "benign_post_proposal_train_upper_bound": 64,
+  "benign_post_proposal_protected_test_upper_bound": 19,
+  "protected_test_records_without_auto_same_or_auto_uncertain_relations": 0,
+  "approved_benign_train": 0,
+  "approved_benign_test": 0,
+  "record_level_conditional_bounds": {
+    "data/isic/data/test/benign/1443.jpg": {
+      "automated_same_pair_count": 1,
+      "automated_uncertain_pair_count": 0,
+      "automated_distinct_pair_count": 0,
+      "potentially_usable_if_all_automated_same_and_uncertain_relations_are_independently_cleared": false,
+      "approved_eligible": false
+    },
+    "data/isic/data/test/benign/670.jpg": {
+      "automated_same_pair_count": 1,
+      "automated_uncertain_pair_count": 0,
+      "automated_distinct_pair_count": 0,
+      "potentially_usable_if_all_automated_same_and_uncertain_relations_are_independently_cleared": false,
+      "approved_eligible": false
+    },
+    "data/isic/data/test/benign/1646.jpg": {
+      "automated_same_pair_count": 1,
+      "automated_uncertain_pair_count": 1,
+      "automated_distinct_pair_count": 0,
+      "potentially_usable_if_all_automated_same_and_uncertain_relations_are_independently_cleared": false,
+      "approved_eligible": false
+    },
+    "data/isic/data/test/benign/1018.jpg": {
+      "automated_same_pair_count": 1,
+      "automated_uncertain_pair_count": 0,
+      "automated_distinct_pair_count": 0,
+      "potentially_usable_if_all_automated_same_and_uncertain_relations_are_independently_cleared": false,
+      "approved_eligible": false
+    },
+    "data/isic/data/test/benign/1074.jpg": {
+      "automated_same_pair_count": 1,
+      "automated_uncertain_pair_count": 36,
+      "automated_distinct_pair_count": 0,
+      "potentially_usable_if_all_automated_same_and_uncertain_relations_are_independently_cleared": false,
+      "approved_eligible": false
+    },
+    "data/isic/data/test/benign/912.jpg": {
+      "automated_same_pair_count": 1,
+      "automated_uncertain_pair_count": 0,
+      "automated_distinct_pair_count": 0,
+      "potentially_usable_if_all_automated_same_and_uncertain_relations_are_independently_cleared": false,
+      "approved_eligible": false
+    },
+    "data/isic/data/test/benign/878.jpg": {
+      "automated_same_pair_count": 1,
+      "automated_uncertain_pair_count": 2,
+      "automated_distinct_pair_count": 0,
+      "potentially_usable_if_all_automated_same_and_uncertain_relations_are_independently_cleared": false,
+      "approved_eligible": false
+    },
+    "data/isic/data/test/benign/802.jpg": {
+      "automated_same_pair_count": 1,
+      "automated_uncertain_pair_count": 0,
+      "automated_distinct_pair_count": 0,
+      "potentially_usable_if_all_automated_same_and_uncertain_relations_are_independently_cleared": false,
+      "approved_eligible": false
+    },
+    "data/isic/data/test/benign/1393.jpg": {
+      "automated_same_pair_count": 1,
+      "automated_uncertain_pair_count": 3,
+      "automated_distinct_pair_count": 0,
+      "potentially_usable_if_all_automated_same_and_uncertain_relations_are_independently_cleared": false,
+      "approved_eligible": false
+    },
+    "data/isic/data/test/benign/61.jpg": {
+      "automated_same_pair_count": 1,
+      "automated_uncertain_pair_count": 0,
+      "automated_distinct_pair_count": 0,
+      "potentially_usable_if_all_automated_same_and_uncertain_relations_are_independently_cleared": false,
+      "approved_eligible": false
+    },
+    "data/isic/data/test/benign/311.jpg": {
+      "automated_same_pair_count": 1,
+      "automated_uncertain_pair_count": 0,
+      "automated_distinct_pair_count": 0,
+      "potentially_usable_if_all_automated_same_and_uncertain_relations_are_independently_cleared": false,
+      "approved_eligible": false
+    },
+    "data/isic/data/test/benign/1297.jpg": {
+      "automated_same_pair_count": 1,
+      "automated_uncertain_pair_count": 0,
+      "automated_distinct_pair_count": 0,
+      "potentially_usable_if_all_automated_same_and_uncertain_relations_are_independently_cleared": false,
+      "approved_eligible": false
+    },
+    "data/isic/data/test/benign/1191.jpg": {
+      "automated_same_pair_count": 1,
+      "automated_uncertain_pair_count": 0,
+      "automated_distinct_pair_count": 0,
+      "potentially_usable_if_all_automated_same_and_uncertain_relations_are_independently_cleared": false,
+      "approved_eligible": false
+    },
+    "data/isic/data/test/benign/532.jpg": {
+      "automated_same_pair_count": 1,
+      "automated_uncertain_pair_count": 0,
+      "automated_distinct_pair_count": 0,
+      "potentially_usable_if_all_automated_same_and_uncertain_relations_are_independently_cleared": false,
+      "approved_eligible": false
+    },
+    "data/isic/data/test/benign/678.jpg": {
+      "automated_same_pair_count": 1,
+      "automated_uncertain_pair_count": 0,
+      "automated_distinct_pair_count": 0,
+      "potentially_usable_if_all_automated_same_and_uncertain_relations_are_independently_cleared": false,
+      "approved_eligible": false
+    },
+    "data/isic/data/test/benign/575.jpg": {
+      "automated_same_pair_count": 1,
+      "automated_uncertain_pair_count": 55,
+      "automated_distinct_pair_count": 0,
+      "potentially_usable_if_all_automated_same_and_uncertain_relations_are_independently_cleared": false,
+      "approved_eligible": false
+    },
+    "data/isic/data/test/benign/559.jpg": {
+      "automated_same_pair_count": 1,
+      "automated_uncertain_pair_count": 4,
+      "automated_distinct_pair_count": 0,
+      "potentially_usable_if_all_automated_same_and_uncertain_relations_are_independently_cleared": false,
+      "approved_eligible": false
+    },
+    "data/isic/data/test/benign/1342.jpg": {
+      "automated_same_pair_count": 1,
+      "automated_uncertain_pair_count": 0,
+      "automated_distinct_pair_count": 0,
+      "potentially_usable_if_all_automated_same_and_uncertain_relations_are_independently_cleared": false,
+      "approved_eligible": false
+    },
+    "data/isic/data/test/benign/1642.jpg": {
+      "automated_same_pair_count": 1,
+      "automated_uncertain_pair_count": 0,
+      "automated_distinct_pair_count": 0,
+      "potentially_usable_if_all_automated_same_and_uncertain_relations_are_independently_cleared": false,
+      "approved_eligible": false
+    }
+  },
+  "human_review_decisions_changed": false,
+  "dataset_approval_created": false,
+  "final_split_created": false,
+  "full_nine_class_training_ready": false,
+  "source_evidence_sha256": {
+    "analysis/nine_class_stage11a/review_id_mapping.csv": "0b0ab29bb6dbfde60dfccbadae4ee30f2645e26045b924561063bd2e86c520c0",
+    "analysis/nine_class_stage11a/additional_candidate_relations.csv": "51326aa1dbac77a2d89ecfb4e33066eaa569b92ea5fe1c0448931b088fff79c0",
+    "analysis/nine_class_stage11a/decision_ledger.csv": "dac216e5c68281f9bc07502233b2ffb5c59cb415ab778d8b72c327e6967239ce",
+    "analysis/nine_class_recovery/stage3i/ai_pair_review.csv": "6553e9d9490439e336c4945b60d2fe223ca5738c6bf3e405a8ddd0467b14651a",
+    "analysis/nine_class_recovery/geometric_pair_evidence.csv": "ab1a4a37671637d2433af900e66d22eb9f90102b54d3912e9764b04bf04d50bd",
+    "analysis/nine_class_recovery/stage3g/strong_pair_identity_evidence.csv": "f5e44d3174b96f596f460c771f519783b063787379cfdc9baaf5f6dc08416b69",
+    "analysis/nine_class_stage4/nine_class_source_manifest.csv": "93802ff0f1907320c9e2d32cf53ed25395cda9c58e70d09774faaefa08d98186"
+  },
+  "method_version": "stage11b_bounded_auto_v1",
+  "calibration_status": "NO_INDEPENDENT_HELD_OUT_IDENTITY_GROUND_TRUTH; categories are heuristic triage"
+}
