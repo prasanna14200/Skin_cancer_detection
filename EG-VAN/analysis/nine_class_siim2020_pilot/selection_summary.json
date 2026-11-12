@@ -1,0 +1,10 @@
+{
+  "manifest_sha256": "b9b29fb423863ecec9e73084490f98284cb79f2a3b053f2defa42fe1883fdd93",
+  "seed": 42,
+  "requested": 100,
+  "distinct_patients": 100,
+  "official_duplicate_listed_excluded": true,
+  "selection_rule": "SHA256 rank of siim2020-pilot-v1:42:image_id; first image per patient; exclude both ends of official duplicate pairs",
+  "metadata_sha256": "a1c7c97c59e5f49232dfe3b6f6817efaaee5dbf9bcb4ce584c1889e641be5c4e",
+  "duplicates_sha256": "ddfd6c2d42430bd3581f3b2116bdb1433462a7109c715a02bf7f51115fcfabce"
+}

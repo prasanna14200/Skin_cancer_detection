@@ -9,7 +9,9 @@ from torch import nn
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 from models.egvan import build_nine_class_egvan
-from nine_class_gpu_smoke import run_gpu_smoke, set_batchnorm_policy, synthetic_optimizer_step
+import nine_class_gpu_smoke as smoke
+from nine_class_gpu_smoke import (recommend_microbatch, resolve_batch_sizes, run_gpu_smoke,
+                                  set_batchnorm_policy, synthetic_optimizer_step)
 
 
 class TinyNine(nn.Module):
@@ -64,3 +66,56 @@ def test_gpu_entry_reports_unavailable_without_creating_a_checkpoint():
     assert result["results"] == []
     assert result["checkpoint_created"] is False
     assert result["clinical_dataset_accessed"] is False
+
+
+def test_explicit_batch_selection_preserves_legacy_defaults():
+    assert resolve_batch_sizes(False, None) == (1,)
+    assert resolve_batch_sizes(True, None) == (1, 2)
+    assert resolve_batch_sizes(False, (8, 4)) == (4, 8)
+    for invalid in ((0, 4), (4, 4), ()):
+        with pytest.raises(ValueError):
+            resolve_batch_sizes(False, invalid)
+    with pytest.raises(ValueError):
+        resolve_batch_sizes(True, (4, 8))
+
+
+def test_headroom_recommendation_uses_only_measured_passing_batches():
+    gib = 2**30
+    results = [{"status": "PASSED", "batch_size": 4, "peak_reserved_bytes": 3 * gib},
+               {"status": "PASSED", "batch_size": 8, "peak_reserved_bytes": 9 * gib},
+               {"status": "SKIPPED_AFTER_OOM", "batch_size": 16}]
+    recommendation = recommend_microbatch(results, 10 * gib)
+    assert recommendation["batch_size"] == 4
+    assert recommendation["required_headroom_bytes"] == int(2.5 * gib)
+    assert recommend_microbatch(results[1:], 10 * gib)["batch_size"] is None
+
+
+def test_explicit_gpu_sequence_records_oom_and_skips_larger_batch(monkeypatch):
+    class FakeModel:
+        def to(self, device):
+            return self
+
+    attempts = []
+    def fake_step(model, device, *, batch_size, **kwargs):
+        attempts.append(batch_size)
+        if batch_size == 8:
+            raise torch.cuda.OutOfMemoryError("synthetic OOM for test")
+        return {"status": "PASSED", "batch_size": batch_size,
+                "peak_reserved_bytes": 2 * 2**30}
+
+    monkeypatch.setattr(smoke, "seed_all", lambda seed: None)
+    monkeypatch.setattr(smoke, "build_nine_class_egvan", lambda **kwargs: FakeModel())
+    monkeypatch.setattr(smoke, "synthetic_optimizer_step", fake_step)
+    monkeypatch.setattr(torch.cuda, "get_device_name", lambda device: "mock T4")
+    monkeypatch.setattr(torch.cuda, "mem_get_info", lambda device: (12 * 2**30, 15 * 2**30))
+    monkeypatch.setattr(torch.cuda, "reset_peak_memory_stats", lambda device: None)
+    monkeypatch.setattr(torch.cuda, "synchronize", lambda device: None)
+    monkeypatch.setattr(torch.cuda, "max_memory_allocated", lambda device: 3 * 2**30)
+    monkeypatch.setattr(torch.cuda, "max_memory_reserved", lambda device: 4 * 2**30)
+    monkeypatch.setattr(torch.cuda, "empty_cache", lambda: None)
+    report = run_gpu_smoke(batch_sizes=(4, 8, 16), device=torch.device("cuda:0"))
+    assert attempts == [4, 8]
+    assert [row["status"] for row in report["results"]] == ["PASSED", "CUDA_OOM", "SKIPPED_AFTER_OOM"]
+    assert report["recommended_microbatch"]["batch_size"] == 4
+    assert report["supported_batch_sizes_observed"] == [4]
+    assert report["checkpoint_created"] is False and report["clinical_dataset_accessed"] is False

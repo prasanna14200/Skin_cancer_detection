@@ -1,0 +1,13 @@
+{
+  "version": "modified_nine_class_cohort_plan_v1",
+  "seed": 42,
+  "target_benign": 1200,
+  "existing_pilot": 100,
+  "additional_planned": 1100,
+  "distinct_patient_groups": 1200,
+  "candidate_manifest_sha256": "1516c2e5ca68ad7323aedbb07d8494b86c10569309fd2cf084717cdc07e4ce40",
+  "source_metadata_sha256": "a1c7c97c59e5f49232dfe3b6f6817efaaee5dbf9bcb4ce584c1889e641be5c4e",
+  "duplicate_list_sha256": "ddfd6c2d42430bd3581f3b2116bdb1433462a7109c715a02bf7f51115fcfabce",
+  "rule": "Retain frozen 100-image pilot; rank remaining official benign/target=0, nonduplicate-list images by SHA256(siim2020-final-v1:42:image_id); first image per distinct patient; no approval inferred",
+  "note": "Planned images are not acquired or screened; no split is approved."
+}

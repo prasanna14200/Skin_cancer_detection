@@ -31,8 +31,10 @@ DEFAULT_INVENTORY = ROOT / "analysis/nine_class_stage4/nine_class_source_manifes
 
 def load_config(path: Path) -> dict:
     config = json.loads(path.read_text(encoding="utf-8"))
-    if config.get("schema_version") != "nine_class_training_v1" or tuple(config.get("label_order", ())) != CLASS_NAMES:
+    if config.get("schema_version") not in ("nine_class_training_v1", "nine_class_training_v2") or tuple(config.get("label_order", ())) != CLASS_NAMES:
         raise ValueError("Unknown training config or nine-class order")
+    if config["schema_version"] == "nine_class_training_v2" and config.get("split_protocol") != "four_way_v1":
+        raise ValueError("Version-2 training requires the four-way split protocol")
     if config.get("image_size") != 384 or config.get("optimizer") != "Adamax":
         raise ValueError("Stage 6 requires 384px input and Adamax")
     if int(config["batch_size"]) < 1 or int(config["epochs"]) < 1 or float(config["learning_rate"]) <= 0:
@@ -48,6 +50,8 @@ def load_config(path: Path) -> dict:
         raise ValueError("Local initialization needs a local state path")
     if config.get("mixed_precision") not in ("off", "cuda_if_available"):
         raise ValueError("Mixed precision must be off or CUDA gated")
+    if config.get("batchnorm_policy", "train_running_stats") not in ("train_running_stats", "freeze_running_stats"):
+        raise ValueError("Unknown BatchNorm running-statistics policy")
     preprocessing_for_training(config)
     return config
 
@@ -137,6 +141,11 @@ def run_epoch(model: nn.Module, loader: DataLoader, device: torch.device,
               class_weights=None) -> dict:
     training = optimizer is not None
     model.train(training)
+    if training and config.get("batchnorm_policy", "train_running_stats") == "freeze_running_stats":
+        # Keep affine BatchNorm parameters trainable; freeze only their running buffers.
+        for module in model.modules():
+            if isinstance(module, nn.modules.batchnorm._BatchNorm):
+                module.eval()
     amp = bool(device.type == "cuda" and config["mixed_precision"] == "cuda_if_available")
     losses, probs, targets = [], [], []
     accumulation_steps = int(config.get("gradient_accumulation_steps", 1))
@@ -196,6 +205,9 @@ def main() -> int:
     args = parser.parse_args()
     config = load_config(args.config)
     rows, provenance = validate_approved_split(args.root, args.approved_split, args.approval, args.inventory)
+    expected_protocol = "four_way_v1" if config["schema_version"] == "nine_class_training_v2" else "three_way_v1"
+    if provenance["split_protocol"] != expected_protocol:
+        raise ValueError("Training config and approved split protocol mismatch")
     if args.validate_only:
         print(json.dumps({"approved_split_valid": True, "counts": provenance["counts"]}, indent=2))
         return 0

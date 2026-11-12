@@ -85,7 +85,7 @@ class NineClassDataset(Dataset):
 
     def __init__(self, root: Path, split_csv: Path, split: str,
                  config: PreprocessConfig = PreprocessConfig()) -> None:
-        if split not in ("train", "validation", "test"):
+        if split not in ("train", "validation", "calibration", "test"):
             raise ValueError("Unknown split")
         with split_csv.open(newline="", encoding="utf-8") as handle:
             rows = list(csv.DictReader(handle))

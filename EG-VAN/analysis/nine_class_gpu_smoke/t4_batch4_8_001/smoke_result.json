@@ -1,0 +1,118 @@
+{
+  "schema_version": "nine_class_gpu_smoke_v1",
+  "timestamp_utc": "2026-10-24T07:51:06.834741+00:00",
+  "synthetic_only": true,
+  "checkpoint_created": false,
+  "clinical_dataset_accessed": false,
+  "training_cohort_approval_required": false,
+  "torch_version": "2.11.0+cu130",
+  "torch_cuda_version": "13.0",
+  "device": "cuda:0",
+  "batchnorm_policy": "freeze_running_stats",
+  "requested_batch_sizes": [
+    4,
+    8
+  ],
+  "results": [
+    {
+      "status": "PASSED",
+      "synthetic_only": true,
+      "batch_size": 4,
+      "input_shape": [
+        4,
+        3,
+        384,
+        384
+      ],
+      "logits_shape": [
+        4,
+        9
+      ],
+      "label_indices": [
+        8,
+        7,
+        5,
+        6
+      ],
+      "focal_loss": 0.41825202107429504,
+      "gradient_norm": 1.7161064147949219,
+      "classifier_parameters_updated": true,
+      "gradient_reset": true,
+      "batchnorm_policy": "freeze_running_stats",
+      "batchnorm_modules": 167,
+      "batchnorm_running_stats_changed": false,
+      "cuda_fp16_autocast": true,
+      "cuda_grad_scaler": true,
+      "gradient_scale_before": 1024.0,
+      "gradient_scale_after": 1024.0,
+      "duration_seconds_step_only": 3.114308178000101,
+      "baseline_allocated_bytes": 239245312,
+      "baseline_reserved_bytes": 249561088,
+      "peak_allocated_bytes": 2172821504,
+      "peak_reserved_bytes": 2445279232,
+      "peak_allocated_mib": 2072.2,
+      "peak_reserved_mib": 2332.0,
+      "model_setup_seconds": 0.8398415780002324
+    },
+    {
+      "status": "PASSED",
+      "synthetic_only": true,
+      "batch_size": 8,
+      "input_shape": [
+        8,
+        3,
+        384,
+        384
+      ],
+      "logits_shape": [
+        8,
+        9
+      ],
+      "label_indices": [
+        2,
+        8,
+        7,
+        4,
+        3,
+        7,
+        7,
+        6
+      ],
+      "focal_loss": 0.426674485206604,
+      "gradient_norm": 1.3453428745269775,
+      "classifier_parameters_updated": true,
+      "gradient_reset": true,
+      "batchnorm_policy": "freeze_running_stats",
+      "batchnorm_modules": 167,
+      "batchnorm_running_stats_changed": false,
+      "cuda_fp16_autocast": true,
+      "cuda_grad_scaler": true,
+      "gradient_scale_before": 1024.0,
+      "gradient_scale_after": 1024.0,
+      "duration_seconds_step_only": 3.1605158719999054,
+      "baseline_allocated_bytes": 257726464,
+      "baseline_reserved_bytes": 272629760,
+      "peak_allocated_bytes": 3989407232,
+      "peak_reserved_bytes": 4469030912,
+      "peak_allocated_mib": 3804.6,
+      "peak_reserved_mib": 4262.0,
+      "model_setup_seconds": 1.1185072910002418
+    }
+  ],
+  "gpu_name": "Tesla T4",
+  "memory_total_bytes": 15637086208,
+  "memory_free_before_bytes": 15420162048,
+  "supported_batch_sizes_observed": [
+    4,
+    8
+  ],
+  "status": "PASSED",
+  "recommended_microbatch": {
+    "batch_size": 8,
+    "peak_reserved_bytes": 4469030912,
+    "required_headroom_bytes": 3855040512,
+    "rule": "Observed PASSED step; peak reserved leaves at least 25% of initial free VRAM and 2 GiB",
+    "note": "Synthetic one-step capacity only; does not approve clinical training"
+  },
+  "oom_recommendation": "Largest passing batch in this run: 8; use recommended_microbatch only if its headroom rule passes. Lower batches from earlier runs are not retested here."
+}

@@ -1,0 +1,23 @@
+{
+  "acquired": 200,
+  "pilot": 100,
+  "incremental": 100,
+  "candidate_relations": 3268,
+  "relation_types": {
+    "cross_source_perceptual": 116,
+    "cross_source_transformed_perceptual": 3031,
+    "within_siim_transformed_perceptual": 121
+  },
+  "evidence_classes": {
+    "UNCERTAIN": 3264,
+    "PROBABLE_PHOTO_RELATION": 4
+  },
+  "automated_statuses": {
+    "QUARANTINE_CANDIDATE_RELATION": 121,
+    "PRELIMINARY_NO_CANDIDATE_NOT_APPROVED": 79
+  },
+  "approved": 0,
+  "human_reviewed": 0,
+  "source_manifest_sha256": "93802ff0f1907320c9e2d32cf53ed25395cda9c58e70d09774faaefa08d98186",
+  "candidate_manifest_sha256": "53880029ee585a5df8dc611be7adc963485c4bf0dbe00449a34cab56e59d3f3b"
+}

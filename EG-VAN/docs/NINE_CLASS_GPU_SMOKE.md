@@ -8,7 +8,13 @@ The [entry point](../src/nine_class_gpu_smoke.py) constructs 58,087,667-paramete
 
 The current architecture contains **167 BatchNorm modules**. For batch size **1**, the smoke sets the whole model to train mode and sets BatchNorm modules alone to evaluation mode. Thus their running means/variances stay fixed, while their affine weights and the rest of the model remain trainable. This explicit `freeze_running_stats` policy avoids a single synthetic image defining BatchNorm statistics and avoids potential failures at a one-value spatial map. The smoke verifies that running buffers did not change. It does not replace BatchNorm layers or alter the architecture.
 
-The optional batch **2** attempt also defaults to frozen running statistics, permitting a clean memory comparison. For a separate exploratory batch-2 trial, `--batchnorm-policy train_running_stats --try-batch-2` still runs batch 1 with frozen statistics first, then lets batch 2 update BatchNorm buffers; the report records the actual policy per step. Batch-2 training statistics would still be noisy. The Stage 6 full runner is unchanged and currently uses ordinary training-mode BatchNorm. A future approved-data run must choose and document its own microbatch/BatchNorm policy; gradient accumulation does **not** turn batch-1 or batch-2 BatchNorm into batch-32 BatchNorm.
+The optional batch **2** attempt also defaults to frozen running statistics, permitting a clean memory comparison. For a separate exploratory batch-2 trial, `--batchnorm-policy train_running_stats --try-batch-2` still runs batch 1 with frozen statistics first, then lets batch 2 update BatchNorm buffers; the report records the actual policy per step. Batch-2 training statistics would still be noisy. Stage 6 now has an explicit optional frozen-running-statistics policy in the proposed T4 config; legacy configurations retain ordinary training-mode BatchNorm. Gradient accumulation does **not** turn microbatch BatchNorm into true batch-32 BatchNorm.
+
+## T4 batch-size benchmark
+
+The saved [batch-1 result](../analysis/nine_class_gpu_smoke/t4_batch1_001/smoke_result.json), [batch-2 result](../analysis/nine_class_gpu_smoke/t4_batch2_001/smoke_result.json), and [batch-4/8 result](../analysis/nine_class_gpu_smoke/t4_batch4_8_001/smoke_result.json) were measured on a Tesla T4 with PyTorch `2.11.0+cu130`: all passed. Peak reserved memory was **1,184, 1,344, 2,332 and 4,262 MiB** for batches 1, 2, 4 and 8 respectively. The [training-readiness report](NINE_CLASS_FINAL_TRAINING_READINESS.md) records timings, numerical checks and source hashes. The script accepts `--batch-sizes 4 8` for explicit trials, smallest first, while the original default batch-1 and `--try-batch-2` behaviors remain available. A CUDA OOM is recorded, and any larger requested batch is marked `SKIPPED_AFTER_OOM`.
+
+For a recommendation, a batch must pass and its peak reserved memory must leave at least **25% of initially free VRAM and 2 GiB** unused. The batch-4/8 result selects **8** under this rule. The rule is a one-step synthetic headroom check, not a full-training memory guarantee.
 
 ## Exact Colab commands after uploading the current code
 
@@ -19,7 +25,7 @@ from google.colab import drive
 drive.mount('/content/drive')
 %cd /content/drive/MyDrive/EG-VAN
 !python -c "import torch, torchvision; print(torch.__version__, torchvision.__version__, torch.cuda.is_available(), torch.cuda.get_device_name(0) if torch.cuda.is_available() else 'NO_CUDA')"
-!python src/nine_class_gpu_smoke.py --output-dir analysis/nine_class_gpu_smoke/t4_batch1_001
+!python src/nine_class_gpu_smoke.py --output-dir analysis/nine_class_gpu_smoke/t4_batch1_repeat_001
 ```
 
 After reading the batch-1 result, **optionally** try batch 2 in a new directory; the entry point repeats batch 1 first and then attempts batch 2:
@@ -28,10 +34,19 @@ After reading the batch-1 result, **optionally** try batch 2 in a new directory;
 !python src/nine_class_gpu_smoke.py --output-dir analysis/nine_class_gpu_smoke/t4_batch1_then_2_001 --try-batch-2
 ```
 
-Use a fresh output name for each run; the script refuses an existing directory. `smoke_result.json` records device and torch/CUDA versions, synthetic targets, BatchNorm mode and buffer behavior, finite checks, loss, unscaled gradient norm, parameter update, model setup time, synchronized optimizer-step wall time, baseline allocated/reserved bytes and **peak allocated/reserved bytes/MiB**. PyTorch allocated and reserved peaks are process allocator measures, not system-wide VRAM use or a full training memory guarantee. No T4 result has been generated in this workspace. The [local preflight record](../analysis/nine_class_gpu_smoke/local_preflight/smoke_result.json) says `torch==2.11.0+cpu` and `cuda_available=false`; it contains **no** forward/backward step or GPU timing.
+All three result files already exist in this workspace. To repeat **only batches 4 and 8** after uploading this script to Colab, run in a GPU runtime with a fresh output directory:
+
+```python
+%cd /content/drive/MyDrive/EG-VAN
+!python src/nine_class_gpu_smoke.py --output-dir analysis/nine_class_gpu_smoke/t4_batch4_8_repeat_001 --batch-sizes 4 8
+```
+
+The command writes `smoke_result.json` and never creates a checkpoint. It uses the real nine-output EG-VAN, focal loss, Adamax, FP16 autocast, GradScaler and frozen BatchNorm running statistics. Each attempted batch gets a fresh randomly initialized model. `duration_seconds_step_only` includes synthetic input generation, forward, backward, optimizer step and synchronized completion; `model_setup_seconds` is separate. This measures one optimizer step, not throughput over epochs.
+
+Use a fresh output name for each run; the script refuses an existing directory. `smoke_result.json` records device and torch/CUDA versions, synthetic targets, BatchNorm mode and buffer behavior, finite checks, loss, unscaled gradient norm, parameter update, model setup time, synchronized optimizer-step wall time, baseline allocated/reserved bytes and **peak allocated/reserved bytes/MiB**. PyTorch allocated and reserved peaks are process allocator measures, not system-wide VRAM use or a full training memory guarantee. The [local preflight record](../analysis/nine_class_gpu_smoke/local_preflight/smoke_result.json) says `torch==2.11.0+cpu` and `cuda_available=false`; it contains **no** forward/backward step or GPU timing.
 
 If batch 2 runs out of memory after batch 1 succeeds, the JSON retains batch-1 success and reports batch 1 as the observed fallback. If batch 1 itself runs out of memory, **no smaller batch exists at 384×384**; the script reports that no safe smaller configuration was measured. A larger GPU or separately implemented and validated activation checkpointing would be needed before an approved full run. It does not silently lower resolution, alter the model or create a checkpoint. A successful one-step smoke does not establish that full-epoch training will fit: data loading, validation, optimizer history, retained tensors and variable runtime availability still matter.
 
 ## Local verification and limits
 
-`python -m pytest tests/test_nine_class_gpu_smoke.py tests/test_nine_class_stage5.py tests/test_nine_class_stage6.py -q` returned **13 passed** with the existing optional Windows torchvision image-extension warning. Tests use a tiny nine-output synthetic network to check optimizer update, gradient reset, frozen BatchNorm affine training and batch-2 running-stat change; the real factory's nine-logit head and BatchNorm presence are checked without a clinical image. The local preflight was run using `--preflight-only`, so it did not simulate a T4 result. GPU FP16 backward, T4 peak allocated/reserved memory, wall time and batch-2 support remain **unmeasured until the Colab commands run**. Dataset eligibility and full-training readiness remain blocked under the [research completion plan](NINE_CLASS_RESEARCH_COMPLETION_PLAN.md).
+`python -m pytest tests/test_nine_class_gpu_smoke.py -q` returned **7 passed** with the existing optional Windows torchvision image-extension warning. Focused tests use a tiny nine-output synthetic network to check optimizer update, gradient reset, frozen BatchNorm affine training and batch-2 running-stat change; the real factory's nine-logit head and BatchNorm presence are checked without a clinical image. Additional tests check explicit-size selection, headroom selection and OOM handling with a mocked CUDA device. The local CPU environment cannot independently repeat the saved T4 measurements. Dataset eligibility and full-training readiness remain blocked under the [research completion plan](NINE_CLASS_RESEARCH_COMPLETION_PLAN.md).

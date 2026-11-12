@@ -1,0 +1,57 @@
+{
+  "status": "EXPLORATORY_ONLY_NONCLINICAL_NOT_PAPER_REPRODUCTION",
+  "verified_image_hashes": 10234,
+  "real_images_loaded_per_partition": {
+    "train": 9,
+    "validation": 9,
+    "calibration": 9,
+    "test": 9
+  },
+  "counts": {
+    "train": {
+      "BKL": 754,
+      "DF": 86,
+      "NV": 4347,
+      "MEL": 629,
+      "VASC": 103,
+      "BCC": 371,
+      "AKIEC": 223,
+      "MALIGNANT": 512,
+      "BENIGN": 55
+    },
+    "validation": {
+      "BKL": 108,
+      "DF": 9,
+      "MEL": 84,
+      "VASC": 15,
+      "BCC": 49,
+      "NV": 629,
+      "AKIEC": 42,
+      "MALIGNANT": 84,
+      "BENIGN": 8
+    },
+    "calibration": {
+      "BKL": 122,
+      "NV": 627,
+      "DF": 10,
+      "MEL": 85,
+      "VASC": 13,
+      "BCC": 44,
+      "AKIEC": 30,
+      "MALIGNANT": 84,
+      "BENIGN": 8
+    },
+    "test": {
+      "BKL": 115,
+      "DF": 10,
+      "MEL": 85,
+      "VASC": 11,
+      "BCC": 50,
+      "NV": 627,
+      "AKIEC": 32,
+      "MALIGNANT": 165,
+      "BENIGN": 8
+    }
+  },
+  "preprocess_sha256": "93ea2577432511fd047f3d5a855d498aaabe63e6ff69094b5b758c16f85a3c68"
+}

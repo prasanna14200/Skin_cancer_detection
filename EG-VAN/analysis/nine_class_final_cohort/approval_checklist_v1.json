@@ -1,0 +1,14 @@
+{
+  "status": "NOT_APPROVED",
+  "approved_eligible_images": 0,
+  "approved_four_way_split": false,
+  "items": [
+    {"id": "source_label_policy", "status": "OPEN", "required_evidence": "Researcher-approved source-defined SIIM BENIGN interpretation and unchanged nine-class mapping"},
+    {"id": "source_rights", "status": "OPEN", "required_evidence": "SIIM aggregate and image-level attribution plus Fanconic MALIGNANT source/version and image-level rights"},
+    {"id": "identity_review", "status": "OPEN", "required_evidence": "Independent, dated review of high-risk cross-source and within-SIIM photographic candidates"},
+    {"id": "screening_validation", "status": "OPEN", "required_evidence": "Verified transformed positives and independently adjudicated difficult negatives; bounded detector limitations"},
+    {"id": "eligible_class_counts", "status": "OPEN", "required_evidence": "All nine approved classes with declared protected BENIGN validation, calibration and test group counts"},
+    {"id": "calibration_gate", "status": "OPEN", "software_status": "VERSIONED_V2_GATE_SYNTHETICALLY_TESTED", "required_evidence": "Real approved four-way inventory/split and calibration freeze declarations; synthetic checks do not approve clinical data"},
+    {"id": "researcher_approval", "status": "OPEN", "required_evidence": "Named approval, rights/adjudication references, source inventory and frozen split hashes"}
+  ]
+}

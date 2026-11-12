@@ -56,6 +56,13 @@ def validate_approved_split(root: Path, split_path: Path, approval_path: Path,
         raise ValueError("Synthetic test approval cannot authorize a real training run")
     if approval.get("approval_status") != "APPROVED_BY_RESEARCHER":
         raise ValueError("Researcher approval record is missing")
+    partition_protocol = approval.get("split_protocol", "three_way_v1")
+    if partition_protocol not in ("three_way_v1", "four_way_v1"):
+        raise ValueError("Unknown approved split protocol")
+    four_way = partition_protocol == "four_way_v1"
+    if four_way and (not approval.get("calibration_partition_frozen") or
+                     not approval.get("calibration_separate_from_model_selection")):
+        raise ValueError("Four-way approval requires a frozen, separate calibration partition")
     if any(not str(approval.get(key, "")).strip() for key in REQUIRED_APPROVAL_FIELDS):
         raise ValueError("Approval record lacks reviewer, date or evidence references")
     if approval.get("approved_split_sha256") != file_sha256(split_path):
@@ -95,7 +102,8 @@ def validate_approved_split(root: Path, split_path: Path, approval_path: Path,
         if row["class_name"] not in CLASS_NAMES or int(row["class_index"]) != CLASS_NAMES.index(row["class_name"]):
             raise ValueError(f"Nine-class mapping mismatch: {image_path}")
         split = row["split"]
-        if split not in ("train", "validation", "test"):
+        allowed_splits = ("train", "validation", "calibration", "test") if four_way else ("train", "validation", "test")
+        if split not in allowed_splits:
             raise ValueError(f"Invalid split: {split}")
         if row["source_split"] == "test" and split != "test":
             raise ValueError("Publisher source-test image used for training or validation")
@@ -112,11 +120,13 @@ def validate_approved_split(root: Path, split_path: Path, approval_path: Path,
         if any(len(parts) > 1 for parts in groups.values()):
             raise ValueError(f"Cross-split {name} group")
     counts = {split: Counter(r["class_name"] for r in rows if r["split"] == split)
-              for split in ("train", "validation", "test")}
-    for split in ("train", "validation"):
+              for split in allowed_splits}
+    required_class_splits = ("train", "validation", "calibration", "test") if four_way else ("train", "validation")
+    for split in required_class_splits:
         if any(counts[split][name] < 1 for name in CLASS_NAMES):
             raise ValueError(f"Approved {split} lacks one or more nine-class labels")
     return rows, {"approval": approval, "counts": {s: dict(counts[s]) for s in counts},
+                  "split_protocol": partition_protocol,
                   "split_sha256": file_sha256(split_path),
                   "inventory_sha256": file_sha256(inventory_path),
                   "approval_sha256": file_sha256(approval_path),

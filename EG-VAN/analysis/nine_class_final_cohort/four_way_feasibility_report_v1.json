@@ -1,0 +1,60 @@
+{
+  "status": "PLANNING_ONLY_NOT_APPROVED",
+  "version": "four_way_preview_v1_from_candidate_v2",
+  "planning_inventory_rows": 10234,
+  "known_groups": 7902,
+  "counts": {
+    "train": {
+      "BKL": 754,
+      "DF": 86,
+      "NV": 4347,
+      "MEL": 629,
+      "VASC": 103,
+      "BCC": 371,
+      "AKIEC": 223,
+      "MALIGNANT": 512,
+      "BENIGN": 55
+    },
+    "validation": {
+      "BKL": 108,
+      "DF": 9,
+      "MEL": 84,
+      "VASC": 15,
+      "BCC": 49,
+      "NV": 629,
+      "AKIEC": 42,
+      "MALIGNANT": 84,
+      "BENIGN": 8
+    },
+    "calibration": {
+      "BKL": 122,
+      "NV": 627,
+      "DF": 10,
+      "MEL": 85,
+      "VASC": 13,
+      "BCC": 44,
+      "AKIEC": 30,
+      "MALIGNANT": 84,
+      "BENIGN": 8
+    },
+    "test": {
+      "BKL": 115,
+      "DF": 10,
+      "MEL": 85,
+      "VASC": 11,
+      "BCC": 50,
+      "NV": 627,
+      "AKIEC": 32,
+      "MALIGNANT": 165,
+      "BENIGN": 8
+    }
+  },
+  "source_test_violations": [],
+  "known_group_crossings": 0,
+  "siim_benign_preview_count": 79,
+  "approved_rows": 0,
+  "all_nine_each_partition_numerically_present": true,
+  "training_gate_accepts_preview": false,
+  "reason": "All rows remain unapproved, SIIM no-candidate is uncalibrated, Fanconic MALIGNANT provenance/rights and patient grouping remain unresolved; the version-2 four-way Stage6 gate rejects this planning schema.",
+  "planning_assignment_sha256": "b2658168a620a857bf366bf1fafb2a7a5c7e7e5808dd600de36b6e29f0f97279"
+}

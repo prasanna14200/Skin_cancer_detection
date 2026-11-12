@@ -1,0 +1,12 @@
+{
+  "pilot84": 84,
+  "candidate_pairs": 673,
+  "outcomes": {
+    "QUARANTINE_REVIEW": 48,
+    "NO_CANDIDATE_STRONGER_SCREEN": 36
+  },
+  "geometry_coherent_candidate_pairs": 0,
+  "method": "pHash<=10 on native, 90/180/270-degree rotation, horizontal flip, center 80% crop; top 3 per existing source receive ORB/SIFT RANSAC; no human adjudication; no sensitivity calibration",
+  "source_fingerprints_sha256": "d265f3fc54ede87c27e478289fccf7947c74609bf778b5ba8ac83d90d3126fd2",
+  "pilot_manifest_sha256": "b9b29fb423863ecec9e73084490f98284cb79f2a3b053f2defa42fe1883fdd93"
+}

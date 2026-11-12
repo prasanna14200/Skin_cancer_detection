@@ -1,0 +1,13 @@
+{
+  "manifest_sha256": "b9b29fb423863ecec9e73084490f98284cb79f2a3b053f2defa42fe1883fdd93",
+  "source_manifest_sha256": "93802ff0f1907320c9e2d32cf53ed25395cda9c58e70d09774faaefa08d98186",
+  "source_fingerprints_sha256": "d265f3fc54ede87c27e478289fccf7947c74609bf778b5ba8ac83d90d3126fd2",
+  "acquired": 100,
+  "candidate_pairs": 116,
+  "status_counts": {
+    "no_candidate": 84,
+    "uncertain": 16
+  },
+  "provisionally_usable": 84,
+  "method": "Pilot SHA256 versus frozen Stage4 canonical hashes; pHash<=10 AND dHash<=10; ORB/SIFT RANSAC on five nearest candidates per pilot image. Automated status is provisional; retrieval sensitivity is uncalibrated."
+}

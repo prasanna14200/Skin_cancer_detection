@@ -1,0 +1,14 @@
+{
+  "checked_utc": "2026-10-24T08:50:34.764052+00:00",
+  "official_record_url": "https://api.isic-archive.com/api/v2/images/ISIC_3746471/",
+  "challenge_metadata_sha256": "a1c7c97c59e5f49232dfe3b6f6817efaaee5dbf9bcb4ce584c1889e641be5c4e",
+  "challenge_image_id": "ISIC_3746471",
+  "challenge_patient_id": "IP_7622888",
+  "challenge_lesion_id": "0",
+  "archive_image_id": "ISIC_3746471",
+  "archive_patient_id": "IP_7622888",
+  "archive_lesion_id": "IL_0983669",
+  "archive_public": true,
+  "archive_image_level_license": "CC-BY",
+  "resolution": "EXCLUDED_FROM_CANDIDATE_PLAN_V2_NO_RELABELING_NO_IMAGE_DOWNLOAD"
+}

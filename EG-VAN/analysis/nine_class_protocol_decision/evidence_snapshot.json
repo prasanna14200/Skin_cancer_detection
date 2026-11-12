@@ -1,0 +1,20 @@
+{
+  "source_evidence_sha256": {
+    "analysis/nine_class_final_cohort/acquired_overlap_evidence_v1.csv": "9b7dfdf8f5b87cb7b78116f7eadfaba3cf0defa4f5b1061b9fe83d5112696655",
+    "analysis/nine_class_final_cohort/candidate_manifest_v2.csv": "53880029ee585a5df8dc611be7adc963485c4bf0dbe00449a34cab56e59d3f3b",
+    "analysis/nine_class_final_cohort/acquired_source_attribution_v1.csv": "5cea3978f551c8b0f35d7c08183cda60986057cc77121910fe48f2b7e748d511"
+  },
+  "priority_pair_count": 4,
+  "distinct_image_count": 7,
+  "human_reviewed_pair_count": 0,
+  "review_status": "UNREVIEWED",
+  "review_gallery": "priority_pair_review.html",
+  "review_ledger": "priority_pair_review.csv",
+  "aggregate_siim_2020_license": "CC BY-NC 4.0; noncommercial use and attribution required",
+  "image_level_licenses": {
+    "CC-BY": 114,
+    "CC-BY-NC": 86
+  },
+  "original_paper_dataset_identity": "UNVERIFIED",
+  "dataset_approval": "NONE"
+}

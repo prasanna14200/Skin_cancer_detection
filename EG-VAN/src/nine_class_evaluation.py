@@ -19,17 +19,21 @@ from nine_class_stage4 import CLASS_NAMES, ROOT
 from nine_class_training import DEFAULT_INVENTORY
 
 
-def predict(model: torch.nn.Module, loader: DataLoader, device: torch.device) -> tuple[np.ndarray, np.ndarray]:
+def predict(model: torch.nn.Module, loader: DataLoader, device: torch.device,
+            *, return_logits: bool = False):
     model.eval()
-    probabilities, targets = [], []
+    probabilities, targets, raw_logits = [], [], []
     with torch.inference_mode():
         for images, labels in loader:
             logits = model(images.to(device))
             if logits.ndim != 2 or logits.shape[1] != 9:
                 raise ValueError("Checkpoint model does not return nine logits")
             probabilities.append(torch.softmax(logits.float(), dim=1).cpu().numpy())
+            if return_logits:
+                raw_logits.append(logits.float().cpu().numpy())
             targets.extend(labels.tolist())
-    return np.concatenate(probabilities), np.asarray(targets, dtype=np.int64)
+    result = np.concatenate(probabilities), np.asarray(targets, dtype=np.int64)
+    return (*result, np.concatenate(raw_logits)) if return_logits else result
 
 
 def main() -> int:
@@ -39,7 +43,7 @@ def main() -> int:
     parser.add_argument("--approval", type=Path, required=True)
     parser.add_argument("--inventory", type=Path, default=DEFAULT_INVENTORY)
     parser.add_argument("--checkpoint", type=Path, required=True)
-    parser.add_argument("--split", choices=("validation", "test"), required=True)
+    parser.add_argument("--split", choices=("validation", "calibration", "test"), required=True)
     parser.add_argument("--final-test", action="store_true")
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument("--batch-size", type=int, default=16)
@@ -79,7 +83,10 @@ def main() -> int:
     dataset = NineClassDataset(args.root, args.approved_split, args.split,
                                preprocessing_for_training(config))
     loader = DataLoader(dataset, batch_size=args.batch_size, shuffle=False, num_workers=0)
-    probabilities, targets = predict(model, loader, device)
+    if args.split == "calibration":
+        probabilities, targets, logits = predict(model, loader, device, return_logits=True)
+    else:
+        probabilities, targets = predict(model, loader, device)
     report = summarize_predictions(probabilities, targets, split=args.split)
     report["provenance"] = {**expected, "checkpoint_sha256": file_sha256(checkpoint),
                             "checkpoint_epoch": int(state["epoch"]), "checkpoint_path": str(checkpoint),
@@ -88,12 +95,16 @@ def main() -> int:
     (args.output_dir / "metrics.json").write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
     with (args.output_dir / "predictions.csv").open("w", newline="", encoding="utf-8") as handle:
         fields = ["image_path", "source_dataset", "target_index", "predicted_index"] + [f"prob_{name}" for name in CLASS_NAMES]
+        if args.split == "calibration":
+            fields += [f"logit_{name}" for name in CLASS_NAMES]
         writer = csv.DictWriter(handle, fieldnames=fields)
         writer.writeheader()
-        for row, target, prob in zip(dataset.rows, targets, probabilities):
+        for index, (row, target, prob) in enumerate(zip(dataset.rows, targets, probabilities)):
             writer.writerow({"image_path": row["image_path"], "source_dataset": row["source_dataset"],
                              "target_index": int(target), "predicted_index": int(prob.argmax()),
-                             **{f"prob_{name}": float(prob[i]) for i, name in enumerate(CLASS_NAMES)}})
+                             **{f"prob_{name}": float(prob[i]) for i, name in enumerate(CLASS_NAMES)},
+                             **({f"logit_{name}": float(logits[index, i]) for i, name in enumerate(CLASS_NAMES)}
+                                if args.split == "calibration" else {})})
     print(json.dumps(report, indent=2))
     return 0
 

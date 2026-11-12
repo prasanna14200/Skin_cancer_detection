@@ -1,0 +1,29 @@
+{
+  "record_created_utc": "2026-10-24T08:36:27.403929+00:00",
+  "source": "Official SIIM-ISIC 2020 training metadata v2 IDs; official ISIC Archive per-image full URLs",
+  "fixed_challenge_jpeg_package_downloaded": false,
+  "fixed_package_byte_identity_verified": false,
+  "official_challenge_package_cryptographic_checksums_found": false,
+  "s3_object_etag_md5_matches": 100,
+  "image_sha256_are_local_download_checksums": true,
+  "manifest_sha256": "b9b29fb423863ecec9e73084490f98284cb79f2a3b053f2defa42fe1883fdd93",
+  "requested": 100,
+  "acquired": 100,
+  "total_download_bytes": 73425929,
+  "api_file_size_mismatches": 100,
+  "image_level_licenses": {
+    "CC-BY-NC": 43,
+    "CC-BY": 57
+  },
+  "archive_metadata_records_matched": 100,
+  "archive_metadata_records_other": 0,
+  "patient_groups": 100,
+  "photographic_status_counts": {
+    "no_candidate": 84,
+    "uncertain": 16
+  },
+  "source_manifest_sha256": "93802ff0f1907320c9e2d32cf53ed25395cda9c58e70d09774faaefa08d98186",
+  "source_fingerprints_sha256": "d265f3fc54ede87c27e478289fccf7947c74609bf778b5ba8ac83d90d3126fd2",
+  "license_note": "Challenge aggregate CC BY-NC 4.0; per-image Archive rights also recorded. Retain attribution and use only for permitted noncommercial research.",
+  "required_aggregate_citation": "International Skin Imaging Collaboration. SIIM-ISIC 2020 Challenge Dataset. International Skin Imaging Collaboration. https://doi.org/10.34970/2020-ds01 (2020)."
+}

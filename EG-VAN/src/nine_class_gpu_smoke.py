@@ -22,6 +22,33 @@ from nine_class_stage4 import CLASS_NAMES
 from nine_class_training import focal_loss, seed_all
 
 BN_POLICIES = ("freeze_running_stats", "train_running_stats")
+MIN_HEADROOM_BYTES = 2 * 2**30
+MIN_HEADROOM_FRACTION = 0.25
+
+
+def resolve_batch_sizes(try_batch_2: bool, batch_sizes: tuple[int, ...] | None) -> tuple[int, ...]:
+    """Retain legacy defaults; explicitly requested batches run smallest first."""
+    if batch_sizes is None:
+        return (1, 2) if try_batch_2 else (1,)
+    if try_batch_2:
+        raise ValueError("--try-batch-2 and --batch-sizes cannot be combined")
+    if not batch_sizes or any(size < 1 for size in batch_sizes) or len(set(batch_sizes)) != len(batch_sizes):
+        raise ValueError("Batch sizes must be positive, distinct integers")
+    return tuple(sorted(batch_sizes))
+
+
+def recommend_microbatch(results: list[dict], memory_free_before_bytes: int) -> dict:
+    """Recommend only an observed pass with at least 25% and 2 GiB headroom."""
+    required = max(MIN_HEADROOM_BYTES, int(memory_free_before_bytes * MIN_HEADROOM_FRACTION))
+    eligible = [result for result in results if result["status"] == "PASSED"
+                and result.get("peak_reserved_bytes") is not None
+                and memory_free_before_bytes - result["peak_reserved_bytes"] >= required]
+    chosen = max(eligible, key=lambda result: result["batch_size"]) if eligible else None
+    return {"batch_size": chosen["batch_size"] if chosen else None,
+            "peak_reserved_bytes": chosen["peak_reserved_bytes"] if chosen else None,
+            "required_headroom_bytes": required,
+            "rule": "Observed PASSED step; peak reserved leaves at least 25% of initial free VRAM and 2 GiB",
+            "note": "Synthetic one-step capacity only; does not approve clinical training"}
 
 
 def set_batchnorm_policy(model: nn.Module, policy: str, batch_size: int) -> list[nn.modules.batchnorm._BatchNorm]:
@@ -127,15 +154,18 @@ def synthetic_optimizer_step(model: nn.Module, device: torch.device, *, batch_si
     }
 
 
-def run_gpu_smoke(*, try_batch_2: bool, batchnorm_policy: str, seed: int = 42,
+def run_gpu_smoke(*, try_batch_2: bool = False, batchnorm_policy: str = "freeze_running_stats",
+                  batch_sizes: tuple[int, ...] | None = None, seed: int = 42,
                   device: torch.device | None = None) -> dict:
+    selected_sizes = resolve_batch_sizes(try_batch_2, batch_sizes)
     device = device or torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     report = {"schema_version": "nine_class_gpu_smoke_v1",
               "timestamp_utc": datetime.now(timezone.utc).isoformat(),
               "synthetic_only": True, "checkpoint_created": False,
               "clinical_dataset_accessed": False, "training_cohort_approval_required": False,
               "torch_version": torch.__version__, "torch_cuda_version": torch.version.cuda,
-              "device": str(device), "batchnorm_policy": batchnorm_policy, "results": []}
+              "device": str(device), "batchnorm_policy": batchnorm_policy,
+              "requested_batch_sizes": list(selected_sizes), "results": []}
     if device.type != "cuda":
         report.update(status="CUDA_UNAVAILABLE", gpu_name=None,
                       note="No GPU measurement was made; run the same command in the Colab CUDA runtime")
@@ -143,7 +173,7 @@ def run_gpu_smoke(*, try_batch_2: bool, batchnorm_policy: str, seed: int = 42,
     report["gpu_name"] = torch.cuda.get_device_name(device)
     report["memory_total_bytes"] = torch.cuda.mem_get_info(device)[1]
     report["memory_free_before_bytes"] = torch.cuda.mem_get_info(device)[0]
-    for batch_size in (1, 2) if try_batch_2 else (1,):
+    for batch_size in selected_sizes:
         effective_bn_policy = "freeze_running_stats" if batch_size == 1 else batchnorm_policy
         model = None
         try:
@@ -159,12 +189,19 @@ def run_gpu_smoke(*, try_batch_2: bool, batchnorm_policy: str, seed: int = 42,
             result["model_setup_seconds"] = setup_seconds
             report["results"].append(result)
         except torch.cuda.OutOfMemoryError as error:
+            peak_allocated = torch.cuda.max_memory_allocated(device)
+            peak_reserved = torch.cuda.max_memory_reserved(device)
             report["results"].append({"status": "CUDA_OOM", "batch_size": batch_size,
                                       "batchnorm_policy": effective_bn_policy,
-                                      "error": str(error)[:500], "peak_allocated_bytes": torch.cuda.max_memory_allocated(device),
-                                      "peak_reserved_bytes": torch.cuda.max_memory_reserved(device)})
-            if batch_size == 1:
-                break
+                                      "error": str(error)[:500], "peak_allocated_bytes": peak_allocated,
+                                      "peak_reserved_bytes": peak_reserved,
+                                      "peak_allocated_mib": round(peak_allocated / 2**20, 1),
+                                      "peak_reserved_mib": round(peak_reserved / 2**20, 1)})
+            # A larger attempt after an OOM is unlikely to succeed and may destabilize the runtime.
+            for skipped in selected_sizes[selected_sizes.index(batch_size) + 1:]:
+                report["results"].append({"status": "SKIPPED_AFTER_OOM", "batch_size": skipped,
+                                          "batchnorm_policy": batchnorm_policy})
+            break
         finally:
             del model
             gc.collect()
@@ -172,13 +209,22 @@ def run_gpu_smoke(*, try_batch_2: bool, batchnorm_policy: str, seed: int = 42,
     passed = [r["batch_size"] for r in report["results"] if r["status"] == "PASSED"]
     report["supported_batch_sizes_observed"] = passed
     report["status"] = "PASSED" if passed else "CUDA_OOM_NO_BATCH_PASSED"
-    report["oom_recommendation"] = (
-        "If batch 2 OOMs, retain observed batch 1 with frozen BatchNorm running statistics; "
-        "gradient accumulation is a separate future training configuration and does not reproduce batch-32 BatchNorm."
-        if passed else
-        "Batch 1 is already the smallest batch. No smaller safe configuration was measured; use a larger GPU "
-        "or separately implement and validate activation checkpointing before training."
-    )
+    report["recommended_microbatch"] = recommend_microbatch(report["results"], report["memory_free_before_bytes"])
+    if batch_sizes is None:
+        report["oom_recommendation"] = (
+            "If batch 2 OOMs, retain observed batch 1 with frozen BatchNorm running statistics; "
+            "gradient accumulation is a separate future training configuration and does not reproduce batch-32 BatchNorm."
+            if passed else
+            "Batch 1 is already the smallest batch. No smaller safe configuration was measured; use a larger GPU "
+            "or separately implement and validate activation checkpointing before training."
+        )
+    else:
+        report["oom_recommendation"] = (
+            f"Largest passing batch in this run: {max(passed)}; use recommended_microbatch only if its "
+            "headroom rule passes. Lower batches from earlier runs are not retested here."
+            if passed else "No requested batch passed. Previously measured smaller batches may be used only "
+            "after checking their own reports; no fallback was measured in this run."
+        )
     return report
 
 
@@ -186,12 +232,17 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output-dir", type=Path, required=True, help="New directory for smoke_result.json")
     parser.add_argument("--try-batch-2", action="store_true", help="After batch 1, also attempt batch 2")
+    parser.add_argument("--batch-sizes", type=int, nargs="+", metavar="B", help="Explicit synthetic batch sizes, e.g. 4 8; run smallest first")
     parser.add_argument("--batchnorm-policy", choices=BN_POLICIES, default="freeze_running_stats")
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--preflight-only", action="store_true", help="Report availability without constructing or training a model")
     args = parser.parse_args()
-    if args.batchnorm_policy == "train_running_stats" and not args.try_batch_2:
-        parser.error("train_running_stats applies only to optional batch 2; add --try-batch-2")
+    try:
+        selected_sizes = resolve_batch_sizes(args.try_batch_2, tuple(args.batch_sizes) if args.batch_sizes is not None else None)
+    except ValueError as error:
+        parser.error(str(error))
+    if args.batchnorm_policy == "train_running_stats" and max(selected_sizes) < 2:
+        parser.error("train_running_stats requires a batch size of at least 2")
     if args.output_dir.exists():
         parser.error(f"Output directory already exists: {args.output_dir}")
     if args.preflight_only:
@@ -204,6 +255,7 @@ def main() -> int:
                   "note": "No forward, backward or optimizer step was run"}
     else:
         result = run_gpu_smoke(try_batch_2=args.try_batch_2, batchnorm_policy=args.batchnorm_policy,
+                               batch_sizes=tuple(args.batch_sizes) if args.batch_sizes is not None else None,
                                seed=args.seed)
     args.output_dir.mkdir(parents=True, exist_ok=False)
     (args.output_dir / "smoke_result.json").write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")

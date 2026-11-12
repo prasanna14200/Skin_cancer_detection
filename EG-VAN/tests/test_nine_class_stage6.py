@@ -174,3 +174,37 @@ def test_prediction_probabilities_have_nine_columns():
     assert probabilities.shape == (2, 9)
     assert targets.tolist() == [0, 8]
     assert np.allclose(probabilities.sum(axis=1), 1)
+
+
+def test_t4_config_accumulation_and_frozen_batchnorm_policy(tmp_path):
+    path = Path(__file__).resolve().parents[1] / "config/nine_class_training_t4_v1.json"
+    config = load_config(path)
+    assert config["batch_size"] == 8 and config["gradient_accumulation_steps"] == 4
+    assert config["batchnorm_policy"] == "freeze_running_stats"
+    class TinyBatchNormNine(nn.Module):
+        def __init__(self):
+            super().__init__()
+            self.conv = nn.Conv2d(3, 4, 3, padding=1)
+            self.bn = nn.BatchNorm2d(4)
+            self.classifier = nn.Linear(4, 9)
+
+        def forward(self, images):
+            features = self.bn(self.conv(images)).mean(dim=(2, 3))
+            return self.classifier(features)
+
+    model = TinyBatchNormNine()
+    affine_before = model.bn.weight.detach().clone()
+    tracked_before = model.bn.num_batches_tracked.detach().clone()
+    inputs = torch.randn(9, 3, 8, 8)
+    loader = DataLoader(TensorDataset(inputs, torch.arange(9)), batch_size=8)
+    optimizer = Adamax(model.parameters(), lr=0.001)
+    report = run_epoch(model, loader, torch.device("cpu"), config, optimizer=optimizer)
+    assert report["n_samples"] == 9
+    assert torch.equal(model.bn.num_batches_tracked, tracked_before)
+    assert not model.bn.training and model.training
+    assert not torch.equal(model.bn.weight, affine_before)
+    invalid = dict(config, batchnorm_policy="invalid")
+    invalid_path = tmp_path / "invalid_bn.json"
+    invalid_path.write_text(json.dumps(invalid), encoding="utf-8")
+    with pytest.raises(ValueError, match="BatchNorm"):
+        load_config(invalid_path)

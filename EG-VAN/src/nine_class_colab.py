@@ -14,6 +14,37 @@ from nine_class_training import load_config
 PARAMETERS = 58_087_667
 
 
+def validate_colab_runtime(torch_module, torchvision_module) -> dict:
+    """Probe the CUDA and torchvision interfaces used by the nine-class model.
+
+    No pretrained weights, clinical files or training model are loaded.
+    """
+    if not torch_module.cuda.is_available() or not torch_module.version.cuda:
+        raise RuntimeError("A CUDA-enabled PyTorch runtime and available GPU are required")
+    capability = tuple(torch_module.cuda.get_device_capability(0))
+    if capability < (6, 0):
+        raise RuntimeError(f"GPU compute capability {capability} is below the FP16 training floor")
+    amp_namespace = getattr(torch_module, "amp", None)
+    if not callable(getattr(torch_module, "autocast", None)) or not callable(getattr(amp_namespace, "GradScaler", None)):
+        raise RuntimeError("Installed PyTorch lacks the required AMP interfaces")
+    models = torchvision_module.models
+    for name in ("efficientnet_v2_s", "resnet50", "EfficientNet_V2_S_Weights", "ResNet50_Weights"):
+        if not hasattr(models, name):
+            raise RuntimeError(f"Torchvision lacks required EG-VAN interface: {name}")
+    # Construct only the two unweighted torchvision backbones. This catches
+    # signature/import incompatibility without network access or clinical data.
+    try:
+        efficient = models.efficientnet_v2_s(weights=None)
+        resnet = models.resnet50(weights=None)
+    except Exception as error:
+        raise RuntimeError("Torchvision EG-VAN backbone construction failed") from error
+    if not hasattr(efficient, "features") or not hasattr(resnet, "layer4"):
+        raise RuntimeError("Torchvision backbone structure is incompatible with EG-VAN")
+    return {"torch": torch_module.__version__, "torchvision": torchvision_module.__version__,
+            "cuda_runtime": torch_module.version.cuda,
+            "gpu": torch_module.cuda.get_device_name(0), "compute_capability": capability}
+
+
 def validate_colab_config(path: Path) -> dict:
     config = load_config(path)
     if tuple(config["label_order"]) != CLASS_NAMES or config["image_size"] != 384:
@@ -40,8 +71,14 @@ def gpu_memory_plan(total_bytes: int, free_bytes: int, config: dict) -> dict:
             "caution": "Activation, batch-norm, allocator and mixed-precision memory are not measured; run a batch-one smoke pass before training"}
 
 
-def validate_cohort(root: Path, split: Path, approval: Path, inventory: Path) -> dict:
+def validate_cohort(root: Path, split: Path, approval: Path, inventory: Path,
+                    config_path: Path | None = None) -> dict:
     rows, provenance = validate_approved_split(root, split, approval, inventory)
+    if config_path is not None:
+        config = load_config(config_path)
+        expected = "four_way_v1" if config["schema_version"] == "nine_class_training_v2" else "three_way_v1"
+        if provenance["split_protocol"] != expected:
+            raise ValueError("Colab config and approved split protocol mismatch")
     if not provenance["approval"].get("test_partition_frozen") or not provenance["test_has_all_classes"]:
         raise ValueError("Full training requires a frozen protected test containing all nine labels")
     return {"rows": rows, "provenance": provenance}

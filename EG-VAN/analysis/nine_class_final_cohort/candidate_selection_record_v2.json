@@ -1,0 +1,13 @@
+{
+  "version": "modified_nine_class_cohort_plan_v2",
+  "seed": 42,
+  "target_benign": 1200,
+  "candidate_manifest_sha256": "53880029ee585a5df8dc611be7adc963485c4bf0dbe00449a34cab56e59d3f3b",
+  "replaces": "ISIC_3746471",
+  "replacement": "ISIC_7854457",
+  "reason": "Challenge lesion_id sentinel 0 conflicts with official per-image Archive lesion ID; excluded without relabeling",
+  "previous_manifest_sha256": "1516c2e5ca68ad7323aedbb07d8494b86c10569309fd2cf084717cdc07e4ce40",
+  "source_metadata_sha256": "a1c7c97c59e5f49232dfe3b6f6817efaaee5dbf9bcb4ce584c1889e641be5c4e",
+  "duplicate_list_sha256": "ddfd6c2d42430bd3581f3b2116bdb1433462a7109c715a02bf7f51115fcfabce",
+  "note": "All reviewer/approval statuses remain unresolved; no split is approved."
+}

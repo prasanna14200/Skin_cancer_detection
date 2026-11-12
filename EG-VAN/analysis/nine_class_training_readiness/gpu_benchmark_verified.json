@@ -1,0 +1,86 @@
+{
+  "status": "VERIFIED_SAVED_SYNTHETIC_REPORTS",
+  "gpu_name": "Tesla T4",
+  "torch_version": "2.11.0+cu130",
+  "reports": [
+    {
+      "source_path": "analysis/nine_class_gpu_smoke/t4_batch1_001/smoke_result.json",
+      "sha256": "9d3185dae03d26963955ea3221485deeb850ba16336257d854856ad5a3dc7916",
+      "timestamp_utc": "2026-10-24T07:31:46.877259+00:00",
+      "memory_free_before_bytes": 15420162048,
+      "results": [
+        {
+          "batch_size": 1,
+          "focal_loss": 0.49453094601631165,
+          "gradient_norm": 4.787317752838135,
+          "duration_seconds_step_only": 7.280198155000107,
+          "peak_allocated_mib": 1152.7,
+          "peak_reserved_mib": 1184.0,
+          "classifier_parameters_updated": true,
+          "batchnorm_running_stats_changed": false
+        }
+      ]
+    },
+    {
+      "source_path": "analysis/nine_class_gpu_smoke/t4_batch2_001/smoke_result.json",
+      "sha256": "66a87f042fad6f4ebe05f1906bc993df346bf74530da345c3ca849de8f1ec47d",
+      "timestamp_utc": "2026-10-24T07:33:23.001109+00:00",
+      "memory_free_before_bytes": 15420162048,
+      "results": [
+        {
+          "batch_size": 1,
+          "focal_loss": 0.49453094601631165,
+          "gradient_norm": 4.787317752838135,
+          "duration_seconds_step_only": 3.061681160000262,
+          "peak_allocated_mib": 1152.7,
+          "peak_reserved_mib": 1184.0,
+          "classifier_parameters_updated": true,
+          "batchnorm_running_stats_changed": false
+        },
+        {
+          "batch_size": 2,
+          "focal_loss": 0.47117260098457336,
+          "gradient_norm": 3.049926280975342,
+          "duration_seconds_step_only": 2.1487478489998466,
+          "peak_allocated_mib": 1226.1,
+          "peak_reserved_mib": 1344.0,
+          "classifier_parameters_updated": true,
+          "batchnorm_running_stats_changed": false
+        }
+      ]
+    },
+    {
+      "source_path": "analysis/nine_class_gpu_smoke/t4_batch4_8_001/smoke_result.json",
+      "sha256": "93e9fa74a6326a2114a11b72f0faa32c6d14edfac9e3ac1e3feccfb186117617",
+      "timestamp_utc": "2026-10-24T07:51:06.834741+00:00",
+      "memory_free_before_bytes": 15420162048,
+      "results": [
+        {
+          "batch_size": 4,
+          "focal_loss": 0.41825202107429504,
+          "gradient_norm": 1.7161064147949219,
+          "duration_seconds_step_only": 3.114308178000101,
+          "peak_allocated_mib": 2072.2,
+          "peak_reserved_mib": 2332.0,
+          "classifier_parameters_updated": true,
+          "batchnorm_running_stats_changed": false
+        },
+        {
+          "batch_size": 8,
+          "focal_loss": 0.426674485206604,
+          "gradient_norm": 1.3453428745269775,
+          "duration_seconds_step_only": 3.1605158719999054,
+          "peak_allocated_mib": 3804.6,
+          "peak_reserved_mib": 4262.0,
+          "classifier_parameters_updated": true,
+          "batchnorm_running_stats_changed": false
+        }
+      ]
+    }
+  ],
+  "recommended_microbatch": 8,
+  "proposed_accumulation_steps": 4,
+  "nominal_effective_batch": 32,
+  "clinical_training_approved": false,
+  "note": "One synthetic optimizer step per batch; no full-epoch or clinical-data capacity measured"
+}

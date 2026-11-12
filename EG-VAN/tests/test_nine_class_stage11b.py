@@ -4,6 +4,7 @@ import csv
 import json
 import sys
 from pathlib import Path
+from types import SimpleNamespace
 
 import nbformat
 import numpy as np
@@ -16,7 +17,8 @@ from torch.utils.data import DataLoader, TensorDataset
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 from nine_class_colab import (evaluation_command, gpu_memory_plan, training_command,
-                              validate_cohort, validate_colab_config, validate_resume)
+                              validate_cohort, validate_colab_config, validate_colab_runtime,
+                              validate_resume)
 from nine_class_dataset import PreprocessConfig, preprocessing_hash
 from nine_class_stage11b_auto_review import (automatic_category, crop_aware_evidence,
                                              read_csv, run)
@@ -113,6 +115,31 @@ def test_accumulation_matches_true_effective_batch_update():
     assert torch.allclose(model.bias, expected.bias, atol=1e-7)
 
 
+def test_colab_runtime_accepts_cuda_build_suffix_without_exact_pin():
+    cuda = SimpleNamespace(is_available=lambda: True, get_device_capability=lambda index: (7, 5),
+                           get_device_name=lambda index: "Tesla T4")
+    fake_torch = SimpleNamespace(__version__="2.11.0+cu130", version=SimpleNamespace(cuda="13.0"),
+                                 cuda=cuda, autocast=lambda **kwargs: None,
+                                 amp=SimpleNamespace(GradScaler=lambda **kwargs: None))
+    models = SimpleNamespace(efficientnet_v2_s=lambda weights: SimpleNamespace(features=[]),
+                             resnet50=lambda weights: SimpleNamespace(layer4=[]),
+                             EfficientNet_V2_S_Weights=object(), ResNet50_Weights=object())
+    fake_vision = SimpleNamespace(__version__="0.26.0+cu130", models=models)
+    result = validate_colab_runtime(fake_torch, fake_vision)
+    assert result["torch"] == "2.11.0+cu130" and result["gpu"] == "Tesla T4"
+    fake_torch.cuda = SimpleNamespace(is_available=lambda: False)
+    with pytest.raises(RuntimeError, match="CUDA-enabled"):
+        validate_colab_runtime(fake_torch, fake_vision)
+    fake_torch.cuda = cuda
+    fake_vision.models = SimpleNamespace()
+    with pytest.raises(RuntimeError, match="Torchvision lacks"):
+        validate_colab_runtime(fake_torch, fake_vision)
+    fake_vision.models = models
+    fake_vision.models.resnet50 = lambda weights: (_ for _ in ()).throw(RuntimeError("bad wheel"))
+    with pytest.raises(RuntimeError, match="construction failed"):
+        validate_colab_runtime(fake_torch, fake_vision)
+
+
 def test_resume_commands_persist_and_notebook_is_gated(tmp_path):
     run_dir = tmp_path / "runs" / "run1"
     run_dir.mkdir(parents=True)
@@ -132,6 +159,9 @@ def test_resume_commands_persist_and_notebook_is_gated(tmp_path):
     notebook = nbformat.read(ROOT / "notebooks/nine_class_colab_training.ipynb", as_version=4)
     nbformat.validate(notebook)
     sources = "\n".join(cell.source for cell in notebook.cells)
+    assert "validate_colab_runtime(torch, torchvision)" in sources
+    assert "nine_class_training_t4_v1.json" in sources
+    assert "2.11.0+cu128" not in sources
     assert "RUN_TRAINING = False" in sources and "RUN_RESUME = False" in sources
     assert "RUN_FINAL_TEST = False" in sources and "validate_cohort(" in sources
     assert "--validate-only" not in sources or "validate_only=True" in sources

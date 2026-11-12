@@ -1,0 +1,23 @@
+{
+  "schema_version": "nine_class_training_v1",
+  "label_order": ["AKIEC", "BCC", "BKL", "DF", "MEL", "NV", "VASC", "BENIGN", "MALIGNANT"],
+  "seed": 42,
+  "image_size": 384,
+  "preprocessing_mode": "raw_resize_imagenet_v2",
+  "batch_size": 8,
+  "gradient_accumulation_steps": 4,
+  "batchnorm_policy": "freeze_running_stats",
+  "epochs": 25,
+  "num_workers": 0,
+  "initialization": {"mode": "random", "efficient_local_state": null, "resnet_local_state": null},
+  "fusion_channels": 128,
+  "optimizer": "Adamax",
+  "learning_rate": 0.001,
+  "focal_alpha": 0.25,
+  "focal_gamma": 2.0,
+  "class_weighting": false,
+  "scheduler": {"name": "ReduceLROnPlateau", "factor": 0.5, "patience": 2},
+  "gradient_clip_norm": 1.0,
+  "mixed_precision": "cuda_if_available",
+  "early_stopping": {"enabled": false, "patience": 5}
+}

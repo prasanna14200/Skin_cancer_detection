@@ -1,0 +1,38 @@
+{
+  "status": "METADATA_ONLY_NOT_ELIGIBILITY_APPROVAL",
+  "official_rows": 33126,
+  "ham_rows": 10015,
+  "official_label_counts": {
+    "benign": 32542,
+    "malignant": 584
+  },
+  "official_diagnosis_counts": {
+    "atypical melanocytic proliferation": 1,
+    "cafe-au-lait macule": 1,
+    "lentigo NOS": 44,
+    "lichenoid keratosis": 37,
+    "melanoma": 584,
+    "nevus": 5193,
+    "seborrheic keratosis": 135,
+    "solar lentigo": 7,
+    "unknown": 27124
+  },
+  "official_duplicate_edges": 425,
+  "official_missing_patient_ids": 0,
+  "official_missing_lesion_ids": 0,
+  "direct_ham_image_id_overlap_all_labels": 0,
+  "direct_ham_image_id_overlap_benign": 0,
+  "ham_id_or_official_duplicate_linked_benign": 0,
+  "benign_after_id_and_official_duplicate_screen_upper_bound": 32542,
+  "candidate_nonblank_patient_ids": 2055,
+  "candidate_nonblank_lesion_ids": 32120,
+  "fanconic_image_id_bridge_available": false,
+  "photo_overlap_screen_complete": false,
+  "approved_eligible_benign": 0,
+  "four_way_split_approved": false,
+  "input_sha256": {
+    "analysis\\nine_class_dataset_recovery\\ISIC_2020_Training_GroundTruth_v2.csv": "a1c7c97c59e5f49232dfe3b6f6817efaaee5dbf9bcb4ce584c1889e641be5c4e",
+    "analysis\\nine_class_dataset_recovery\\ISIC_2020_Training_Duplicates.csv": "ddfd6c2d42430bd3581f3b2116bdb1433462a7109c715a02bf7f51115fcfabce",
+    "data\\raw\\HAM10000_metadata.csv": "06aee5e603d313ba69de38263053c792a1dff030eb9c44a96ceb477ceefb99a5"
+  }
+}
