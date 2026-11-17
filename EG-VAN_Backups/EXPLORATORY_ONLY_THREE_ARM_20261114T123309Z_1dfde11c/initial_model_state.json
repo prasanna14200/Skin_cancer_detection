@@ -1,0 +1,7 @@
+{
+  "cohort_status": "NOT_APPROVED",
+  "hash_algorithm": "sha256-egvan-tensor-state-v1-little-endian",
+  "model_state_sha256": "6126029c56ecef1b9c8467dd65a72b9c226884ea57bbafd0ced56338299653cf",
+  "research_status": "EXPLORATORY_ONLY_NONCLINICAL_NOT_PAPER_REPRODUCTION",
+  "tensor_count": 1277
+}

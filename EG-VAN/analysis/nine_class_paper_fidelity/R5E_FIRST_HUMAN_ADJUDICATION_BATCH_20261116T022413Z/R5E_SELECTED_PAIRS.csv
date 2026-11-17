@@ -1,0 +1,1 @@
+queue_row_number,pair_id,image_a_id,image_b_id,source_a,source_b,source_split_a,source_split_b,ai_assessment,ai_assessment_method,ai_confidence,relation_category,conflict_flags,selection_priority,selection_reason,image_a_exists,image_b_exists,image_a_readability,image_b_readability

@@ -1,0 +1,18 @@
+check,observed,expected,status,notes
+saved_prediction_rows_linked,1028,1028,PASS,"One row per frozen validation prediction, matched by source_dataset + image_path."
+unique_source_qualified_keys,1028,1028,PASS,No duplicate prediction/image keys.
+source_ids_present_and_path_stem_matches,944,944,PASS,All available source image IDs match file stems.
+source_ids_not_recorded,84,84,INFO,"All are FANCONIC_LOCAL_UNVERIFIED_VERSION; verified by source-qualified path and SHA-256, not by an invented ID."
+source_image_hash_duplicates_within_validation,0,0,PASS,Exact byte-identical image hash groups.
+all_iqa_rows_processed_ok,1028,1028,PASS,All source images decoded and all feature vectors finite.
+missing_iqa_feature_values,0,0,PASS,Sum over all 14 features and all linked images.
+overlap_groups_repeated_within_validation,192,"reported, not a gate",LIMITATION,192 repeated groups cover 429 rows; nominal independent-sample tests are not confirmatory.
+existing_iqa_v1_prediction_overlap,0,0,INFO,"Prior v1 artifact has 18 rows on 9 images; no path overlap with these 1,028 predictions."
+new_inference_or_training,NONE,NONE,PASS,Only the existing saved predictions and source images were used.
+research_cohort_approval,NOT_APPROVED,NOT_APPROVED,PASS,This analysis does not approve the cohort or validation.
+source_image_hash_matches_frozen_split,1028,1028,PASS,All image bytes matched split SHA-256 both before and after IQA measurement.
+source_labels_match_frozen_split,1028,1028,PASS,Saved true_class equals source-defined split class_name on every joined row.
+saved_prediction_probabilities_valid,1028,1028,PASS,"All values finite/nonnegative, sum to one within tolerance, and argmax matches predicted_class; probabilities were not analyzed for uncertainty."
+recomputed_accuracy_matches_saved_metrics,0.6108949416342413,0.6108949416342413,PASS,Recomputed from saved prediction rows; no inference was run.
+checkpoint_sha_matches_validation_metrics,3336df387025a0d7438b444d10236f846eed1327910117635bbae38601133e08,3336df387025a0d7438b444d10236f846eed1327910117635bbae38601133e08,PASS,Frozen best.pt SHA-256 is recorded in validation metrics and on every linked row.
+frozen_run_provenance,VERIFIED_BY_EXISTING_DIAGNOSTIC,MATCH,PASS,"Existing diagnostic verify_inputs() confirmed config, split, preprocessing, source-preview, run-provenance, and checkpoint identities."

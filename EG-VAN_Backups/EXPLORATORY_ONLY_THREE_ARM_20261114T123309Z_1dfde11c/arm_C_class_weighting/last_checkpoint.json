@@ -1,0 +1,7 @@
+{
+  "completed_epochs": 5,
+  "filename": "rolling_checkpoint_epoch_05_21b37439caa44be1910d5da2bdce5e2a.pt",
+  "format_version": 1,
+  "model_state_sha256": "bb5f75a02ad28942dabad634419ef308b5190879ccbc763a74876f4adb7c2aa1",
+  "sha256": "107cd2aa42ed3a19e20460458b8bbbabb7908bf0ee3f76b2b9f7291b1d654c4c"
+}

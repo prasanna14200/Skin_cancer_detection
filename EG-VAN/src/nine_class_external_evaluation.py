@@ -198,7 +198,7 @@ def evaluate_external(internal_root: Path, internal_split: Path, internal_approv
         internal_inventory, checkpoint_sha, preprocess_sha,
         allow_synthetic_fixture=allow_synthetic_fixture)
     # Hash-bind the trusted local checkpoint before invoking pickle deserialization.
-    state = torch.load(checkpoint, map_location="cpu", weights_only=False)
+    state = torch.load(checkpoint, map_location="cpu", weights_only=True)
     expected = {"config_sha256": run_info["config_sha256"],
                 "split_sha256": internal_provenance["split_sha256"],
                 "inventory_sha256": internal_provenance["inventory_sha256"],

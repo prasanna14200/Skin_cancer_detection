@@ -1,0 +1,40 @@
+{
+  "arm": "arm_B_bn_update",
+  "batchnorm_policy": "train_running_stats",
+  "branch_initialization_hashes": {},
+  "class_weighting": false,
+  "cohort_status": "NOT_APPROVED",
+  "configuration_sha256": "bb7c56e9b094f5ea078d3dedc8f78b293321417e8382e22f9e9b54081786c006",
+  "diagnostic_overrides": {
+    "adaptive_scheduler": false,
+    "arm": "B",
+    "base_learning_rate": 0.001,
+    "base_mixed_precision": "cuda_if_available",
+    "cohort_status": "NOT_APPROVED",
+    "epochs": 5,
+    "grad_scaler_enabled": false,
+    "learning_rate": 0.0001,
+    "mixed_precision": "off",
+    "research_status": "EXPLORATORY_ONLY_NONCLINICAL_NOT_PAPER_REPRODUCTION"
+  },
+  "epochs": 5,
+  "initial_model_state_sha256": "6126029c56ecef1b9c8467dd65a72b9c226884ea57bbafd0ced56338299653cf",
+  "initial_state_hash_algorithm": "sha256-egvan-tensor-state-v1-little-endian",
+  "preprocessing_fingerprint": "93ea2577432511fd047f3d5a855d498aaabe63e6ff69094b5b758c16f85a3c68",
+  "research_status": "EXPLORATORY_ONLY_NONCLINICAL_NOT_PAPER_REPRODUCTION",
+  "runtime_metadata": {
+    "cohort_status": "NOT_APPROVED",
+    "cuda_runtime": "13.0",
+    "cudnn_benchmark": false,
+    "cudnn_deterministic": true,
+    "deterministic_algorithms": false,
+    "device": "cuda",
+    "gpu_name": "Tesla T4",
+    "python": "3.13.16",
+    "pytorch": "2.14.1+cu130",
+    "research_status": "EXPLORATORY_ONLY_NONCLINICAL_NOT_PAPER_REPRODUCTION",
+    "torchvision": "0.29.1+cu130"
+  },
+  "seed": 42,
+  "split_sha256": "d4bce612e08cf2942cf2aefe45f807ad60e0d9dcc05aef41cf8e2fd560bbe740"
+}

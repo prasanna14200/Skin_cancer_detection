@@ -1,0 +1,21 @@
+selected_queue_row_number,selected_pair_id,source_queue_row_number,source_queue_pair_id,pair_id_matches,image_a_matches,image_b_matches,ai_assessment_matches,ai_assessment_method_matches,ai_confidence_matches,relation_category_matches,conflict_flags_matches,queue_review_status_is_not_human_reviewed,queue_human_decision_blank,selected_pair_has_valid_queue_match,notes
+1,PAIR_0001,1,PAIR_0001,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,Selected row maps to same original queue row with all source fields preserved.
+2,PAIR_0002,2,PAIR_0002,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,Selected row maps to same original queue row with all source fields preserved.
+3,PAIR_0003,3,PAIR_0003,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,Selected row maps to same original queue row with all source fields preserved.
+4,PAIR_0004,4,PAIR_0004,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,Selected row maps to same original queue row with all source fields preserved.
+5,PAIR_0005,5,PAIR_0005,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,Selected row maps to same original queue row with all source fields preserved.
+6,PAIR_0006,6,PAIR_0006,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,Selected row maps to same original queue row with all source fields preserved.
+7,PAIR_0007,7,PAIR_0007,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,Selected row maps to same original queue row with all source fields preserved.
+8,PAIR_0008,8,PAIR_0008,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,Selected row maps to same original queue row with all source fields preserved.
+9,PAIR_0009,9,PAIR_0009,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,Selected row maps to same original queue row with all source fields preserved.
+10,PAIR_0010,10,PAIR_0010,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,Selected row maps to same original queue row with all source fields preserved.
+11,PAIR_0011,11,PAIR_0011,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,Selected row maps to same original queue row with all source fields preserved.
+12,PAIR_0012,12,PAIR_0012,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,Selected row maps to same original queue row with all source fields preserved.
+13,PAIR_0013,13,PAIR_0013,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,Selected row maps to same original queue row with all source fields preserved.
+14,PAIR_0014,14,PAIR_0014,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,Selected row maps to same original queue row with all source fields preserved.
+15,PAIR_0015,15,PAIR_0015,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,Selected row maps to same original queue row with all source fields preserved.
+16,PAIR_0016,16,PAIR_0016,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,Selected row maps to same original queue row with all source fields preserved.
+17,PAIR_0017,17,PAIR_0017,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,Selected row maps to same original queue row with all source fields preserved.
+18,PAIR_0018,18,PAIR_0018,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,Selected row maps to same original queue row with all source fields preserved.
+19,PAIR_0019,19,PAIR_0019,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,Selected row maps to same original queue row with all source fields preserved.
+20,PAIR_0020,20,PAIR_0020,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,Selected row maps to same original queue row with all source fields preserved.

@@ -1,0 +1,184 @@
+{
+  "split": "validation",
+  "n_samples": 1028,
+  "all_nine_classes_present": true,
+  "accuracy": 0.6108949416342413,
+  "macro_f1": 0.0975323660847642,
+  "weighted_f1": 0.47172392509152283,
+  "per_class": {
+    "AKIEC": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 42
+    },
+    "BCC": {
+      "precision": 0.2,
+      "recall": 0.061224489795918366,
+      "f1": 0.09375,
+      "support": 49
+    },
+    "BKL": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 108
+    },
+    "DF": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 9
+    },
+    "MEL": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 84
+    },
+    "NV": {
+      "precision": 0.616600790513834,
+      "recall": 0.9920508744038156,
+      "f1": 0.760511882998172,
+      "support": 629
+    },
+    "VASC": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 15
+    },
+    "BENIGN": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 8
+    },
+    "MALIGNANT": {
+      "precision": 1.0,
+      "recall": 0.011904761904761904,
+      "f1": 0.023529411764705882,
+      "support": 84
+    }
+  },
+  "confusion_matrix": [
+    [
+      0,
+      1,
+      0,
+      0,
+      0,
+      41,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      3,
+      0,
+      0,
+      0,
+      46,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      6,
+      0,
+      0,
+      0,
+      102,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      9,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      84,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      5,
+      0,
+      0,
+      0,
+      624,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      15,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      8,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      83,
+      0,
+      0,
+      1
+    ]
+  ],
+  "warnings": [],
+  "balanced_accuracy": 0.11835334734494397,
+  "label_order": [
+    "AKIEC",
+    "BCC",
+    "BKL",
+    "DF",
+    "MEL",
+    "NV",
+    "VASC",
+    "BENIGN",
+    "MALIGNANT"
+  ],
+  "research_status": "EXPLORATORY_ONLY_NONCLINICAL_NOT_PAPER_REPRODUCTION",
+  "evaluation_scope": "validation_only",
+  "checkpoint_sha256": "3336df387025a0d7438b444d10236f846eed1327910117635bbae38601133e08",
+  "split_sha256": "d4bce612e08cf2942cf2aefe45f807ad60e0d9dcc05aef41cf8e2fd560bbe740",
+  "config_sha256": "916508faaac87b4268ac0cf8aa45c682d4b03079e71322386823a83adc49755d",
+  "preprocess_config_sha256": "93ea2577432511fd047f3d5a855d498aaabe63e6ff69094b5b758c16f85a3c68"
+}

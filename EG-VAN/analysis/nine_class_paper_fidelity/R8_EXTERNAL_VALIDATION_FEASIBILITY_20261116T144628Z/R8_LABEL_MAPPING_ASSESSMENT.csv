@@ -1,0 +1,10 @@
+source_dataset,original_clinical_label,target_label,mapping_status,record_count,mapping_rationale
+PH2,common nevus,NV,CLINICALLY_JUSTIFIED_NONIDENTICAL,80,Narrower diagnosis within NV; candidate mapping only.
+PH2,melanoma,MEL,EXACT,40,Direct source diagnosis match.
+PH2,atypical nevus,,UNSUPPORTED,80,No one-to-one EG-VAN target; do not remap.
+SIIM-ISIC 2020,nevus; task target=0,NV,CLINICALLY_JUSTIFIED_NONIDENTICAL,17,Use detailed diagnosis only; not task-negative to BENIGN.
+SIIM-ISIC 2020,seborrheic keratosis; task target=0,BKL,CLINICALLY_JUSTIFIED_NONIDENTICAL,1,Narrower diagnosis within BKL; one candidate record.
+SIIM-ISIC 2020,unknown; task target=0,,UNKNOWN,82,No detailed diagnosis; do not map target=0 to an EG-VAN class.
+ISIC 2017 Task 3,nevus,NV,CLINICALLY_JUSTIFIED_NONIDENTICAL,1843,Potential label mapping only; no matching local image files.
+ISIC 2017 Task 3,melanoma,MEL,EXACT,521,Potential label mapping only; no matching local image files.
+ISIC 2017 Task 3,seborrheic keratosis,BKL,CLINICALLY_JUSTIFIED_NONIDENTICAL,386,Potential label mapping only; no matching local image files.

@@ -10,13 +10,14 @@ import numpy as np
 import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+import nine_class_iqa as iqa
 from nine_class_dataset import PreprocessConfig, image_tensor
 from nine_class_iqa import (IQA_VERSION, collect_record, measure_rgb,
-                            stage4_processed_rgb)
+                            select_rows, stage4_processed_rgb)
 from nine_class_iqa_performance import (join_quality_predictions, summarize_associations,
                                          validate_evaluation_artifact)
 import nine_class_iqa_performance as performance
-from nine_class_protocol import file_sha256
+from nine_class_protocol import LOCKED_FIELDS, file_sha256, validate_approved_split
 from nine_class_stage4 import CLASS_NAMES
 
 
@@ -51,7 +52,7 @@ def test_raw_processed_separation_determinism_and_original_integrity(tmp_path):
     assert cv2.imwrite(str(image), cv2.cvtColor(rgb, cv2.COLOR_RGB2BGR))
     before = file_sha256(image)
     row = {"image_path": image.name, "source_dataset": "SYNTHETIC", "class_name": "BKL",
-           "class_index": "2", "source_split": "train", "sha256": before}
+           "class_index": "2", "source_split": "train", "split": "train", "sha256": before}
     config = PreprocessConfig(image_size=32)
     raw, raw_pixels = collect_record(tmp_path, row, "raw", config, "synthetic-config")
     processed, processed_pixels = collect_record(tmp_path, row, "stage4_processed", config, "synthetic-config")
@@ -116,6 +117,155 @@ def test_missing_or_unapproved_evaluation_artifact_rejected(tmp_path):
     with pytest.raises(ValueError, match="approval"):
         validate_evaluation_artifact(tmp_path, tmp_path / "split.csv", tmp_path / "approval.json",
                                      tmp_path / "inventory.csv", tmp_path / "evaluation")
+
+
+def _approved_iqa_row(class_index, split, source_split=""):
+    return {"image_path": f"synthetic/{class_index}_{split}.jpg",
+            "source_dataset": "SYNTHETIC_TEST_ONLY",
+            "class_name": CLASS_NAMES[class_index], "class_index": str(class_index),
+            "source_split": source_split, "split": split, "sha256": "synthetic-hash",
+            "provisional_eligibility_status": "APPROVED_ELIGIBLE"}
+
+
+def test_iqa_select_rows_uses_approved_model_split_and_excludes_calibration_test(monkeypatch, tmp_path):
+    rows = []
+    for index in range(len(CLASS_NAMES)):
+        rows.extend((_approved_iqa_row(index, "train"),
+                     _approved_iqa_row(index, "validation"),
+                     _approved_iqa_row(index, "calibration", "train"),
+                     _approved_iqa_row(index, "test", "train")))
+    provenance = {"split_sha256": "split-hash", "inventory_sha256": "inventory-hash",
+                  "approval_sha256": "approval-hash", "split_protocol": "four_way_v1",
+                  "approval": {"approval_status": "APPROVED_BY_RESEARCHER"}}
+    calls = []
+
+    def validate(root, split, approval, inventory):
+        calls.append((root, split, approval, inventory))
+        return rows, provenance
+
+    monkeypatch.setattr(iqa, "validate_approved_split", validate)
+    selected, returned_provenance = select_rows(
+        tmp_path, tmp_path / "approved.csv", tmp_path / "approval.json",
+        tmp_path / "inventory.csv", per_class=0)
+    assert len(selected) == 2 * len(CLASS_NAMES)
+    assert {row["split"] for row in selected} == {"train", "validation"}
+    assert all(row["split"] not in ("calibration", "test") for row in selected)
+    assert returned_provenance is provenance
+    assert calls == [(tmp_path, tmp_path / "approved.csv", tmp_path / "approval.json",
+                      tmp_path / "inventory.csv")]
+
+
+@pytest.mark.parametrize("bad_split", [None, "", "unknown"])
+def test_iqa_select_rows_rejects_missing_or_unknown_model_split(monkeypatch, tmp_path, bad_split):
+    rows = [_approved_iqa_row(index, "train") for index in range(len(CLASS_NAMES))]
+    if bad_split is None:
+        rows[0].pop("split")
+    else:
+        rows[0]["split"] = bad_split
+    provenance = {"split_sha256": "split-hash", "inventory_sha256": "inventory-hash",
+                  "approval_sha256": "approval-hash", "split_protocol": "three_way_v1",
+                  "approval": {"approval_status": "APPROVED_BY_RESEARCHER"}}
+    monkeypatch.setattr(iqa, "validate_approved_split", lambda *_: (rows, provenance))
+    with pytest.raises(ValueError, match="model split|Unknown"):
+        select_rows(tmp_path, tmp_path / "split.csv", tmp_path / "approval.json",
+                    tmp_path / "inventory.csv", per_class=1)
+
+
+@pytest.mark.parametrize("approval_record, row_status", [
+    ({"approval_status": "UNAPPROVED"}, "APPROVED_ELIGIBLE"),
+    (None, "APPROVED_ELIGIBLE"),
+    ({"approval_status": "APPROVED_BY_RESEARCHER"}, "NOT_APPROVED"),
+])
+def test_iqa_select_rows_rejects_unapproved_cohort_or_missing_approval(
+        monkeypatch, tmp_path, approval_record, row_status):
+    rows = [_approved_iqa_row(index, "train") for index in range(len(CLASS_NAMES))]
+    rows[0]["provisional_eligibility_status"] = row_status
+    provenance = {"split_sha256": "split-hash", "inventory_sha256": "inventory-hash",
+                  "approval_sha256": "approval-hash", "split_protocol": "three_way_v1",
+                  "approval": approval_record}
+    monkeypatch.setattr(iqa, "validate_approved_split", lambda *_: (rows, provenance))
+    with pytest.raises(ValueError, match="approval|Unapproved"):
+        select_rows(tmp_path, tmp_path / "split.csv", tmp_path / "approval.json",
+                    tmp_path / "inventory.csv", per_class=1)
+
+
+def test_iqa_select_rows_with_real_approved_split_validator(tmp_path):
+    inventory_path = tmp_path / "inventory.csv"
+    split_path = tmp_path / "approved_split.csv"
+    approval_path = tmp_path / "approval.json"
+    partitions = ("train", "validation", "calibration", "test")
+    inventory_rows = []
+    split_rows = []
+    record_index = 0
+    for class_index, class_name in enumerate(CLASS_NAMES):
+        for partition in partitions:
+            relative_path = f"synthetic/{class_index}_{partition}.jpg"
+            image_path = tmp_path / relative_path
+            image_path.parent.mkdir(parents=True, exist_ok=True)
+            pixels = np.random.default_rng(record_index).integers(
+                0, 256, size=(16, 16, 3), dtype=np.uint8
+            )
+            encoded_ok, encoded = cv2.imencode(".jpg", pixels)
+            assert encoded_ok
+            image_path.write_bytes(encoded.tobytes())
+            source_row = {field: "" for field in LOCKED_FIELDS}
+            source_row.update({
+                "image_path": relative_path,
+                "source_dataset": "SYNTHETIC_TEST_ONLY",
+                "original_label": class_name,
+                "class_name": class_name,
+                "class_index": str(class_index),
+                "image_id": f"image-{record_index}",
+                "lesion_id": f"lesion-{record_index}",
+                "patient_id": f"patient-{record_index}",
+                "source_split": "train",
+                "sha256": file_sha256(image_path),
+                "overlap_group": f"group-{record_index}",
+                "duplicate_overlap_evidence_tier": "NONE_RECORDED",
+            })
+            inventory_rows.append(source_row)
+            split_rows.append({
+                **source_row,
+                "provisional_eligibility_status": "APPROVED_ELIGIBLE",
+                "split": partition,
+            })
+            record_index += 1
+
+    with inventory_path.open("w", newline="", encoding="utf-8") as handle:
+        writer = csv.DictWriter(handle, fieldnames=LOCKED_FIELDS)
+        writer.writeheader()
+        writer.writerows(inventory_rows)
+    split_fields = (*LOCKED_FIELDS, "provisional_eligibility_status", "split")
+    with split_path.open("w", newline="", encoding="utf-8") as handle:
+        writer = csv.DictWriter(handle, fieldnames=split_fields)
+        writer.writeheader()
+        writer.writerows(split_rows)
+    approval_path.write_text(json.dumps({
+        "approval_status": "APPROVED_BY_RESEARCHER",
+        "approved_by": "SYNTHETIC_TEST_ONLY",
+        "approval_date_utc": "2000-01-01T00:00:00Z",
+        "adjudication_reference": "SYNTHETIC_TEST_ONLY",
+        "source_rights_reference": "SYNTHETIC_TEST_ONLY",
+        "protected_test_policy_reference": "SYNTHETIC_TEST_ONLY",
+        "split_protocol": "four_way_v1",
+        "calibration_partition_frozen": True,
+        "calibration_separate_from_model_selection": True,
+        "approved_split_sha256": file_sha256(split_path),
+        "source_inventory_sha256": file_sha256(inventory_path),
+    }), encoding="utf-8")
+
+    validated_rows, _ = validate_approved_split(
+        tmp_path, split_path, approval_path, inventory_path
+    )
+    selected, provenance = select_rows(
+        tmp_path, split_path, approval_path, inventory_path, per_class=0
+    )
+    assert len(validated_rows) == 4 * len(CLASS_NAMES)
+    assert len(selected) == 2 * len(CLASS_NAMES)
+    assert {row["split"] for row in selected} == {"train", "validation"}
+    assert provenance["split_sha256"] == file_sha256(split_path)
+    assert provenance["inventory_sha256"] == file_sha256(inventory_path)
+    assert provenance["approval_sha256"] == file_sha256(approval_path)
 
 
 def test_incompatible_evaluation_provenance_rejected(tmp_path, monkeypatch):

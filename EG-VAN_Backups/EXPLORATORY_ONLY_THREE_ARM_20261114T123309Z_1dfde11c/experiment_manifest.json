@@ -1,0 +1,78 @@
+{
+  "arms": {
+    "arm_A_reference": {
+      "configuration_sha256": "e6328941da2b58593b173171eda406f2a7294793de4775c1e2aea98faffed4f0",
+      "definition": {
+        "batchnorm_policy": "freeze_running_stats",
+        "class_weighting": false,
+        "letter": "A"
+      }
+    },
+    "arm_B_bn_update": {
+      "configuration_sha256": "bb7c56e9b094f5ea078d3dedc8f78b293321417e8382e22f9e9b54081786c006",
+      "definition": {
+        "batchnorm_policy": "train_running_stats",
+        "class_weighting": false,
+        "letter": "B"
+      }
+    },
+    "arm_C_class_weighting": {
+      "configuration_sha256": "04d2bc7be6af4a4827b8dfddf0163524bca54b2770e8c9baa4d243d41d33145c",
+      "definition": {
+        "batchnorm_policy": "freeze_running_stats",
+        "class_weighting": true,
+        "letter": "C"
+      }
+    }
+  },
+  "base_configuration_sha256": "916508faaac87b4268ac0cf8aa45c682d4b03079e71322386823a83adc49755d",
+  "class_order": [
+    "AKIEC",
+    "BCC",
+    "BKL",
+    "DF",
+    "MEL",
+    "NV",
+    "VASC",
+    "BENIGN",
+    "MALIGNANT"
+  ],
+  "cohort_status": "NOT_APPROVED",
+  "diagnostic_overrides": {
+    "adaptive_scheduler": false,
+    "base_learning_rate": 0.001,
+    "base_mixed_precision": "cuda_if_available",
+    "grad_scaler_enabled": false,
+    "learning_rate": 0.0001,
+    "mixed_precision": "off"
+  },
+  "epochs": 5,
+  "initial_branch_hashes": {},
+  "initial_model_state_sha256": "6126029c56ecef1b9c8467dd65a72b9c226884ea57bbafd0ced56338299653cf",
+  "initial_state_hash_algorithm": "sha256-egvan-tensor-state-v1-little-endian",
+  "preprocessing_fingerprint": "93ea2577432511fd047f3d5a855d498aaabe63e6ff69094b5b758c16f85a3c68",
+  "research_status": "EXPLORATORY_ONLY_NONCLINICAL_NOT_PAPER_REPRODUCTION",
+  "runtime_metadata": {
+    "cohort_status": "NOT_APPROVED",
+    "cuda_runtime": "13.0",
+    "cudnn_benchmark": false,
+    "cudnn_deterministic": true,
+    "deterministic_algorithms": false,
+    "device": "cuda",
+    "gpu_name": "Tesla T4",
+    "python": "3.13.16",
+    "pytorch": "2.14.1+cu130",
+    "research_status": "EXPLORATORY_ONLY_NONCLINICAL_NOT_PAPER_REPRODUCTION",
+    "torchvision": "0.29.1+cu130"
+  },
+  "sample_order_sha256_by_epoch": [
+    "b760b79b5ea454be2773c4e42b17a8f35b50933d5b71d0b7f04734f2a2697a27",
+    "4b17b865203487fced477645ac79224658d52c1f07bce4d55ffc41f2c070adf2",
+    "44b29acff477f1640cfd18c52e0e26ca7ccf65223ddd4c5978af07f20658895f",
+    "5fb8df2575c3c9e4bea10e8117c4897569a32655458c1237af66e51c83abf118",
+    "81d0ed4444c7222c519fa37efaaeb340f7749b4de8b99f9d9397efd51cc68de6"
+  ],
+  "seed": 42,
+  "split_sha256": "d4bce612e08cf2942cf2aefe45f807ad60e0d9dcc05aef41cf8e2fd560bbe740",
+  "training_sample_weighted_mean_of_class_weights": 0.43130683515759594
+}

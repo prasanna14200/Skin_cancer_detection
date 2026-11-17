@@ -62,7 +62,7 @@ def main() -> int:
     if not checkpoint.is_file():
         raise FileNotFoundError(checkpoint)
     # Read only a project-owned, trusted checkpoint; the loader checks hashes below.
-    state = torch.load(checkpoint, map_location="cpu", weights_only=False)
+    state = torch.load(checkpoint, map_location="cpu", weights_only=True)
     run_provenance = checkpoint.parent / "run_provenance.json"
     if not run_provenance.is_file():
         raise ValueError("Missing run provenance next to checkpoint")

@@ -1,0 +1,11 @@
+table_row_order,paper_class_label,original_images,testing_images,train_images,augmented_literal,augmented_numeric_for_conditional_arithmetic,original_equals_testing_plus_train,train_plus_augmented_conditional_on_00_zero,train_plus_augmented_literal_status,calculation_note
+1,Actinic keratoses (AKIEC),327,33,294,2206,2206,TRUE,2500,COMPUTABLE,Printed values preserved as strings before numeric arithmetic
+2,Basal Cell Carcinoma (BCC),514,51,463,2537,2537,TRUE,3000,COMPUTABLE,Printed values preserved as strings before numeric arithmetic
+3,Benign Keratosis Lesion (BKL),1099,110,989,7011,7011,TRUE,8000,COMPUTABLE,Printed values preserved as strings before numeric arithmetic
+4,Dermatofibroma (DF),115,12,103,1397,1397,TRUE,1500,COMPUTABLE,Printed values preserved as strings before numeric arithmetic
+5,Melanoma (MEL),1113,111,1002,6998,6998,TRUE,8000,COMPUTABLE,Printed values preserved as strings before numeric arithmetic
+6,Vascular Lesion (VASC),142,14,128,1372,1372,TRUE,1500,COMPUTABLE,Printed values preserved as strings before numeric arithmetic
+7,Melanocytic Nevi (NV),6705,671,6034,00,0,TRUE,6034,NOT_COMPUTABLE_WITHOUT_INTERPRETING_00,Zero in the conditional arithmetic column is an explicit assumption only
+8,Malignant,1497,150,1347,6653,6653,TRUE,8000,COMPUTABLE,Printed values preserved as strings before numeric arithmetic
+9,Benign,1800,180,1620,6380,6380,TRUE,8000,COMPUTABLE,Printed values preserved as strings before numeric arithmetic
+TOTAL,All classes,13312,1332,11980,NOT_NUMERIC_WHILE_00_REMAINS_LITERAL,34554,NOT_APPLICABLE,46534,CONDITIONAL_ONLY,Augmented numeric sum and Train plus Augmented total assume the printed 00 means numeric zero

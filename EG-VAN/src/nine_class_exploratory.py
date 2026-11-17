@@ -10,8 +10,9 @@ import argparse
 import csv
 import json
 from collections import Counter, defaultdict
+from collections.abc import Collection
 from datetime import datetime, timezone
-from pathlib import Path
+from pathlib import Path, PurePosixPath, PureWindowsPath
 from uuid import uuid4
 
 import cv2
@@ -34,10 +35,16 @@ REPORT = ROOT / "analysis/nine_class_final_cohort/four_way_feasibility_report_v1
 SIIM_DECISIONS = ROOT / "analysis/nine_class_final_cohort/candidate_decision_manifest_v2.csv"
 CONFIG = ROOT / "config/nine_class_training_t4_four_way_v2.json"
 OUT = ROOT / "analysis/nine_class_exploratory"
+RUNS_ROOT = OUT / "runs"
 SPLIT = OUT / "exploratory_split.csv"
 META = OUT / "exploratory_provenance.json"
 PARTITIONS = ("train", "validation", "calibration", "test")
 RESEARCH_STATUS = "EXPLORATORY_ONLY_NONCLINICAL_NOT_PAPER_REPRODUCTION"
+_WINDOWS_RESERVED_NAMES = {
+    "CON", "PRN", "AUX", "NUL", "CONIN$", "CONOUT$",
+    *(f"COM{index}" for index in range(1, 10)),
+    *(f"LPT{index}" for index in range(1, 10)),
+}
 
 
 def _write_csv(path: Path, rows: list[dict], fields: list[str]) -> None:
@@ -48,9 +55,36 @@ def _write_csv(path: Path, rows: list[dict], fields: list[str]) -> None:
         writer.writerows(rows)
 
 
-def validate_preview(root: Path = ROOT, *, verify_bytes: bool = False) -> tuple[list[dict], dict]:
+def _safe_relative_image_path(value: object) -> Path:
+    if not isinstance(value, str) or not value or value != value.strip():
+        raise ValueError("Malformed or empty image_path")
+    if any(ord(character) < 32 or ord(character) == 127 for character in value):
+        raise ValueError("Malformed image_path")
+
+    windows_path = PureWindowsPath(value)
+    if (windows_path.drive or windows_path.root or windows_path.is_absolute()
+            or PurePosixPath(value).is_absolute()):
+        raise ValueError(f"image_path must be relative: {value!r}")
+
+    components = value.replace("\\", "/").split("/")
+    if any(
+        component in ("", ".", "..")
+        or any(character in '<>:"|?*' for character in component)
+        or component.endswith((" ", "."))
+        or component.rstrip(" .").split(".", 1)[0].upper() in _WINDOWS_RESERVED_NAMES
+        for component in components
+    ):
+        raise ValueError(f"Unsafe or malformed image_path: {value!r}")
+    return Path(*components)
+
+
+def validate_preview(root: Path = ROOT, *, verify_bytes: bool = False,
+                     image_partitions: Collection[str] | None = None) -> tuple[list[dict], dict]:
     """Reject known/suspected crossings; leave unknown identity uncertainty explicit."""
     root = root.resolve()
+    checked_partitions = set(PARTITIONS if image_partitions is None else image_partitions)
+    if not checked_partitions <= set(PARTITIONS):
+        raise ValueError("Unknown image partition in integrity scope")
     rows = read_rows(PREVIEW)
     report = json.loads(REPORT.read_text(encoding="utf-8"))
     if report["status"] != "PLANNING_ONLY_NOT_APPROVED" or report["planning_assignment_sha256"] != file_sha256(PREVIEW):
@@ -65,10 +99,12 @@ def validate_preview(root: Path = ROOT, *, verify_bytes: bool = False) -> tuple[
     patient_splits = defaultdict(set)
     counts = {part: Counter() for part in PARTITIONS}
     for row in rows:
-        path = row["image_path"]
-        if path in unique_paths or row["approval_status"] != "NOT_APPROVED":
+        path = row.get("image_path")
+        relative_path = _safe_relative_image_path(path)
+        canonical_path = relative_path.as_posix()
+        if canonical_path in unique_paths or row["approval_status"] != "NOT_APPROVED":
             raise ValueError("Duplicate path or false approval in exploratory preview")
-        unique_paths.add(path)
+        unique_paths.add(canonical_path)
         label, partition = row["class_name"], row["proposed_partition"]
         if label not in CLASS_NAMES or int(row["class_index"]) != CLASS_NAMES.index(label) or partition not in PARTITIONS:
             raise ValueError("Invalid nine-label index or partition")
@@ -94,11 +130,12 @@ def validate_preview(root: Path = ROOT, *, verify_bytes: bool = False) -> tuple[
                 raise ValueError("SIIM image is not a source-defined, no-candidate preliminary record")
         else:
             raise ValueError("Unexpected source dataset")
-        absolute = (root / path).resolve()
-        if not absolute.is_relative_to(root) or not absolute.is_file():
-            raise FileNotFoundError(absolute)
-        if verify_bytes and file_sha256(absolute) != row["sha256"]:
-            raise ValueError(f"Source image bytes changed: {path}")
+        if partition in checked_partitions:
+            absolute = (root / relative_path).resolve()
+            if not absolute.is_relative_to(root) or not absolute.is_file():
+                raise FileNotFoundError(absolute)
+            if verify_bytes and file_sha256(absolute) != row["sha256"]:
+                raise ValueError(f"Source image bytes changed: {path}")
         group_splits[row["overlap_group"]].add(partition)
         hash_splits[row["sha256"]].add(partition)
         if row["lesion_id"]:
@@ -136,10 +173,12 @@ def prepare(root: Path, *, verify_bytes: bool = True) -> dict:
     return report
 
 
-def validate_frozen(root: Path, *, verify_bytes: bool = False) -> tuple[list[dict], dict]:
+def validate_frozen(root: Path, *, verify_bytes: bool = False,
+                    image_partitions: Collection[str] | None = None) -> tuple[list[dict], dict]:
     if not SPLIT.is_file() or not META.is_file():
         raise FileNotFoundError("Run prepare before training")
-    rows, report = validate_preview(root, verify_bytes=verify_bytes)
+    rows, report = validate_preview(root, verify_bytes=verify_bytes,
+                                    image_partitions=image_partitions)
     frozen = json.loads(META.read_text(encoding="utf-8"))
     if frozen["status"] != RESEARCH_STATUS or frozen["source_preview_sha256"] != report["source_preview_sha256"]:
         raise ValueError("Exploratory provenance mismatch")
@@ -175,9 +214,22 @@ def preflight(root: Path) -> dict:
             "preprocess_sha256": preprocessing_hash(preprocess)}
 
 
+def _checkpoint_state(expected: dict, epoch: int, model: torch.nn.Module, optimizer,
+                      scheduler, scaler, best_loss: float, train_metrics: dict,
+                      validation_metrics: dict) -> dict:
+    from nine_class_training import capture_rng_state
+
+    return {**expected, "epoch": epoch, "model_state": model.state_dict(),
+            "optimizer_state": optimizer.state_dict(), "scheduler_state": scheduler.state_dict(),
+            "scaler_state": scaler.state_dict(), "best_validation_loss": best_loss,
+            **capture_rng_state(),
+            "train_metrics": train_metrics, "validation_metrics": validation_metrics}
+
+
 def train(root: Path, runs_root: Path, resume: Path | None) -> Path:
-    from nine_class_training import (build_model, load_checkpoint, load_config, run_epoch,
-                                     save_checkpoint, seed_all, training_class_weights)
+    from nine_class_training import (build_model, load_checkpoint,
+                                     load_config, run_epoch, save_checkpoint, seed_all,
+                                     training_class_weights)
     rows, frozen = validate_frozen(root, verify_bytes=True)
     config = load_config(CONFIG)
     seed_all(int(config["seed"]))
@@ -203,7 +255,8 @@ def train(root: Path, runs_root: Path, resume: Path | None) -> Path:
         info = json.loads((run_dir / "run_provenance.json").read_text(encoding="utf-8"))
         if any(info.get(key) != value for key, value in expected.items()):
             raise ValueError("Resume provenance differs")
-        state = load_checkpoint(resume, model, optimizer, scheduler, scaler, expected=expected)
+        state = load_checkpoint(resume, model, optimizer, scheduler, scaler,
+                                expected=expected, restore_rng=True)
         start_epoch, best_loss = int(state["epoch"]) + 1, float(state["best_validation_loss"])
     else:
         run_dir = runs_root / ("EXPLORATORY_ONLY_" + datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ_") + uuid4().hex[:8])
@@ -227,10 +280,8 @@ def train(root: Path, runs_root: Path, resume: Path | None) -> Path:
         scheduler.step(val_result["loss"])
         improved = val_result["loss"] < best_loss
         best_loss = min(best_loss, val_result["loss"])
-        state = {**expected, "epoch": epoch, "model_state": model.state_dict(),
-                 "optimizer_state": optimizer.state_dict(), "scheduler_state": scheduler.state_dict(),
-                 "scaler_state": scaler.state_dict(), "best_validation_loss": best_loss,
-                 "train_metrics": train_result, "validation_metrics": val_result}
+        state = _checkpoint_state(expected, epoch, model, optimizer, scheduler, scaler,
+                                  best_loss, train_result, val_result)
         save_checkpoint(run_dir / "last.pt", state)
         if improved:
             save_checkpoint(run_dir / "best.pt", state)
@@ -288,7 +339,7 @@ def evaluate(root: Path, checkpoint: Path, output_dir: Path) -> dict:
     config = load_config(CONFIG)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model, _ = build_model(config, root)
-    state = load_checkpoint(checkpoint, model, expected=expected)
+    state = load_checkpoint(checkpoint, model, expected=expected, restore_rng=False)
     model.to(device).eval()
     output_dir.mkdir(parents=True, exist_ok=False)
     predictions = {}
@@ -393,7 +444,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("action", choices=("prepare", "preflight", "train", "evaluate"))
     parser.add_argument("--root", type=Path, default=ROOT)
-    parser.add_argument("--runs-root", type=Path, default=OUT / "runs")
+    parser.add_argument("--runs-root", type=Path, default=RUNS_ROOT)
     parser.add_argument("--resume", type=Path)
     parser.add_argument("--checkpoint", type=Path)
     parser.add_argument("--output-dir", type=Path)

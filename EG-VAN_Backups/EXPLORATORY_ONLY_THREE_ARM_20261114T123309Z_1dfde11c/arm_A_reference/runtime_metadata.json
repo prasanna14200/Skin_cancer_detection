@@ -1,0 +1,13 @@
+{
+  "cohort_status": "NOT_APPROVED",
+  "cuda_runtime": "13.0",
+  "cudnn_benchmark": false,
+  "cudnn_deterministic": true,
+  "deterministic_algorithms": false,
+  "device": "cuda",
+  "gpu_name": "Tesla T4",
+  "python": "3.13.16",
+  "pytorch": "2.14.1+cu130",
+  "research_status": "EXPLORATORY_ONLY_NONCLINICAL_NOT_PAPER_REPRODUCTION",
+  "torchvision": "0.29.1+cu130"
+}

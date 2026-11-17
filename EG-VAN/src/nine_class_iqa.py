@@ -16,17 +16,17 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from nine_class_dataset import PreprocessConfig
-from nine_class_protocol import file_sha256
+from nine_class_protocol import file_sha256, validate_approved_split
 from nine_class_stage4 import CLASS_NAMES, ROOT
 from preprocessing import gray_world, remove_hair, retinex
 
-IQA_VERSION = "nine_class_iqa_v1"
+IQA_VERSION = "nine_class_iqa_v2"
 FEATURES = ("sharpness_laplacian_variance", "brightness_mean", "contrast_std",
             "underexposed_fraction", "overexposed_fraction", "rgb_mean_r", "rgb_mean_g",
             "rgb_mean_b", "rgb_std_r", "rgb_std_g", "rgb_std_b", "color_cast_range",
             "dark_line_fraction", "dark_border_fraction")
 FIELDS = ("source_image_key", "image_path", "source_dataset", "class_name", "class_index",
-          "source_split", "source_image_sha256", "iqa_config_version", "preprocess_config_sha256",
+          "source_split", "model_split", "source_image_sha256", "iqa_config_version", "preprocess_config_sha256",
           "measurement_view", "original_width", "original_height", "original_aspect_ratio",
           "original_megapixels", "measured_width", "measured_height", *FEATURES,
           "invalid_metric_flags", "processing_status")
@@ -81,26 +81,42 @@ def stage4_processed_rgb(raw_bgr: np.ndarray, config: PreprocessConfig) -> np.nd
     return cv2.resize(rgb, (config.image_size, config.image_size), interpolation=cv2.INTER_AREA)
 
 
-def select_rows(manifest: Path, per_class: int) -> list[dict[str, str]]:
-    """Sorted descriptive sample; publisher test is excluded, no eligibility inferred."""
+def select_rows(root: Path, approved_split: Path, approval: Path, inventory: Path,
+                per_class: int) -> tuple[list[dict[str, str]], dict]:
+    """Select approved train/validation records; never infer model splits."""
     if per_class < 0:
-        raise ValueError("per_class must be nonnegative (zero means all non-test records)")
-    with manifest.open(newline="", encoding="utf-8") as handle:
-        rows = list(csv.DictReader(handle))
-    required = {"image_path", "source_dataset", "class_name", "class_index", "sha256", "source_split"}
-    if not rows or not required <= rows[0].keys():
-        raise ValueError("Nine-class source inventory required")
+        raise ValueError("per_class must be nonnegative (zero means all eligible records)")
+    rows, provenance = validate_approved_split(root, approved_split, approval, inventory)
+    if not rows:
+        raise ValueError("Approved split contains no rows")
+    if any(not provenance.get(key) for key in
+           ("split_sha256", "inventory_sha256", "approval_sha256", "split_protocol")):
+        raise ValueError("Approved split provenance is incomplete")
+    approval_record = provenance.get("approval")
+    if (not isinstance(approval_record, dict)
+            or approval_record.get("approval_status") != "APPROVED_BY_RESEARCHER"):
+        raise ValueError("Researcher approval record is missing")
+    required_row_fields = {"image_path", "source_dataset", "class_name", "class_index",
+                           "sha256", "source_split", "split", "provisional_eligibility_status"}
+    allowed_splits = {"train", "validation", "calibration", "test"}
+    for row in rows:
+        if not required_row_fields <= row.keys():
+            raise ValueError("Approved split row has missing required provenance or model split")
+        if row["split"] not in allowed_splits:
+            raise ValueError(f'Unknown model split: {row["split"]}')
+        if row["provisional_eligibility_status"] != "APPROVED_ELIGIBLE":
+            raise ValueError("Unapproved cohort row cannot be used for descriptive IQA")
     selected = []
     for name in CLASS_NAMES:
         candidates = sorted((row for row in rows if row["class_name"] == name
-                             and row["source_split"] != "test"), key=lambda r: r["image_path"])
+                             and row["split"] in ("train", "validation")), key=lambda r: r["image_path"])
         if not candidates:
-            raise ValueError(f"No non-test image for {name}")
+            raise ValueError(f"No approved train/validation image for {name}")
         selected.extend(candidates[:per_class] if per_class else candidates)
     keys = [(r["source_dataset"], r["image_path"]) for r in selected]
     if len(set(keys)) != len(keys):
         raise ValueError("Duplicate source-qualified image key")
-    return selected
+    return selected, provenance
 
 
 def collect_record(root: Path, row: dict[str, str], view: str,
@@ -116,7 +132,8 @@ def collect_record(root: Path, row: dict[str, str], view: str,
     record = {"source_image_key": f'{row["source_dataset"]}:{relative.as_posix()}',
               "image_path": relative.as_posix(), "source_dataset": row["source_dataset"],
               "class_name": row["class_name"], "class_index": row["class_index"],
-              "source_split": row["source_split"], "source_image_sha256": row["sha256"],
+              "source_split": row["source_split"], "model_split": row["split"],
+              "source_image_sha256": row["sha256"],
               "iqa_config_version": IQA_VERSION, "preprocess_config_sha256": config_hash,
               "measurement_view": view, "invalid_metric_flags": "", "processing_status": "OK"}
     bgr = cv2.imread(str(path), cv2.IMREAD_COLOR)
@@ -177,10 +194,11 @@ def render_summary(records: list[dict], output_dir: Path) -> list[str]:
     return outputs
 
 
-def run(root: Path, manifest: Path, output_dir: Path, *, per_class: int = 1) -> dict:
+def run(root: Path, approved_split: Path, approval: Path, inventory: Path,
+        output_dir: Path, *, per_class: int = 1) -> dict:
     if output_dir.exists():
         raise FileExistsError(output_dir)
-    rows = select_rows(manifest, per_class)
+    rows, provenance = select_rows(root, approved_split, approval, inventory, per_class)
     config = PreprocessConfig()
     config_json = json.dumps(asdict(config), sort_keys=True)
     config_hash = hashlib.sha256(config_json.encode()).hexdigest()
@@ -217,9 +235,15 @@ def run(root: Path, manifest: Path, output_dir: Path, *, per_class: int = 1) -> 
         plt.close(fig)
         figures.append(name)
     summary = {"status": "DESCRIPTIVE_ONLY_NOT_ELIGIBILITY_OR_PERFORMANCE",
-               "iqa_config_version": IQA_VERSION, "manifest_sha256": file_sha256(manifest),
+               "iqa_config_version": IQA_VERSION,
+               "approved_split_sha256": provenance["split_sha256"],
+               "inventory_sha256": provenance["inventory_sha256"],
+               "approval_sha256": provenance["approval_sha256"],
+               "selected_model_splits": sorted({row["split"] for row in rows}),
+               "excluded_model_splits": ["calibration", "test"],
                "preprocess_config_sha256": config_hash, "preprocess_config": asdict(config),
-               "source_test_excluded": True, "sample_per_class": per_class,
+               "publisher_test_excluded": all(row["source_split"] != "test" for row in rows),
+               "sample_per_class": per_class,
                "source_image_hashes_unchanged": True,
                "source_images": len(rows), "measurements": len(records),
                "status_counts": {key: sum(r["processing_status"] == key for r in records)
@@ -232,11 +256,13 @@ def run(root: Path, manifest: Path, output_dir: Path, *, per_class: int = 1) -> 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=ROOT)
-    parser.add_argument("--manifest", type=Path, default=ROOT / "analysis/nine_class_stage4/nine_class_source_manifest.csv")
+    parser.add_argument("--approved-split", type=Path, required=True)
+    parser.add_argument("--approval", type=Path, required=True)
+    parser.add_argument("--inventory", type=Path, required=True)
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument("--sample-per-class", type=int, default=1)
     args = parser.parse_args()
-    print(json.dumps(run(args.root, args.manifest, args.output_dir,
+    print(json.dumps(run(args.root, args.approved_split, args.approval, args.inventory, args.output_dir,
                          per_class=args.sample_per_class), indent=2))
     return 0
 

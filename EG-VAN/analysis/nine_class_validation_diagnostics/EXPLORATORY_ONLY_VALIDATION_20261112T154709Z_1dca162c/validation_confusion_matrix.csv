@@ -1,0 +1,10 @@
+true_class,predicted_AKIEC,predicted_BCC,predicted_BKL,predicted_DF,predicted_MEL,predicted_NV,predicted_VASC,predicted_BENIGN,predicted_MALIGNANT
+AKIEC,0,1,0,0,0,41,0,0,0
+BCC,0,3,0,0,0,46,0,0,0
+BKL,0,6,0,0,0,102,0,0,0
+DF,0,0,0,0,0,9,0,0,0
+MEL,0,0,0,0,0,84,0,0,0
+NV,0,5,0,0,0,624,0,0,0
+VASC,0,0,0,0,0,15,0,0,0
+BENIGN,0,0,0,0,0,8,0,0,0
+MALIGNANT,0,0,0,0,0,83,0,0,1

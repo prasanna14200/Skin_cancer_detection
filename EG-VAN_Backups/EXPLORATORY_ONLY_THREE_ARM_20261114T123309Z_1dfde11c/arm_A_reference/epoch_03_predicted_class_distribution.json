@@ -1,0 +1,16 @@
+{
+  "cohort_status": "NOT_APPROVED",
+  "epoch": 3,
+  "predicted_class_distribution": {
+    "AKIEC": 0,
+    "BCC": 0,
+    "BENIGN": 0,
+    "BKL": 142,
+    "DF": 0,
+    "MALIGNANT": 124,
+    "MEL": 0,
+    "NV": 762,
+    "VASC": 0
+  },
+  "research_status": "EXPLORATORY_ONLY_NONCLINICAL_NOT_PAPER_REPRODUCTION"
+}

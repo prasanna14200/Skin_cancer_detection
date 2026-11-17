@@ -1,0 +1,10 @@
+metric,estimate,cluster_bootstrap_lower_95,cluster_bootstrap_upper_95,bootstrap_replicates_valid,bootstrap_replicates_requested,cluster_unit,random_seed
+ece_top_label_10bin,0.0430817923541,0.0380107922994,0.0793934918472,1000,1000,source_dataset + recorded overlap_group,20261116
+multiclass_brier,0.517668953417,0.483895847408,0.549781905278,1000,1000,source_dataset + recorded overlap_group,20261116
+nll_nats,1.15132663932,1.07165863569,1.22605074787,1000,1000,source_dataset + recorded overlap_group,20261116
+error_auroc_confidence,0.787412420382,0.757746019766,0.820140355659,1000,1000,source_dataset + recorded overlap_group,20261116
+error_average_precision_confidence,0.642016219099,0.583271628669,0.708472934912,1000,1000,source_dataset + recorded overlap_group,20261116
+error_auroc_normalized_entropy,0.797798566879,0.768314204715,0.828006603221,1000,1000,source_dataset + recorded overlap_group,20261116
+error_average_precision_normalized_entropy,0.659901508753,0.601803145863,0.724067286175,1000,1000,source_dataset + recorded overlap_group,20261116
+error_auroc_top_two_margin,0.771062898089,0.740710774428,0.806172774711,1000,1000,source_dataset + recorded overlap_group,20261116
+error_average_precision_top_two_margin,0.61803258932,0.559986487306,0.683632816534,1000,1000,source_dataset + recorded overlap_group,20261116

@@ -1,0 +1,348 @@
+{
+  "output_directory": "E:\\Cancerdetection\\EG-VAN\\analysis\\nine_class_human_review_queue\\QUEUE_ENRICHED_20261115T123152Z",
+  "source_queue_directory": "E:\\Cancerdetection\\EG-VAN\\analysis\\nine_class_human_review_queue\\QUEUE_CORRECTED_20261115T152000Z",
+  "audit_reference_directory": "E:\\Cancerdetection\\EG-VAN\\analysis\\nine_class_human_review_queue\\QUEUE_FINAL_AUDIT_20261115T121749Z",
+  "overall_status": "VERIFIED",
+  "source_files": [
+    {
+      "source_file": "analysis/nine_class_overlap_review/unresolved_priority_pairs.csv",
+      "row_count": 449,
+      "headers": [
+        "review_priority_rank",
+        "path_a",
+        "path_b",
+        "scope",
+        "phash_distance",
+        "dhash_distance",
+        "label_a",
+        "label_b",
+        "source_split_a",
+        "source_split_b",
+        "sha256_a",
+        "sha256_b",
+        "size_a",
+        "size_b",
+        "pixel_mae",
+        "pixel_correlation",
+        "nine_class_target_conflict",
+        "decision",
+        "decision_method",
+        "human_review_status"
+      ]
+    },
+    {
+      "source_file": "analysis/nine_class_stage11a/additional_candidate_relations.csv",
+      "row_count": 101,
+      "headers": [
+        "review_id",
+        "candidate_pair_id",
+        "binary_image_path",
+        "ham_candidate_path",
+        "relation_review_status",
+        "original_evidence_reference"
+      ]
+    },
+    {
+      "source_file": "analysis/nine_class_stage11b/additional_101_auto_evidence.csv",
+      "row_count": 101,
+      "headers": [
+        "review_id",
+        "candidate_pair_id",
+        "relation_scope",
+        "binary_image_path",
+        "ham_candidate_path",
+        "binary_sha256",
+        "ham_sha256",
+        "exact_sha256_match",
+        "phash_distance",
+        "dhash_distance",
+        "prior_pixel_correlation",
+        "prior_pixel_mae_8bit",
+        "geometric_method",
+        "geometric_status",
+        "geometric_inliers",
+        "geometric_inlier_ratio",
+        "geometric_failure_reason",
+        "stage3g_transform_plausibility",
+        "stage3g_aligned_correlation",
+        "stage3g_central_inlier_fraction",
+        "stage3g_inlier_hull_fraction",
+        "crop_aware_correlation",
+        "crop_view",
+        "central_structure_correlation",
+        "surrounding_field_correlation",
+        "automated_category",
+        "decision_rationale",
+        "method_limitations",
+        "prior_ai_assessment_for_analyst_only",
+        "human_decision_used",
+        "approved_eligible"
+      ]
+    },
+    {
+      "source_file": "analysis/nine_class_overlap_review/source_test_boundary_conflicts.csv",
+      "row_count": 471,
+      "headers": [
+        "duplicate_group",
+        "conflict_type",
+        "binary_paths",
+        "ham_paths",
+        "recommended_action"
+      ]
+    },
+    {
+      "source_file": "analysis/nine_class_recovery/benign_review_plan.csv",
+      "row_count": 83,
+      "headers": [
+        "image_path",
+        "source_split",
+        "review_batch",
+        "focused_candidate_count",
+        "top_candidate_path",
+        "top_candidate_source",
+        "top_candidate_dx",
+        "top_candidate_lesion_id",
+        "top_phash_distance",
+        "top_dhash_distance",
+        "top_pixel_mae_8bit",
+        "top_pixel_correlation",
+        "top_coarse_correlation",
+        "next_two_focused_paths",
+        "proposed_decision",
+        "human_review_status",
+        "evidence_file"
+      ]
+    },
+    {
+      "source_file": "analysis/nine_class_recovery/stage3i/ai_pair_review.csv",
+      "row_count": 429,
+      "headers": [
+        "review_order",
+        "candidate_pair_id",
+        "binary_image_path",
+        "candidate_path",
+        "source_split",
+        "candidate_source",
+        "ai_assessment",
+        "evidence_summary",
+        "visual_landmarks",
+        "phash_distance",
+        "dhash_distance",
+        "pixel_mae_8bit",
+        "pixel_correlation",
+        "coarse_correlation",
+        "geometric_method",
+        "geometric_candidate_view",
+        "geometric_inlier_count",
+        "geometric_inlier_ratio",
+        "geometric_median_reprojection_error_px",
+        "geometric_status",
+        "geometric_failure_reason",
+        "stage3g_transformation_plausibility",
+        "stage3g_aligned_correlation",
+        "conflicting_evidence",
+        "uncertainty_reason",
+        "automated_cross_check",
+        "cross_check_disagreement",
+        "review_method",
+        "model_name_version",
+        "prompt_configuration_version",
+        "review_timestamp_utc",
+        "original_binary_sha256",
+        "original_candidate_sha256",
+        "contact_sheet_reference",
+        "stage3g_overlay_reference",
+        "stage3g_difference_reference",
+        "stage3g_landmark_reference",
+        "human_decision_used"
+      ]
+    },
+    {
+      "source_file": "analysis/nine_class_stage11b/primary_19_auto_evidence.csv",
+      "row_count": 19,
+      "headers": [
+        "review_id",
+        "candidate_pair_id",
+        "relation_scope",
+        "binary_image_path",
+        "ham_candidate_path",
+        "binary_sha256",
+        "ham_sha256",
+        "exact_sha256_match",
+        "phash_distance",
+        "dhash_distance",
+        "prior_pixel_correlation",
+        "prior_pixel_mae_8bit",
+        "geometric_method",
+        "geometric_status",
+        "geometric_inliers",
+        "geometric_inlier_ratio",
+        "geometric_failure_reason",
+        "stage3g_transform_plausibility",
+        "stage3g_aligned_correlation",
+        "stage3g_central_inlier_fraction",
+        "stage3g_inlier_hull_fraction",
+        "crop_aware_correlation",
+        "crop_view",
+        "central_structure_correlation",
+        "surrounding_field_correlation",
+        "automated_category",
+        "decision_rationale",
+        "method_limitations",
+        "prior_ai_assessment_for_analyst_only",
+        "human_decision_used",
+        "approved_eligible"
+      ]
+    }
+  ],
+  "counts": {
+    "source_rows_total": 1653,
+    "valid_source_occurrences": 1650,
+    "verified_source_occurrences": 1650,
+    "source_archive_records": 1653,
+    "queue_rows": 1258,
+    "unique_canonical_pairs": 1258,
+    "metadata_value_provenance_rows": 1703,
+    "metadata_conflict_records": 0,
+    "unresolved_metadata_value_conflicts": 0,
+    "metadata_mapping_exceptions": 0,
+    "duplicate_review_item_ids": 0,
+    "duplicate_canonical_pair_ids": 0,
+    "queue_rows_with_human_decisions": 0,
+    "queue_rows_not_unreviewed": 0
+  },
+  "metadata": {
+    "explicitly_mapped_source_fields": [
+      {
+        "source_file": "analysis/nine_class_overlap_review/unresolved_priority_pairs.csv",
+        "source_field": "source_split_a",
+        "populated_values": 449,
+        "queue_field": "source_split_[canonical side]",
+        "bound_path_field": "path_a"
+      },
+      {
+        "source_file": "analysis/nine_class_overlap_review/unresolved_priority_pairs.csv",
+        "source_field": "source_split_b",
+        "populated_values": 147,
+        "queue_field": "source_split_[canonical side]",
+        "bound_path_field": "path_b"
+      },
+      {
+        "source_file": "analysis/nine_class_recovery/benign_review_plan.csv",
+        "source_field": "source_split",
+        "populated_values": 83,
+        "queue_field": "source_split_[canonical side]",
+        "bound_path_field": "image_path"
+      },
+      {
+        "source_file": "analysis/nine_class_recovery/benign_review_plan.csv",
+        "source_field": "top_candidate_source",
+        "populated_values": 83,
+        "queue_field": "source_[canonical side]",
+        "bound_path_field": "top_candidate_path"
+      },
+      {
+        "source_file": "analysis/nine_class_recovery/benign_review_plan.csv",
+        "source_field": "top_candidate_lesion_id",
+        "populated_values": 83,
+        "queue_field": "lesion_id_[canonical side]",
+        "bound_path_field": "top_candidate_path"
+      },
+      {
+        "source_file": "analysis/nine_class_recovery/stage3i/ai_pair_review.csv",
+        "source_field": "source_split",
+        "populated_values": 429,
+        "queue_field": "source_split_[canonical side]",
+        "bound_path_field": "binary_image_path"
+      },
+      {
+        "source_file": "analysis/nine_class_recovery/stage3i/ai_pair_review.csv",
+        "source_field": "candidate_source",
+        "populated_values": 429,
+        "queue_field": "source_[canonical side]",
+        "bound_path_field": "candidate_path"
+      }
+    ],
+    "queue_populated_value_counts": {
+      "source_a": 25,
+      "source_b": 404,
+      "source_split_a": 765,
+      "source_split_b": 172,
+      "image_id_a": 0,
+      "image_id_b": 0,
+      "patient_id_a": 0,
+      "patient_id_b": 0,
+      "lesion_id_a": 0,
+      "lesion_id_b": 83
+    },
+    "queue_missing_value_counts": {
+      "source_a": 1233,
+      "source_b": 854,
+      "source_split_a": 493,
+      "source_split_b": 1086,
+      "image_id_a": 1258,
+      "image_id_b": 1258,
+      "patient_id_a": 1258,
+      "patient_id_b": 1258,
+      "lesion_id_a": 1258,
+      "lesion_id_b": 1175
+    },
+    "patient_ids_inferred": 0,
+    "image_ids_inferred": 0,
+    "unmapped_multi_candidate_paths": {
+      "source_file": "analysis/nine_class_recovery/benign_review_plan.csv",
+      "field": "next_two_focused_paths",
+      "populated_rows": 24,
+      "reason": "Multi-candidate field without a one-to-one side binding; not used for queue metadata."
+    }
+  },
+  "reconciliation": {
+    "missing_canonical_pairs": 0,
+    "unexpected_canonical_pairs": 0,
+    "changed_ids": 0,
+    "nonmetadata_queue_fields_preserved": true
+  },
+  "validation": {
+    "queue_row_count": "VERIFIED",
+    "canonical_pair_set": "VERIFIED",
+    "ids_preserved_and_unique": "VERIFIED",
+    "original_evidence_fields_preserved": "VERIFIED",
+    "source_occurrences_orientation_archive": "VERIFIED",
+    "metadata_provenance_complete": "VERIFIED",
+    "metadata_side_mapping": "VERIFIED",
+    "conflicts_explicitly_recorded": "VERIFIED",
+    "human_decisions_and_status": "VERIFIED",
+    "manifest_hashes": "VERIFIED",
+    "manifest_file_set": "VERIFIED"
+  },
+  "manifest": {
+    "status": "VERIFIED",
+    "expected_file_names": [
+      "human_review_queue_enriched.csv",
+      "metadata_value_provenance.csv",
+      "metadata_conflicts.csv",
+      "metadata_field_inventory.csv",
+      "enrichment_summary.json",
+      "ENRICHMENT_FINDINGS.md"
+    ],
+    "listed_file_names": [
+      "ENRICHMENT_FINDINGS.md",
+      "enrichment_summary.json",
+      "human_review_queue_enriched.csv",
+      "metadata_conflicts.csv",
+      "metadata_field_inventory.csv",
+      "metadata_value_provenance.csv"
+    ],
+    "unlisted_file_names": [],
+    "missing_listed_file_names": [],
+    "hash_mismatches": []
+  },
+  "semantics": {
+    "metadata_from_explicit_fields_only": true,
+    "original_orientation_verified": true,
+    "canonical_side_by_exact_path_match": true,
+    "conflicting_values_left_blank": true,
+    "no_patient_or_image_identity_inferred": true
+  },
+  "note": "Candidate/review IDs, hashes, diagnoses, labels, folder names, and path basenames were not treated as image, patient, lesion, source, or split metadata."
+}

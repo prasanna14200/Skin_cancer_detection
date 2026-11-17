@@ -1,0 +1,13 @@
+check,observed,expected,status,notes
+saved_validation_rows,1028,1028,PASS,Exact source-qualified key set match to frozen validation split.
+unique_prediction_keys,1028,1028,PASS,"Key is (source_dataset, image_path)."
+valid_probability_rows,1028,1028,PASS,"Existing validate_probabilities: finite N-by-9 values in [0,1] summing to one within 1e-6."
+predicted_label_matches_argmax,1028,1028,PASS,Existing probability argmax equals saved hard prediction.
+labels_match_frozen_split,1028,1028,PASS,Saved true_class and split class_index/class_name match.
+available_source_image_ids,944,944,PASS,"Present IDs match source path stems; Fanconic IDs are absent, not inferred."
+source_image_ids_not_recorded,84,84,INFO,Existing split has no source image_id for these Fanconic rows; linkage relies on exact source-qualified path.
+source_image_hash_matches_split,1028,1028,PASS,Every validation source file was decoded and its SHA-256 verified.
+checkpoint_hash_matches_saved_metrics,3336df387025a0d7438b444d10236f846eed1327910117635bbae38601133e08,3336df387025a0d7438b444d10236f846eed1327910117635bbae38601133e08,PASS,Frozen best.pt verified; no checkpoint load for inference.
+calibration_partition,1023,approved calibration data with logits/probabilities,NOT_AVAILABLE,Partition is NOT_APPROVED and has no saved prediction artifact; fitting a calibrator here is not authorized.
+logits_available,NO,NO,LIMITATION,Only softmax probabilities and hard predictions are saved; logits cannot be recovered exactly.
+new_inference_or_training,NONE,NONE,PASS,All calculations reuse existing saved probabilities.

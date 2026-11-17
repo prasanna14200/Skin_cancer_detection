@@ -1,0 +1,2 @@
+pair_key,image_a,image_b,reviewer_decision,review_timestamp_utc,review_status,evidence_reference,source_file
+"('data/isic/data/test/benign/802.jpg', 'data/raw/HAM10000_images_part_1/ISIC_0028399.jpg')",data/isic/data/test/benign/802.jpg,data/raw/HAM10000_images_part_1/ISIC_0028399.jpg,SAME_PHOTO,2026-10-19T12:25:44+00:00,reviewed,analysis/nine_class_overlap_completion/human_review_queue.csv#row=11,analysis/nine_class_recovery/benign_pair_review_ledger.csv

@@ -16,6 +16,11 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "analysis" / "nine_class_stage4"
+VALIDATION_DIAGNOSTICS_ROOT = ROOT / "analysis" / "nine_class_validation_diagnostics"
+DATA_RAW_RELATIVE = Path("data/raw")
+ISIC_DATA_RELATIVE = Path("data/isic")
+OVERLAP_COMPLETION_RELATIVE = Path("analysis/nine_class_overlap_completion")
+RECOVERY_STAGE3I_RELATIVE = Path("analysis/nine_class_recovery/stage3i")
 CLASS_NAMES = ("AKIEC", "BCC", "BKL", "DF", "MEL", "NV", "VASC", "BENIGN", "MALIGNANT")
 CLASS_TO_INDEX = {name: i for i, name in enumerate(CLASS_NAMES)}
 MANIFEST_COLUMNS = (
@@ -55,10 +60,10 @@ class Groups:
 
 
 def discover_records(root: Path) -> tuple[list[dict[str, str]], list[dict[str, str]]]:
-    metadata = read_csv(root / "data/raw/HAM10000_metadata.csv")
+    metadata = read_csv(root / DATA_RAW_RELATIVE / "HAM10000_metadata.csv")
     ham_paths = {}
     for directory in ("HAM10000_images_part_1", "HAM10000_images_part_2"):
-        for path in (root / "data/raw" / directory).glob("*.jpg"):
+        for path in (root / DATA_RAW_RELATIVE / directory).glob("*.jpg"):
             if path.stem in ham_paths:
                 raise ValueError(f"Duplicate HAM image ID: {path.stem}")
             ham_paths[path.stem] = path.relative_to(root).as_posix()
@@ -73,7 +78,7 @@ def discover_records(root: Path) -> tuple[list[dict[str, str]], list[dict[str, s
                             original_label=meta["dx"], class_name=label,
                             class_index=str(CLASS_TO_INDEX[label]), image_id=meta["image_id"],
                             lesion_id=meta["lesion_id"], patient_id="", source_split=""))
-    binary_root = root / "data/isic/data"
+    binary_root = root / ISIC_DATA_RELATIVE / "data"
     for split in ("train", "test"):
         for label in ("benign", "malignant"):
             for path in sorted((binary_root / split / label).glob("*.jpg")):
@@ -95,9 +100,11 @@ def discover_records(root: Path) -> tuple[list[dict[str, str]], list[dict[str, s
 def build_manifest(root: Path = ROOT) -> tuple[list[dict[str, str]], dict]:
     records, _ = discover_records(root)
     by_path = {r["image_path"]: r for r in records}
-    excluded = {r["image_path"]: r for r in read_csv(root / "analysis/nine_class_overlap_completion/proposed_binary_exclusions.csv")}
-    edges = read_csv(root / "analysis/nine_class_recovery/stage3i/proposed_overlap_edges.csv")
-    ai = read_csv(root / "analysis/nine_class_recovery/stage3i/ai_pair_review.csv")
+    excluded = {r["image_path"]: r for r in read_csv(
+        root / OVERLAP_COMPLETION_RELATIVE / "proposed_binary_exclusions.csv"
+    )}
+    edges = read_csv(root / RECOVERY_STAGE3I_RELATIVE / "proposed_overlap_edges.csv")
+    ai = read_csv(root / RECOVERY_STAGE3I_RELATIVE / "ai_pair_review.csv")
     if len(excluded) != 2369 or len(ai) != 429:
         raise ValueError("Frozen overlap evidence has changed")
     groups = Groups()
@@ -179,9 +186,15 @@ def build_manifest(root: Path = ROOT) -> tuple[list[dict[str, str]], dict]:
         "final_split_created": False,
         "split_gate": "BLOCKED: BENIGN source-test upper bound 19; all 83 retained BENIGN have AI-supported HAM same-photo candidates, without independent adjudication",
         "source_evidence_sha256": {
-            "proposed_exclusions": sha256(root / "analysis/nine_class_overlap_completion/proposed_binary_exclusions.csv"),
-            "stage3i_edges": sha256(root / "analysis/nine_class_recovery/stage3i/proposed_overlap_edges.csv"),
-            "stage3i_ai_review": sha256(root / "analysis/nine_class_recovery/stage3i/ai_pair_review.csv"),
+            "proposed_exclusions": sha256(
+                root / OVERLAP_COMPLETION_RELATIVE / "proposed_binary_exclusions.csv"
+            ),
+            "stage3i_edges": sha256(
+                root / RECOVERY_STAGE3I_RELATIVE / "proposed_overlap_edges.csv"
+            ),
+            "stage3i_ai_review": sha256(
+                root / RECOVERY_STAGE3I_RELATIVE / "ai_pair_review.csv"
+            ),
         },
     }
     return records, summary

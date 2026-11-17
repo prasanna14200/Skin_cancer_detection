@@ -50,7 +50,32 @@ def preprocessing_for_training(config: dict) -> PreprocessConfig:
                             pipeline_version=config.get("preprocessing_mode", "stage4_full_v1"))
 
 
-def image_tensor(path: Path, config: PreprocessConfig, *, train: bool = False) -> torch.Tensor:
+def derive_augmentation_seed(base_seed: int, epoch: int, sample_index: int) -> int:
+    values = (base_seed, epoch, sample_index)
+    if any(isinstance(value, bool) or not isinstance(value, int) or value < 0 for value in values):
+        raise ValueError("Augmentation seed components must be nonnegative integers")
+    key = f"egvan-augmentation-v1\0{base_seed}\0{epoch}\0{sample_index}".encode("ascii")
+    return int.from_bytes(hashlib.sha256(key).digest()[:8], "little") & 0x7FFFFFFFFFFFFFFF
+
+
+def augmentation_generator(base_seed: int, epoch: int, sample_index: int) -> torch.Generator:
+    return torch.Generator(device="cpu").manual_seed(
+        derive_augmentation_seed(base_seed, epoch, sample_index)
+    )
+
+
+def apply_training_augmentations(tensor: torch.Tensor, *,
+                                 generator: torch.Generator | None = None) -> torch.Tensor:
+    if torch.rand((), generator=generator) < 0.5:
+        tensor = tensor.flip(-1)
+    if torch.rand((), generator=generator) < 0.5:
+        tensor = tensor.flip(-2)
+    turns = int(torch.randint(0, 4, (), generator=generator).item())
+    return tensor.rot90(turns, (-2, -1))
+
+
+def image_tensor(path: Path, config: PreprocessConfig, *, train: bool = False,
+                 generator: torch.Generator | None = None) -> torch.Tensor:
     if not path.is_file():
         raise FileNotFoundError(path)
     bgr = cv2.imread(str(path), cv2.IMREAD_COLOR)
@@ -64,12 +89,7 @@ def image_tensor(path: Path, config: PreprocessConfig, *, train: bool = False) -
     rgb = cv2.resize(rgb, (config.image_size, config.image_size), interpolation=cv2.INTER_AREA)
     tensor = torch.from_numpy(np.ascontiguousarray(rgb.transpose(2, 0, 1))).float().div_(255.0)
     if train:
-        if torch.rand(()) < 0.5:
-            tensor = tensor.flip(-1)
-        if torch.rand(()) < 0.5:
-            tensor = tensor.flip(-2)
-        turns = int(torch.randint(0, 4, ()).item())
-        tensor = tensor.rot90(turns, (-2, -1))
+        tensor = apply_training_augmentations(tensor, generator=generator)
     mean = torch.tensor(config.mean, dtype=tensor.dtype).view(3, 1, 1)
     std = torch.tensor(config.std, dtype=tensor.dtype).view(3, 1, 1)
     if (std <= 0).any():
@@ -84,9 +104,15 @@ class NineClassDataset(Dataset):
     """Loads only an explicitly assigned split; never invents assignments."""
 
     def __init__(self, root: Path, split_csv: Path, split: str,
-                 config: PreprocessConfig = PreprocessConfig()) -> None:
+                 config: PreprocessConfig = PreprocessConfig(), *,
+                 augmentation_seed: int | None = None) -> None:
         if split not in ("train", "validation", "calibration", "test"):
             raise ValueError("Unknown split")
+        if augmentation_seed is not None and (
+            isinstance(augmentation_seed, bool) or not isinstance(augmentation_seed, int)
+            or augmentation_seed < 0
+        ):
+            raise ValueError("augmentation_seed must be a nonnegative integer")
         with split_csv.open(newline="", encoding="utf-8") as handle:
             rows = list(csv.DictReader(handle))
         required = {"image_path", "class_name", "class_index", "split"}
@@ -101,11 +127,21 @@ class NineClassDataset(Dataset):
             if split == "train" and row.get("source_split") == "test":
                 raise ValueError("Protected publisher test record in training")
         self.root, self.split, self.config = Path(root), split, config
+        self.augmentation_seed = augmentation_seed
+        self.epoch = 0
+
+    def set_epoch(self, epoch: int) -> None:
+        if isinstance(epoch, bool) or not isinstance(epoch, int) or epoch < 0:
+            raise ValueError("epoch must be a nonnegative integer")
+        self.epoch = epoch
 
     def __len__(self) -> int:
         return len(self.rows)
 
     def __getitem__(self, index: int) -> tuple[torch.Tensor, int]:
         row = self.rows[index]
+        generator = None
+        if self.split == "train" and self.augmentation_seed is not None:
+            generator = augmentation_generator(self.augmentation_seed, self.epoch, index)
         return image_tensor(self.root / row["image_path"], self.config,
-                            train=self.split == "train"), int(row["class_index"])
+                            train=self.split == "train", generator=generator), int(row["class_index"])

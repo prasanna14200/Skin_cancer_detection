@@ -1,0 +1,41 @@
+{
+  "class_order": [
+    "AKIEC",
+    "BCC",
+    "BKL",
+    "DF",
+    "MEL",
+    "NV",
+    "VASC",
+    "BENIGN",
+    "MALIGNANT"
+  ],
+  "cohort_status": "NOT_APPROVED",
+  "counts_from_training_rows_only": {
+    "AKIEC": 223,
+    "BCC": 371,
+    "BENIGN": 55,
+    "BKL": 754,
+    "DF": 86,
+    "MALIGNANT": 512,
+    "MEL": 629,
+    "NV": 4347,
+    "VASC": 103
+  },
+  "effective_training_loss_class_weighted_mean": 0.43130683515759594,
+  "enabled_for_training": true,
+  "formula": "(1/sqrt(n_c))/mean_j(1/sqrt(n_j))",
+  "research_status": "EXPLORATORY_ONLY_NONCLINICAL_NOT_PAPER_REPRODUCTION",
+  "training_sample_weighted_mean_of_class_weights": 0.43130683515759594,
+  "weights": {
+    "AKIEC": 1.0116572836454805,
+    "BCC": 0.78433011312968,
+    "BENIGN": 2.037063182312438,
+    "BKL": 0.5501741374681932,
+    "DF": 1.629058268692155,
+    "MALIGNANT": 0.667653090590916,
+    "MEL": 0.6023660984010262,
+    "NV": 0.2291347847728353,
+    "VASC": 1.488563040987275
+  }
+}

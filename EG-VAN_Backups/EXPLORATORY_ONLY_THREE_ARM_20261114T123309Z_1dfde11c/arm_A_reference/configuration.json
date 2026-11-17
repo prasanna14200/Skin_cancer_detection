@@ -1,0 +1,56 @@
+{
+  "batch_size": 8,
+  "batchnorm_policy": "freeze_running_stats",
+  "class_weighting": false,
+  "diagnostic_overrides": {
+    "adaptive_scheduler": false,
+    "arm": "A",
+    "base_learning_rate": 0.001,
+    "base_mixed_precision": "cuda_if_available",
+    "cohort_status": "NOT_APPROVED",
+    "epochs": 5,
+    "grad_scaler_enabled": false,
+    "learning_rate": 0.0001,
+    "mixed_precision": "off",
+    "research_status": "EXPLORATORY_ONLY_NONCLINICAL_NOT_PAPER_REPRODUCTION"
+  },
+  "early_stopping": {
+    "enabled": false,
+    "patience": 5
+  },
+  "epochs": 5,
+  "focal_alpha": 0.25,
+  "focal_gamma": 2.0,
+  "fusion_channels": 128,
+  "gradient_accumulation_steps": 4,
+  "gradient_clip_norm": 1.0,
+  "image_size": 384,
+  "initialization": {
+    "efficient_local_state": null,
+    "mode": "random",
+    "resnet_local_state": null
+  },
+  "label_order": [
+    "AKIEC",
+    "BCC",
+    "BKL",
+    "DF",
+    "MEL",
+    "NV",
+    "VASC",
+    "BENIGN",
+    "MALIGNANT"
+  ],
+  "learning_rate": 0.0001,
+  "mixed_precision": "off",
+  "num_workers": 0,
+  "optimizer": "Adamax",
+  "preprocessing_mode": "raw_resize_imagenet_v2",
+  "scheduler": {
+    "name": "disabled",
+    "reason": "fixed diagnostic learning rate"
+  },
+  "schema_version": "nine_class_training_v2",
+  "seed": 42,
+  "split_protocol": "four_way_v1"
+}

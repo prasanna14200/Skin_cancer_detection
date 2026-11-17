@@ -1,0 +1,2 @@
+ledger_review_status,ledger_reviewer_decision,ledger_timestamp_utc,path_a,path_b,queue_pair_id,queue_source_row_number,queue_review_status,selected_batch_match,original_evidence_reference
+reviewed,SAME_PHOTO,2026-10-19T12:25:44+00:00,data/isic/data/test/benign/802.jpg,data/raw/HAM10000_images_part_1/ISIC_0028399.jpg,PAIR_0124,124,NOT_HUMAN_REVIEWED,NO,analysis/nine_class_overlap_completion/human_review_queue.csv#row=11

@@ -1,0 +1,426 @@
+{
+  "ai_uncertain_ids": [
+    "2144bab9d94444900437da87dc58ddce69e471e8e352e527a66e1f69b9373905",
+    "3d4db63e91af231c0234979a9bdc261866f5f9117ec0a4e6f59a103da8dcce18",
+    "47263562db1ca7c6f4e49838005706801b9722ccc72cdc1d67b8184aa1e8547b",
+    "4f6e5c2bebcd5722592bc0bae09db1529bb68dd1967f546a7a40746ec46b9e46",
+    "521e6062f838f18255d4de3489263e139ee12d05b79e64ded6449121e3d7cddf",
+    "661dabdb467f9003f72d535cc0d105f9bd53fe3f7bbf650d49d1d9ee2347595c",
+    "6b8d0ef46beb611e9fd01c46c7f8268beb8b91d427c8f1a90c67287ca628fd21",
+    "72c9e4152d75b240d27631ce06983645adb3d06e67a88755338bfe877f763b4c",
+    "73d841fdfe4a1f3a46a04d56f12f53105ee3c1a19f4dfcc50c04587dc9408837",
+    "a111a7d69b4ea6bac5cf087b33ff452397a5ea10b535401960bcdcd2fcbf65ce",
+    "a176cbafd4e55d2e1d95b238cd839174ef06cafbb15b080cef43ddbb5dfb1420",
+    "a312ffa7a8531b357f1e0f4bb0588e83813982107ef1d1cec78c04b340c9d2cd",
+    "a7e6a3e37909f2547b843da1247978a3f1ce1d669b1c7b9ea78372440e7ba5cc",
+    "a8af780af5bc6e6ab6dbed6aedf542ec2414fd88de333e09dd91ac7dbd1e3470",
+    "b1534751cc7a5577de3e9ab61c44754c99920878e8915292a3f388427362c94d",
+    "c604e0c525d3b92d42bf9a0bf2004cdac6d4047c06c44429087d9046cca1255d",
+    "cf4f20d634a76e2a37c7da5494d001b08bfb082c119455046aa6c062fe7f9dfe",
+    "dc1fee2f4a94188b3f73967b6b3f4ff11dbc26cf88190f626ac2d035513027ff",
+    "e47df9756ac5f9fc1a49ce7d9e122ff7c5bc496e3a4fd3b974cb617b16b66633",
+    "fbf06ee888e4bf381beef710113c4fe0d4231dcd746afeca1520f68d94b6e39e"
+  ],
+  "audit_directory": "E:\\Cancerdetection\\EG-VAN\\analysis\\nine_class_human_review_queue\\QUEUE_VALIDATION_20261115T153000Z",
+  "corrected_queue_directory": "E:\\Cancerdetection\\EG-VAN\\analysis\\nine_class_human_review_queue\\QUEUE_CORRECTED_20261115T152000Z",
+  "counts": {
+    "ai_uncertain_count": 20,
+    "archive_records": 1653,
+    "group_level_conflicts": 3,
+    "malformed_or_missing_path_exceptions": 0,
+    "protected_benign_count": 19,
+    "provenance_rows": 1650,
+    "queue_missing_lesion_ids": 1258,
+    "queue_missing_patient_ids": 1258,
+    "queue_rows": 1258,
+    "repeated_occurrences": 392,
+    "source_rows_total": 1653,
+    "unique_canonical_pairs": 1258,
+    "valid_one_to_one_occurrences": 1650
+  },
+  "group_conflicts": [
+    {
+      "binary_paths": "data/isic/data/test/benign/335.jpg",
+      "classification": "group_level_conflict",
+      "duplicate_group": "DG-f8e32066a54f843c",
+      "ham_paths": "data/raw/HAM10000_images_part_1/ISIC_0027698.jpg;data/raw/HAM10000_images_part_2/ISIC_0029666.jpg",
+      "source_file": "analysis/nine_class_overlap_review/source_test_boundary_conflicts.csv",
+      "source_row_number": 196
+    },
+    {
+      "binary_paths": "data/isic/data/test/benign/335.jpg;data/isic/data/train/benign/1593.jpg",
+      "classification": "group_level_conflict",
+      "duplicate_group": "DG-f8e32066a54f843c",
+      "ham_paths": "data/raw/HAM10000_images_part_1/ISIC_0027698.jpg;data/raw/HAM10000_images_part_2/ISIC_0029666.jpg",
+      "source_file": "analysis/nine_class_overlap_review/source_test_boundary_conflicts.csv",
+      "source_row_number": 470
+    },
+    {
+      "binary_paths": "data/isic/data/test/malignant/507.jpg;data/isic/data/train/malignant/439.jpg",
+      "classification": "group_level_conflict",
+      "duplicate_group": "DG-681c50d4c60d4313",
+      "ham_paths": "",
+      "source_file": "analysis/nine_class_overlap_review/source_test_boundary_conflicts.csv",
+      "source_row_number": 471
+    }
+  ],
+  "missing_occurrences": [],
+  "notable_issues": [],
+  "protected_benign_ids": [
+    "0a448f51426f7e1c0e4edae917dec51119f912dc17829a73b33496d80b40ec75",
+    "128f478e1351a0c65084176f12697b77de4f5ab847c4b6d83d175df55858be8b",
+    "218f876f8b128bcd8abe0d9768976931fb883013b53efb50f1b5eb9f2cc04034",
+    "2b17a23f409456aaa8a0a5d0caa4c07b4f13ac544be4b7a06673a191a11aa2b0",
+    "458ff4c6e5c188d71fe7962f800db37f5fc16d6874aa1a6aebf94ea2a72803ff",
+    "4643ce69daaac698e3790a195df603fac491855eb4e6f17298da8eacc37b3b87",
+    "77888fbe6138fd540072f85134ab35bce450511c68964514124464fb28e8fdec",
+    "785863f7ac3bc8e2c6f268922f7801d0a30221f71a2db975ecc25b9890947196",
+    "7aa382b4a816139b0d20d5b706a62e74e17e1b0343913261bc92ad548b50b5e8",
+    "80dfec1b650cd8bee0e4aa672c227ca190660d4abb855a82726a91befa57c60b",
+    "89334071e072096bf7b921edfb0c5c3e5f137ddd87dcd74011e7150048ff0196",
+    "9dad254f6a5d7c1fb6a4622454c10fb587ce6235aea1043566d91afd0f5f9ce9",
+    "b8967c8a773a7e9f1b8717e43c4e715327e20a47d9efd5a92f083bd1d4b37f5c",
+    "c24111c7a0f6fb2cbf570049f4fe5599545583ef0d906834ef17afec21480896",
+    "d2bfe15a693c39501c3c310087ba17c3c865bd1a240acc7b0e0fde163d15c090",
+    "dabe97a5eed9b0fe892a6820c1a7bf97579d1f7ebb422e3ab2a71b3c8c781b6c",
+    "e538d87733d5e58c473ff59f80f8a798e0d41f82140ad775cd9f4bcf7a2b52ce",
+    "e7666493e6a7ef46845f729ae5d443e31507006eb7c3829f3c4f952bfeb338f9",
+    "f9a70a88a62e7bda4919fa1fd9bb509aa7f470c79c1df632cf48fc62b3dba910"
+  ],
+  "queue_missing_lesion_examples": [
+    {
+      "queue_row_number": 1,
+      "review_item_id": "PAIR_f0e7fab35516a0d4"
+    },
+    {
+      "queue_row_number": 2,
+      "review_item_id": "PAIR_9c3c2fe63ddedfd7"
+    },
+    {
+      "queue_row_number": 3,
+      "review_item_id": "PAIR_4630a10db01a7cca"
+    },
+    {
+      "queue_row_number": 4,
+      "review_item_id": "PAIR_f685e5172a5989e4"
+    },
+    {
+      "queue_row_number": 5,
+      "review_item_id": "PAIR_1e9b24871dc10b30"
+    }
+  ],
+  "queue_missing_patient_examples": [
+    {
+      "queue_row_number": 1,
+      "review_item_id": "PAIR_f0e7fab35516a0d4"
+    },
+    {
+      "queue_row_number": 2,
+      "review_item_id": "PAIR_9c3c2fe63ddedfd7"
+    },
+    {
+      "queue_row_number": 3,
+      "review_item_id": "PAIR_4630a10db01a7cca"
+    },
+    {
+      "queue_row_number": 4,
+      "review_item_id": "PAIR_f685e5172a5989e4"
+    },
+    {
+      "queue_row_number": 5,
+      "review_item_id": "PAIR_1e9b24871dc10b30"
+    }
+  ],
+  "source_metadata_available": [
+    {
+      "field_name": "patient_id",
+      "present": false,
+      "source_file": "analysis/nine_class_overlap_review/unresolved_priority_pairs.csv"
+    },
+    {
+      "field_name": "lesion_id",
+      "present": false,
+      "source_file": "analysis/nine_class_overlap_review/unresolved_priority_pairs.csv"
+    },
+    {
+      "field_name": "image_id",
+      "present": false,
+      "source_file": "analysis/nine_class_overlap_review/unresolved_priority_pairs.csv"
+    },
+    {
+      "field_name": "source",
+      "present": false,
+      "source_file": "analysis/nine_class_overlap_review/unresolved_priority_pairs.csv"
+    },
+    {
+      "field_name": "source_split",
+      "present": false,
+      "source_file": "analysis/nine_class_overlap_review/unresolved_priority_pairs.csv"
+    },
+    {
+      "field_name": "split",
+      "present": false,
+      "source_file": "analysis/nine_class_overlap_review/unresolved_priority_pairs.csv"
+    },
+    {
+      "field_name": "patient",
+      "present": false,
+      "source_file": "analysis/nine_class_overlap_review/unresolved_priority_pairs.csv"
+    },
+    {
+      "field_name": "lesion",
+      "present": false,
+      "source_file": "analysis/nine_class_overlap_review/unresolved_priority_pairs.csv"
+    },
+    {
+      "field_name": "patient_id",
+      "present": false,
+      "source_file": "analysis/nine_class_stage11a/additional_candidate_relations.csv"
+    },
+    {
+      "field_name": "lesion_id",
+      "present": false,
+      "source_file": "analysis/nine_class_stage11a/additional_candidate_relations.csv"
+    },
+    {
+      "field_name": "image_id",
+      "present": false,
+      "source_file": "analysis/nine_class_stage11a/additional_candidate_relations.csv"
+    },
+    {
+      "field_name": "source",
+      "present": false,
+      "source_file": "analysis/nine_class_stage11a/additional_candidate_relations.csv"
+    },
+    {
+      "field_name": "source_split",
+      "present": false,
+      "source_file": "analysis/nine_class_stage11a/additional_candidate_relations.csv"
+    },
+    {
+      "field_name": "split",
+      "present": false,
+      "source_file": "analysis/nine_class_stage11a/additional_candidate_relations.csv"
+    },
+    {
+      "field_name": "patient",
+      "present": false,
+      "source_file": "analysis/nine_class_stage11a/additional_candidate_relations.csv"
+    },
+    {
+      "field_name": "lesion",
+      "present": false,
+      "source_file": "analysis/nine_class_stage11a/additional_candidate_relations.csv"
+    },
+    {
+      "field_name": "patient_id",
+      "present": false,
+      "source_file": "analysis/nine_class_stage11b/additional_101_auto_evidence.csv"
+    },
+    {
+      "field_name": "lesion_id",
+      "present": false,
+      "source_file": "analysis/nine_class_stage11b/additional_101_auto_evidence.csv"
+    },
+    {
+      "field_name": "image_id",
+      "present": false,
+      "source_file": "analysis/nine_class_stage11b/additional_101_auto_evidence.csv"
+    },
+    {
+      "field_name": "source",
+      "present": false,
+      "source_file": "analysis/nine_class_stage11b/additional_101_auto_evidence.csv"
+    },
+    {
+      "field_name": "source_split",
+      "present": false,
+      "source_file": "analysis/nine_class_stage11b/additional_101_auto_evidence.csv"
+    },
+    {
+      "field_name": "split",
+      "present": false,
+      "source_file": "analysis/nine_class_stage11b/additional_101_auto_evidence.csv"
+    },
+    {
+      "field_name": "patient",
+      "present": false,
+      "source_file": "analysis/nine_class_stage11b/additional_101_auto_evidence.csv"
+    },
+    {
+      "field_name": "lesion",
+      "present": false,
+      "source_file": "analysis/nine_class_stage11b/additional_101_auto_evidence.csv"
+    },
+    {
+      "field_name": "patient_id",
+      "present": false,
+      "source_file": "analysis/nine_class_overlap_review/source_test_boundary_conflicts.csv"
+    },
+    {
+      "field_name": "lesion_id",
+      "present": false,
+      "source_file": "analysis/nine_class_overlap_review/source_test_boundary_conflicts.csv"
+    },
+    {
+      "field_name": "image_id",
+      "present": false,
+      "source_file": "analysis/nine_class_overlap_review/source_test_boundary_conflicts.csv"
+    },
+    {
+      "field_name": "source",
+      "present": false,
+      "source_file": "analysis/nine_class_overlap_review/source_test_boundary_conflicts.csv"
+    },
+    {
+      "field_name": "source_split",
+      "present": false,
+      "source_file": "analysis/nine_class_overlap_review/source_test_boundary_conflicts.csv"
+    },
+    {
+      "field_name": "split",
+      "present": false,
+      "source_file": "analysis/nine_class_overlap_review/source_test_boundary_conflicts.csv"
+    },
+    {
+      "field_name": "patient",
+      "present": false,
+      "source_file": "analysis/nine_class_overlap_review/source_test_boundary_conflicts.csv"
+    },
+    {
+      "field_name": "lesion",
+      "present": false,
+      "source_file": "analysis/nine_class_overlap_review/source_test_boundary_conflicts.csv"
+    },
+    {
+      "field_name": "patient_id",
+      "present": false,
+      "source_file": "analysis/nine_class_recovery/benign_review_plan.csv"
+    },
+    {
+      "field_name": "lesion_id",
+      "present": false,
+      "source_file": "analysis/nine_class_recovery/benign_review_plan.csv"
+    },
+    {
+      "field_name": "image_id",
+      "present": false,
+      "source_file": "analysis/nine_class_recovery/benign_review_plan.csv"
+    },
+    {
+      "field_name": "source",
+      "present": false,
+      "source_file": "analysis/nine_class_recovery/benign_review_plan.csv"
+    },
+    {
+      "field_name": "source_split",
+      "present": true,
+      "source_file": "analysis/nine_class_recovery/benign_review_plan.csv"
+    },
+    {
+      "field_name": "split",
+      "present": false,
+      "source_file": "analysis/nine_class_recovery/benign_review_plan.csv"
+    },
+    {
+      "field_name": "patient",
+      "present": false,
+      "source_file": "analysis/nine_class_recovery/benign_review_plan.csv"
+    },
+    {
+      "field_name": "lesion",
+      "present": false,
+      "source_file": "analysis/nine_class_recovery/benign_review_plan.csv"
+    },
+    {
+      "field_name": "patient_id",
+      "present": false,
+      "source_file": "analysis/nine_class_recovery/stage3i/ai_pair_review.csv"
+    },
+    {
+      "field_name": "lesion_id",
+      "present": false,
+      "source_file": "analysis/nine_class_recovery/stage3i/ai_pair_review.csv"
+    },
+    {
+      "field_name": "image_id",
+      "present": false,
+      "source_file": "analysis/nine_class_recovery/stage3i/ai_pair_review.csv"
+    },
+    {
+      "field_name": "source",
+      "present": false,
+      "source_file": "analysis/nine_class_recovery/stage3i/ai_pair_review.csv"
+    },
+    {
+      "field_name": "source_split",
+      "present": true,
+      "source_file": "analysis/nine_class_recovery/stage3i/ai_pair_review.csv"
+    },
+    {
+      "field_name": "split",
+      "present": false,
+      "source_file": "analysis/nine_class_recovery/stage3i/ai_pair_review.csv"
+    },
+    {
+      "field_name": "patient",
+      "present": false,
+      "source_file": "analysis/nine_class_recovery/stage3i/ai_pair_review.csv"
+    },
+    {
+      "field_name": "lesion",
+      "present": false,
+      "source_file": "analysis/nine_class_recovery/stage3i/ai_pair_review.csv"
+    },
+    {
+      "field_name": "patient_id",
+      "present": false,
+      "source_file": "analysis/nine_class_stage11b/primary_19_auto_evidence.csv"
+    },
+    {
+      "field_name": "lesion_id",
+      "present": false,
+      "source_file": "analysis/nine_class_stage11b/primary_19_auto_evidence.csv"
+    },
+    {
+      "field_name": "image_id",
+      "present": false,
+      "source_file": "analysis/nine_class_stage11b/primary_19_auto_evidence.csv"
+    },
+    {
+      "field_name": "source",
+      "present": false,
+      "source_file": "analysis/nine_class_stage11b/primary_19_auto_evidence.csv"
+    },
+    {
+      "field_name": "source_split",
+      "present": false,
+      "source_file": "analysis/nine_class_stage11b/primary_19_auto_evidence.csv"
+    },
+    {
+      "field_name": "split",
+      "present": false,
+      "source_file": "analysis/nine_class_stage11b/primary_19_auto_evidence.csv"
+    },
+    {
+      "field_name": "patient",
+      "present": false,
+      "source_file": "analysis/nine_class_stage11b/primary_19_auto_evidence.csv"
+    },
+    {
+      "field_name": "lesion",
+      "present": false,
+      "source_file": "analysis/nine_class_stage11b/primary_19_auto_evidence.csv"
+    }
+  ],
+  "statuses": {
+    "group_level_conflicts_preserved": "VERIFIED",
+    "human_decision_integrity": "VERIFIED",
+    "manifest_verification": "VERIFIED",
+    "metadata_availability": "PARTIALLY_VERIFIED",
+    "overall": "VERIFIED",
+    "provenance_and_archive_consistency": "VERIFIED",
+    "queue_unique_pair_count": "VERIFIED",
+    "source_row_classification": "VERIFIED"
+  }
+}

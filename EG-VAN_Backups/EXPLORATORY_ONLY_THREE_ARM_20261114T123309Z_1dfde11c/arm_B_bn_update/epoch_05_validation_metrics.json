@@ -1,0 +1,187 @@
+{
+  "accuracy": 0.6284046692607004,
+  "all_nine_classes_present": true,
+  "arm": "arm_B_bn_update",
+  "balanced_accuracy": 0.4403837344080108,
+  "cohort_status": "NOT_APPROVED",
+  "confusion_matrix": [
+    [
+      0,
+      16,
+      7,
+      0,
+      4,
+      15,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      17,
+      10,
+      0,
+      1,
+      10,
+      2,
+      2,
+      7
+    ],
+    [
+      0,
+      4,
+      53,
+      0,
+      20,
+      25,
+      0,
+      1,
+      5
+    ],
+    [
+      0,
+      1,
+      3,
+      0,
+      0,
+      4,
+      0,
+      0,
+      1
+    ],
+    [
+      0,
+      0,
+      17,
+      0,
+      43,
+      20,
+      2,
+      0,
+      2
+    ],
+    [
+      0,
+      8,
+      46,
+      0,
+      69,
+      464,
+      3,
+      21,
+      18
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      2,
+      11,
+      0,
+      2
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      3,
+      0,
+      4,
+      1
+    ],
+    [
+      0,
+      1,
+      6,
+      0,
+      3,
+      5,
+      0,
+      15,
+      54
+    ]
+  ],
+  "epoch": 5,
+  "loss": 0.40910634606354596,
+  "loss_kind": "unweighted_focal",
+  "macro_f1": 0.37719550052139006,
+  "max_gradient_norm": null,
+  "n_samples": 1028,
+  "optimizer_steps": 0,
+  "per_class": {
+    "AKIEC": {
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "support": 42
+    },
+    "BCC": {
+      "f1": 0.35416666666666663,
+      "precision": 0.3617021276595745,
+      "recall": 0.3469387755102041,
+      "support": 49
+    },
+    "BENIGN": {
+      "f1": 0.15686274509803924,
+      "precision": 0.09302325581395349,
+      "recall": 0.5,
+      "support": 8
+    },
+    "BKL": {
+      "f1": 0.424,
+      "precision": 0.3732394366197183,
+      "recall": 0.49074074074074076,
+      "support": 108
+    },
+    "DF": {
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "support": 9
+    },
+    "MALIGNANT": {
+      "f1": 0.6206896551724138,
+      "precision": 0.6,
+      "recall": 0.6428571428571429,
+      "support": 84
+    },
+    "MEL": {
+      "f1": 0.3839285714285714,
+      "precision": 0.30714285714285716,
+      "recall": 0.5119047619047619,
+      "support": 84
+    },
+    "NV": {
+      "f1": 0.7884451996601528,
+      "precision": 0.8467153284671532,
+      "recall": 0.7376788553259142,
+      "support": 629
+    },
+    "VASC": {
+      "f1": 0.6666666666666666,
+      "precision": 0.6111111111111112,
+      "recall": 0.7333333333333333,
+      "support": 15
+    }
+  },
+  "predicted_class_distribution": {
+    "AKIEC": 0,
+    "BCC": 47,
+    "BENIGN": 43,
+    "BKL": 142,
+    "DF": 0,
+    "MALIGNANT": 90,
+    "MEL": 140,
+    "NV": 548,
+    "VASC": 18
+  },
+  "research_status": "EXPLORATORY_ONLY_NONCLINICAL_NOT_PAPER_REPRODUCTION",
+  "scaler_skipped_steps": 0,
+  "split": "validation",
+  "warnings": [],
+  "weighted_f1": 0.6368881617200096
+}

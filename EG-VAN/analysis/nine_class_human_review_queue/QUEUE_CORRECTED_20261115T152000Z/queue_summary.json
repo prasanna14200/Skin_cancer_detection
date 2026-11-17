@@ -1,0 +1,18 @@
+{
+  "ai_uncertain_count": 20,
+  "evidence_provenance_count": 1650,
+  "group_level_conflict_count": 3,
+  "human_decisions_count": 0,
+  "output_directory": "E:\\Cancerdetection\\EG-VAN\\analysis\\nine_class_human_review_queue\\QUEUE_CORRECTED_20261115T152000Z",
+  "protected_benign_count": 19,
+  "queue_rows": 1258,
+  "queue_rows_missing_lesion_ids": 1258,
+  "queue_rows_missing_patient_ids": 1258,
+  "raw_valid_one_to_one_occurrences": 1650,
+  "repeated_evidence_occurrences": 392,
+  "review_status_values": [
+    "UNREVIEWED"
+  ],
+  "source_row_archive_count": 1653,
+  "unique_canonical_pairs": 1258
+}

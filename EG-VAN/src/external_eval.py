@@ -215,7 +215,7 @@ def checkpoint_audit(checkpoint_path: Path, project_root: Path) -> dict:
     import torch
     if not checkpoint_path.is_file():
         raise AuditError(f"Checkpoint missing: {checkpoint_path}")
-    checkpoint = torch.load(checkpoint_path, map_location="cpu", weights_only=False)
+    checkpoint = torch.load(checkpoint_path, map_location="cpu", weights_only=True)
     if "model_state" not in checkpoint or "config" not in checkpoint:
         raise AuditError("Checkpoint must contain model_state and config")
     config = checkpoint["config"]
@@ -420,7 +420,7 @@ def run_evaluation(audit: dict, project_root: str | Path, checkpoint_path: str |
         raise AuditError(f"Refusing to overwrite non-empty evaluation directory: {output}")
 
     from models.baseline_effnet import build_model
-    checkpoint = torch.load(checkpoint_path, map_location="cuda", weights_only=False)
+    checkpoint = torch.load(checkpoint_path, map_location="cuda", weights_only=True)
     model, _ = build_model(pretrained=False)
     model.load_state_dict(checkpoint["model_state"], strict=True)
     model.cuda().eval()

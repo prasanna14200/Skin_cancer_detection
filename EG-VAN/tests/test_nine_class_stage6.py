@@ -2,6 +2,8 @@
 
 import csv
 import json
+import pickle
+import random
 import sys
 from pathlib import Path
 
@@ -18,7 +20,8 @@ from nine_class_metrics import summarize_predictions
 from nine_class_evaluation import predict
 from nine_class_protocol import LOCKED_FIELDS, file_sha256, validate_approved_split
 from nine_class_stage4 import CLASS_NAMES
-from nine_class_training import focal_loss, load_config, load_checkpoint, run_epoch, save_checkpoint, training_class_weights
+from nine_class_training import (focal_loss, load_config, load_checkpoint, run_epoch,
+                                 capture_rng_state, save_checkpoint, training_class_weights)
 
 
 def fixture_files(tmp_path):
@@ -147,6 +150,7 @@ def test_focal_optimizer_checkpoint_resume_and_metrics(tmp_path):
     scheduler.step(train_result["loss"])
     state = {"epoch": 0, "model_state": model.state_dict(), "optimizer_state": optimizer.state_dict(),
              "scheduler_state": scheduler.state_dict(), "scaler_state": scaler.state_dict(),
+             **capture_rng_state(),
              "config_sha256": "synthetic", "split_sha256": "synthetic"}
     checkpoint = tmp_path / "run" / "last.pt"
     save_checkpoint(checkpoint, state)
@@ -165,6 +169,95 @@ def test_focal_optimizer_checkpoint_resume_and_metrics(tmp_path):
     incomplete = summarize_predictions(np.eye(9)[:8], np.arange(8), split="test")
     assert incomplete["accuracy"] is None and not incomplete["all_nine_classes_present"]
     assert incomplete["per_class"]["MALIGNANT"]["support"] == 0 and incomplete["warnings"]
+
+
+def test_exploratory_checkpoint_payload_resumes_rng_and_scaler(tmp_path):
+    from nine_class_exploratory import _checkpoint_state
+
+    model = nn.Linear(2, 9)
+    optimizer = Adamax(model.parameters(), lr=0.001)
+    scheduler = ReduceLROnPlateau(optimizer)
+
+    class SyntheticScaler:
+        def __init__(self):
+            self.scale = 1.0
+
+        def state_dict(self):
+            return {"scale": self.scale}
+
+        def load_state_dict(self, state):
+            self.scale = state["scale"]
+
+    scaler = SyntheticScaler()
+    scaler.scale = 8.0
+    random.seed(23)
+    np.random.seed(23)
+    torch.manual_seed(23)
+    state = _checkpoint_state({"research_status": "EXPLORATORY_ONLY"}, 0, model,
+                              optimizer, scheduler, scaler, float("inf"), {}, {})
+    checkpoint = tmp_path / "safe.pt"
+    save_checkpoint(checkpoint, state)
+    expected_next = (random.random(), np.random.random(), torch.rand(1))
+    expected_cuda_next = torch.rand(1, device="cuda") if torch.cuda.is_available() else None
+
+    random.seed(91)
+    np.random.seed(91)
+    torch.manual_seed(91)
+    restored = nn.Linear(2, 9)
+    restored_optimizer = Adamax(restored.parameters(), lr=0.001)
+    restored_scheduler = ReduceLROnPlateau(restored_optimizer)
+    restored_scaler = SyntheticScaler()
+    load_checkpoint(checkpoint, restored, restored_optimizer, restored_scheduler, restored_scaler,
+                    expected={"research_status": "EXPLORATORY_ONLY"}, restore_rng=True)
+    actual_next = (random.random(), np.random.random(), torch.rand(1))
+    assert actual_next[0] == expected_next[0]
+    assert actual_next[1] == expected_next[1]
+    assert torch.equal(actual_next[2], expected_next[2])
+    assert torch.equal(restored.weight, model.weight)
+    assert restored_optimizer.state_dict() == optimizer.state_dict()
+    assert restored_scheduler.state_dict() == scheduler.state_dict()
+    assert restored_scaler.scale == 8.0
+    if expected_cuda_next is not None:
+        assert torch.equal(torch.rand(1, device="cuda"), expected_cuda_next)
+
+def test_evaluation_checkpoint_without_rng_does_not_restore_rng(tmp_path):
+    model = nn.Linear(2, 9)
+    restored = nn.Linear(2, 9)
+    checkpoint = tmp_path / "model_only.pt"
+    torch.save({"model_state": model.state_dict()}, checkpoint)
+    random.seed(91)
+    np.random.seed(91)
+    torch.manual_seed(91)
+    expected_next = (random.random(), np.random.random(), torch.rand(1))
+    random.seed(91)
+    np.random.seed(91)
+    torch.manual_seed(91)
+    state = load_checkpoint(checkpoint, restored, restore_rng=False)
+    actual_next = (random.random(), np.random.random(), torch.rand(1))
+    assert "python_rng" not in state
+    assert torch.equal(restored.weight, model.weight)
+    assert actual_next[0] == expected_next[0]
+    assert actual_next[1] == expected_next[1]
+    assert torch.equal(actual_next[2], expected_next[2])
+
+
+def test_unsupported_legacy_rng_payload_rejected_without_unsafe_fallback(tmp_path, monkeypatch):
+    model = nn.Linear(2, 9)
+    legacy_checkpoint = tmp_path / "legacy_rng.pt"
+    torch.save({"model_state": model.state_dict(), "python_rng": random.getstate(),
+                "numpy_rng": np.random.get_state(), "torch_rng": torch.get_rng_state()},
+               legacy_checkpoint)
+    original_load = torch.load
+    load_options = []
+
+    def recording_load(*args, **kwargs):
+        load_options.append(kwargs.get("weights_only"))
+        return original_load(*args, **kwargs)
+
+    monkeypatch.setattr(torch, "load", recording_load)
+    with pytest.raises(pickle.UnpicklingError):
+        load_checkpoint(legacy_checkpoint, nn.Linear(2, 9), restore_rng=True)
+    assert load_options == [True]
 
 
 def test_prediction_probabilities_have_nine_columns():

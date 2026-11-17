@@ -1,0 +1,21 @@
+{
+  "arm": "arm_B_bn_update",
+  "artifacts": {
+    "batchnorm_epoch_02.json": "363e1d0c2d766afca5a5d845e00b2f8d224b64432707954e424268d772ec7ffc",
+    "epoch_02_predicted_class_distribution.json": "55e833375d0d7515b1016d4813b409d2283590487b9a9a38c2ab3a0c628b1d39",
+    "epoch_02_train_metrics.json": "b6d3f53edb9aaf15e268c5106f54ece3c09ee0e8361cbeca3a4dd7666e61a3bd",
+    "epoch_02_validation_confusion_matrix.csv": "349666ab3b7a004ec06f2882ea0c804f99ddcbe40eb68584e7df05e13f4b2776",
+    "epoch_02_validation_metrics.json": "a76ca3e837975b01d39edc69a328567baead93bf0369cfec5774d7c07764dc43",
+    "epoch_02_validation_predictions.csv": "5aefa85f037deb2b4be7657c5b1eaaaaf60722f05a8059ceead513ec1b345f09"
+  },
+  "cohort_status": "NOT_APPROVED",
+  "configuration_sha256": "bb7c56e9b094f5ea078d3dedc8f78b293321417e8382e22f9e9b54081786c006",
+  "epoch": 2,
+  "format_version": 1,
+  "initial_model_state_sha256": "6126029c56ecef1b9c8467dd65a72b9c226884ea57bbafd0ced56338299653cf",
+  "model_state_sha256": "ccef6d87761153947ae263008b496dabe853405eb756b429ab4ca66ad166e26a",
+  "preprocessing_fingerprint": "93ea2577432511fd047f3d5a855d498aaabe63e6ff69094b5b758c16f85a3c68",
+  "research_status": "EXPLORATORY_ONLY_NONCLINICAL_NOT_PAPER_REPRODUCTION",
+  "sample_order_sha256": "4b17b865203487fced477645ac79224658d52c1f07bce4d55ffc41f2c070adf2",
+  "split_sha256": "d4bce612e08cf2942cf2aefe45f807ad60e0d9dcc05aef41cf8e2fd560bbe740"
+}

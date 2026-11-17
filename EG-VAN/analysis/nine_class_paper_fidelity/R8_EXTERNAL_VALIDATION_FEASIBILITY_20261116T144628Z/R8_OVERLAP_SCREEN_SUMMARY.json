@@ -1,0 +1,74 @@
+{
+  "screen_status_counts": {
+    "POSSIBLE_PHOTO_OVERLAP": 167,
+    "NO_CANDIDATE_FOUND_IDENTITY_UNKNOWN": 101,
+    "NO_CANDIDATE_FOUND": 32
+  },
+  "by_source": {
+    "PH2": {
+      "images": 200,
+      "status_counts": {
+        "POSSIBLE_PHOTO_OVERLAP": 99,
+        "NO_CANDIDATE_FOUND_IDENTITY_UNKNOWN": 101
+      },
+      "images_with_candidates": 99,
+      "candidate_relations": 580
+    },
+    "SIIM-ISIC 2020": {
+      "images": 100,
+      "status_counts": {
+        "POSSIBLE_PHOTO_OVERLAP": 68,
+        "NO_CANDIDATE_FOUND": 32
+      },
+      "images_with_candidates": 68,
+      "candidate_relations": 6448
+    }
+  },
+  "candidate_relations_total": 7028,
+  "candidate_relation_types": {
+    "PERCEPTUAL_CANDIDATE": 7028
+  },
+  "rule": "exact SHA-256 OR same verified identifier namespace OR pHash/dHash Hamming <=6",
+  "cv2_version": "5.0.0",
+  "internal_fingerprint_independent_recomputation": {
+    "rows": 13312,
+    "missing": 0,
+    "unreadable": 0,
+    "mismatches": 0
+  },
+  "ph2": {
+    "labels": {
+      "common nevus": 80,
+      "atypical nevus": 80,
+      "melanoma": 40
+    },
+    "mapped_subset": 120,
+    "atypical_excluded": 80,
+    "provenance_status": "VERIFIED"
+  },
+  "siim": {
+    "images": 100,
+    "patients": 100,
+    "lesions": 100,
+    "detailed_diagnoses": {
+      "unknown": 82,
+      "nevus": 17,
+      "seborrheic keratosis": 1
+    },
+    "image_licenses": {
+      "CC-BY-NC": 43,
+      "CC-BY": 57
+    }
+  },
+  "isic_2017": {
+    "metadata_ids": 2750,
+    "local_image_id_matches": 0,
+    "diagnoses": {
+      "seborrheic keratosis": 386,
+      "nevus": 1843,
+      "melanoma": 521
+    }
+  },
+  "source_input_files": 732,
+  "source_hashes_unchanged": true
+}

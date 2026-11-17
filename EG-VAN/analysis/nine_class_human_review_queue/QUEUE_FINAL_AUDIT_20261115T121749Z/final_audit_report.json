@@ -1,0 +1,541 @@
+{
+  "audit_directory": "E:\\Cancerdetection\\EG-VAN\\analysis\\nine_class_human_review_queue\\QUEUE_FINAL_AUDIT_20261115T121749Z",
+  "corrected_queue_directory": "E:\\Cancerdetection\\EG-VAN\\analysis\\nine_class_human_review_queue\\QUEUE_CORRECTED_20261115T152000Z",
+  "overall_status": "PARTIALLY_VERIFIED",
+  "checks": {
+    "source_canonical_pair_set": {
+      "status": "VERIFIED",
+      "details": {}
+    },
+    "queue_set_equality": {
+      "status": "VERIFIED",
+      "details": {
+        "source_unique_keys": 1258,
+        "queue_unique_keys": 1258,
+        "duplicate_queue_keys": 0,
+        "missing_source_keys": 0,
+        "unexpected_queue_keys": 0
+      }
+    },
+    "queue_id_recomputation": {
+      "status": "VERIFIED",
+      "details": {
+        "rows": 1258,
+        "id_mismatches": 0,
+        "algorithm": "SHA-1(sorted normalized path A + NUL + path B), first 16 hex; CANONICAL_ and PAIR_ prefixes"
+      }
+    },
+    "protected_benign_reconciliation": {
+      "status": "VERIFIED",
+      "details": {
+        "source_records": 19,
+        "verified_records": 19
+      }
+    },
+    "ai_uncertain_reconciliation": {
+      "status": "VERIFIED",
+      "details": {
+        "source_records": 20,
+        "verified_records": 20
+      }
+    },
+    "metadata_field_inventory": {
+      "status": "PARTIALLY_VERIFIED",
+      "details": {
+        "identifier_like_fields": 19,
+        "benign_plan_top_candidate_lesion_id_populated": 83,
+        "direct_pair_matches": 83,
+        "queue_metadata_blank_counts": {
+          "source_a": 1258,
+          "source_b": 1258,
+          "source_split_a": 1258,
+          "source_split_b": 1258,
+          "image_id_a": 1258,
+          "image_id_b": 1258,
+          "patient_id_a": 1258,
+          "patient_id_b": 1258,
+          "lesion_id_a": 1258,
+          "lesion_id_b": 1258
+        },
+        "populated_explicit_identifier_fields": [
+          {
+            "source_file": "analysis/nine_class_overlap_review/unresolved_priority_pairs.csv",
+            "field": "source_split_a",
+            "populated_values": 449
+          },
+          {
+            "source_file": "analysis/nine_class_overlap_review/unresolved_priority_pairs.csv",
+            "field": "source_split_b",
+            "populated_values": 147
+          },
+          {
+            "source_file": "analysis/nine_class_recovery/benign_review_plan.csv",
+            "field": "source_split",
+            "populated_values": 83
+          },
+          {
+            "source_file": "analysis/nine_class_recovery/benign_review_plan.csv",
+            "field": "top_candidate_source",
+            "populated_values": 83
+          },
+          {
+            "source_file": "analysis/nine_class_recovery/benign_review_plan.csv",
+            "field": "top_candidate_lesion_id",
+            "populated_values": 83
+          },
+          {
+            "source_file": "analysis/nine_class_recovery/stage3i/ai_pair_review.csv",
+            "field": "source_split",
+            "populated_values": 429
+          },
+          {
+            "source_file": "analysis/nine_class_recovery/stage3i/ai_pair_review.csv",
+            "field": "candidate_source",
+            "populated_values": 429
+          }
+        ]
+      }
+    },
+    "group_conflict_preservation": {
+      "status": "VERIFIED",
+      "details": {
+        "source_conflicts": 3,
+        "group_csv_rows": 3,
+        "archive_conflict_records": 3,
+        "fully_verified": 3
+      }
+    },
+    "occurrence_provenance_archive": {
+      "status": "VERIFIED",
+      "details": {
+        "valid_source_occurrences": 1650,
+        "provenance_rows": 1650,
+        "verified_occurrences": 1650,
+        "archive_records": 1653,
+        "valid_archive_records": 1650,
+        "group_conflict_records": 3,
+        "unique_occurrence_ids": 1653,
+        "all_payloads_compared_order_independently": true
+      }
+    },
+    "manifest_hashes": {
+      "status": "VERIFIED",
+      "details": {
+        "listed_files": 7,
+        "hash_mismatches": []
+      }
+    },
+    "manifest_file_set": {
+      "status": "FAILED",
+      "details": {
+        "listed_file_count": 7,
+        "actual_non_manifest_file_count": 8,
+        "missing_listed_files": [],
+        "unlisted_actual_files": [
+          "CORRECTION_REPORT.md"
+        ]
+      }
+    },
+    "human_decision_status": {
+      "status": "VERIFIED",
+      "details": {
+        "queue_rows": 1258,
+        "noncompliant_rows": 0
+      }
+    }
+  },
+  "counts": {
+    "source_rows_total": 1653,
+    "valid_one_to_one_occurrences": 1650,
+    "group_level_conflicts": 3,
+    "malformed_or_missing_path_exceptions": 0,
+    "unique_canonical_source_pairs": 1258,
+    "queue_rows": 1258,
+    "queue_unique_keys": 1258,
+    "duplicate_queue_keys": 0,
+    "missing_source_keys": 0,
+    "unexpected_queue_keys": 0,
+    "duplicate_review_item_ids": 0,
+    "duplicate_canonical_pair_ids": 0,
+    "provenance_rows": 1650,
+    "archive_records": 1653,
+    "archive_valid_occurrences": 1650,
+    "archive_group_conflicts": 3,
+    "archive_duplicate_occurrence_ids": 0,
+    "protected_benign_records": 19,
+    "ai_uncertain_records": 20,
+    "queue_human_decisions_nonblank": 0,
+    "queue_non_unreviewed": 0
+  },
+  "identifier_metadata_inventory": {
+    "analysis/nine_class_overlap_review/unresolved_priority_pairs.csv": [
+      "review_priority_rank",
+      "path_a",
+      "path_b",
+      "scope",
+      "phash_distance",
+      "dhash_distance",
+      "label_a",
+      "label_b",
+      "source_split_a",
+      "source_split_b",
+      "sha256_a",
+      "sha256_b",
+      "size_a",
+      "size_b",
+      "pixel_mae",
+      "pixel_correlation",
+      "nine_class_target_conflict",
+      "decision",
+      "decision_method",
+      "human_review_status"
+    ],
+    "analysis/nine_class_stage11a/additional_candidate_relations.csv": [
+      "review_id",
+      "candidate_pair_id",
+      "binary_image_path",
+      "ham_candidate_path",
+      "relation_review_status",
+      "original_evidence_reference"
+    ],
+    "analysis/nine_class_stage11b/additional_101_auto_evidence.csv": [
+      "review_id",
+      "candidate_pair_id",
+      "relation_scope",
+      "binary_image_path",
+      "ham_candidate_path",
+      "binary_sha256",
+      "ham_sha256",
+      "exact_sha256_match",
+      "phash_distance",
+      "dhash_distance",
+      "prior_pixel_correlation",
+      "prior_pixel_mae_8bit",
+      "geometric_method",
+      "geometric_status",
+      "geometric_inliers",
+      "geometric_inlier_ratio",
+      "geometric_failure_reason",
+      "stage3g_transform_plausibility",
+      "stage3g_aligned_correlation",
+      "stage3g_central_inlier_fraction",
+      "stage3g_inlier_hull_fraction",
+      "crop_aware_correlation",
+      "crop_view",
+      "central_structure_correlation",
+      "surrounding_field_correlation",
+      "automated_category",
+      "decision_rationale",
+      "method_limitations",
+      "prior_ai_assessment_for_analyst_only",
+      "human_decision_used",
+      "approved_eligible"
+    ],
+    "analysis/nine_class_overlap_review/source_test_boundary_conflicts.csv": [
+      "duplicate_group",
+      "conflict_type",
+      "binary_paths",
+      "ham_paths",
+      "recommended_action"
+    ],
+    "analysis/nine_class_recovery/benign_review_plan.csv": [
+      "image_path",
+      "source_split",
+      "review_batch",
+      "focused_candidate_count",
+      "top_candidate_path",
+      "top_candidate_source",
+      "top_candidate_dx",
+      "top_candidate_lesion_id",
+      "top_phash_distance",
+      "top_dhash_distance",
+      "top_pixel_mae_8bit",
+      "top_pixel_correlation",
+      "top_coarse_correlation",
+      "next_two_focused_paths",
+      "proposed_decision",
+      "human_review_status",
+      "evidence_file"
+    ],
+    "analysis/nine_class_recovery/stage3i/ai_pair_review.csv": [
+      "review_order",
+      "candidate_pair_id",
+      "binary_image_path",
+      "candidate_path",
+      "source_split",
+      "candidate_source",
+      "ai_assessment",
+      "evidence_summary",
+      "visual_landmarks",
+      "phash_distance",
+      "dhash_distance",
+      "pixel_mae_8bit",
+      "pixel_correlation",
+      "coarse_correlation",
+      "geometric_method",
+      "geometric_candidate_view",
+      "geometric_inlier_count",
+      "geometric_inlier_ratio",
+      "geometric_median_reprojection_error_px",
+      "geometric_status",
+      "geometric_failure_reason",
+      "stage3g_transformation_plausibility",
+      "stage3g_aligned_correlation",
+      "conflicting_evidence",
+      "uncertainty_reason",
+      "automated_cross_check",
+      "cross_check_disagreement",
+      "review_method",
+      "model_name_version",
+      "prompt_configuration_version",
+      "review_timestamp_utc",
+      "original_binary_sha256",
+      "original_candidate_sha256",
+      "contact_sheet_reference",
+      "stage3g_overlay_reference",
+      "stage3g_difference_reference",
+      "stage3g_landmark_reference",
+      "human_decision_used"
+    ],
+    "analysis/nine_class_stage11b/primary_19_auto_evidence.csv": [
+      "review_id",
+      "candidate_pair_id",
+      "relation_scope",
+      "binary_image_path",
+      "ham_candidate_path",
+      "binary_sha256",
+      "ham_sha256",
+      "exact_sha256_match",
+      "phash_distance",
+      "dhash_distance",
+      "prior_pixel_correlation",
+      "prior_pixel_mae_8bit",
+      "geometric_method",
+      "geometric_status",
+      "geometric_inliers",
+      "geometric_inlier_ratio",
+      "geometric_failure_reason",
+      "stage3g_transform_plausibility",
+      "stage3g_aligned_correlation",
+      "stage3g_central_inlier_fraction",
+      "stage3g_inlier_hull_fraction",
+      "crop_aware_correlation",
+      "crop_view",
+      "central_structure_correlation",
+      "surrounding_field_correlation",
+      "automated_category",
+      "decision_rationale",
+      "method_limitations",
+      "prior_ai_assessment_for_analyst_only",
+      "human_decision_used",
+      "approved_eligible"
+    ]
+  },
+  "metadata_field_inventory_summary": {
+    "fields": [
+      {
+        "source_file": "analysis/nine_class_overlap_review/unresolved_priority_pairs.csv",
+        "field_name": "source_split_a",
+        "populated_value_count": 449,
+        "row_count": 449,
+        "header_position": 9,
+        "observed_values": "[\"train\",\"test\"]"
+      },
+      {
+        "source_file": "analysis/nine_class_overlap_review/unresolved_priority_pairs.csv",
+        "field_name": "source_split_b",
+        "populated_value_count": 147,
+        "row_count": 449,
+        "header_position": 10,
+        "observed_values": "[\"train\",\"test\"]"
+      },
+      {
+        "source_file": "analysis/nine_class_stage11a/additional_candidate_relations.csv",
+        "field_name": "review_id",
+        "populated_value_count": 101,
+        "row_count": 101,
+        "header_position": 1,
+        "observed_values": "[\"R03\",\"R05\",\"R07\",\"R09\",\"R16\",\"R17\"]"
+      },
+      {
+        "source_file": "analysis/nine_class_stage11a/additional_candidate_relations.csv",
+        "field_name": "candidate_pair_id",
+        "populated_value_count": 101,
+        "row_count": 101,
+        "header_position": 2,
+        "observed_values": "[\"1c28db916d3a66097d2c73bb9a2b3348f601884542ae74a5133e65310a6d6b9d\",\"73d841fdfe4a1f3a46a04d56f12f53105ee3c1a19f4dfcc50c04587dc9408837\",\"e47df9756ac5f9fc1a49ce7d9e122ff7c5bc496e3a4fd3b974cb617b16b66633\",\"2496b96cbbe547ee52159c08e8d60dddbe0bf7c10d4fd80efef5d687e7fe4ac5\",\"73bcacf77329552ce769ea7b9247efda0a903a18572385bc8e9bc09ad1c9db3b\",\"b0b3cfcef99e53664a415c6fd8befb00c2fe5d4c4806837c2822daf4e9802a1d\",\"e7ec4440e6687a4e1cacb075493bd1177108299479953a2a4eb0b323ebc07154\",\"c260fec97b968a7198e008136ed12c2cfcc3de5d9c0b3edad7c635a1de9883a1\"]"
+      },
+      {
+        "source_file": "analysis/nine_class_stage11a/additional_candidate_relations.csv",
+        "field_name": "binary_image_path",
+        "populated_value_count": 101,
+        "row_count": 101,
+        "header_position": 3,
+        "observed_values": "[\"data/isic/data/test/benign/1646.jpg\",\"data/isic/data/test/benign/1074.jpg\",\"data/isic/data/test/benign/878.jpg\",\"data/isic/data/test/benign/1393.jpg\",\"data/isic/data/test/benign/575.jpg\",\"data/isic/data/test/benign/559.jpg\"]"
+      },
+      {
+        "source_file": "analysis/nine_class_stage11b/additional_101_auto_evidence.csv",
+        "field_name": "review_id",
+        "populated_value_count": 101,
+        "row_count": 101,
+        "header_position": 1,
+        "observed_values": "[\"R03\",\"R05\",\"R07\",\"R09\",\"R16\",\"R17\"]"
+      },
+      {
+        "source_file": "analysis/nine_class_stage11b/additional_101_auto_evidence.csv",
+        "field_name": "candidate_pair_id",
+        "populated_value_count": 101,
+        "row_count": 101,
+        "header_position": 2,
+        "observed_values": "[\"1c28db916d3a66097d2c73bb9a2b3348f601884542ae74a5133e65310a6d6b9d\",\"73d841fdfe4a1f3a46a04d56f12f53105ee3c1a19f4dfcc50c04587dc9408837\",\"e47df9756ac5f9fc1a49ce7d9e122ff7c5bc496e3a4fd3b974cb617b16b66633\",\"2496b96cbbe547ee52159c08e8d60dddbe0bf7c10d4fd80efef5d687e7fe4ac5\",\"73bcacf77329552ce769ea7b9247efda0a903a18572385bc8e9bc09ad1c9db3b\",\"b0b3cfcef99e53664a415c6fd8befb00c2fe5d4c4806837c2822daf4e9802a1d\",\"e7ec4440e6687a4e1cacb075493bd1177108299479953a2a4eb0b323ebc07154\",\"c260fec97b968a7198e008136ed12c2cfcc3de5d9c0b3edad7c635a1de9883a1\"]"
+      },
+      {
+        "source_file": "analysis/nine_class_stage11b/additional_101_auto_evidence.csv",
+        "field_name": "binary_image_path",
+        "populated_value_count": 101,
+        "row_count": 101,
+        "header_position": 4,
+        "observed_values": "[\"data/isic/data/test/benign/1646.jpg\",\"data/isic/data/test/benign/1074.jpg\",\"data/isic/data/test/benign/878.jpg\",\"data/isic/data/test/benign/1393.jpg\",\"data/isic/data/test/benign/575.jpg\",\"data/isic/data/test/benign/559.jpg\"]"
+      },
+      {
+        "source_file": "analysis/nine_class_recovery/benign_review_plan.csv",
+        "field_name": "image_path",
+        "populated_value_count": 83,
+        "row_count": 83,
+        "header_position": 1,
+        "observed_values": "[\"data/isic/data/test/benign/802.jpg\",\"data/isic/data/test/benign/1646.jpg\",\"data/isic/data/test/benign/678.jpg\",\"data/isic/data/test/benign/1191.jpg\",\"data/isic/data/test/benign/575.jpg\",\"data/isic/data/test/benign/1642.jpg\",\"data/isic/data/test/benign/1018.jpg\",\"data/isic/data/test/benign/1074.jpg\"]"
+      },
+      {
+        "source_file": "analysis/nine_class_recovery/benign_review_plan.csv",
+        "field_name": "source_split",
+        "populated_value_count": 83,
+        "row_count": 83,
+        "header_position": 2,
+        "observed_values": "[\"test\",\"train\"]"
+      },
+      {
+        "source_file": "analysis/nine_class_recovery/benign_review_plan.csv",
+        "field_name": "top_candidate_source",
+        "populated_value_count": 83,
+        "row_count": 83,
+        "header_position": 6,
+        "observed_values": "[\"HAM10000\"]"
+      },
+      {
+        "source_file": "analysis/nine_class_recovery/benign_review_plan.csv",
+        "field_name": "top_candidate_lesion_id",
+        "populated_value_count": 83,
+        "row_count": 83,
+        "header_position": 8,
+        "observed_values": "[\"HAM_0007122\",\"HAM_0005750\",\"HAM_0002231\",\"HAM_0002187\",\"HAM_0003892\",\"HAM_0006155\",\"HAM_0003125\",\"HAM_0004991\"]"
+      },
+      {
+        "source_file": "analysis/nine_class_recovery/stage3i/ai_pair_review.csv",
+        "field_name": "candidate_pair_id",
+        "populated_value_count": 429,
+        "row_count": 429,
+        "header_position": 2,
+        "observed_values": "[\"785863f7ac3bc8e2c6f268922f7801d0a30221f71a2db975ecc25b9890947196\",\"218f876f8b128bcd8abe0d9768976931fb883013b53efb50f1b5eb9f2cc04034\",\"d2bfe15a693c39501c3c310087ba17c3c865bd1a240acc7b0e0fde163d15c090\",\"b8967c8a773a7e9f1b8717e43c4e715327e20a47d9efd5a92f083bd1d4b37f5c\",\"dabe97a5eed9b0fe892a6820c1a7bf97579d1f7ebb422e3ab2a71b3c8c781b6c\",\"f9a70a88a62e7bda4919fa1fd9bb509aa7f470c79c1df632cf48fc62b3dba910\",\"2b17a23f409456aaa8a0a5d0caa4c07b4f13ac544be4b7a06673a191a11aa2b0\",\"458ff4c6e5c188d71fe7962f800db37f5fc16d6874aa1a6aebf94ea2a72803ff\"]"
+      },
+      {
+        "source_file": "analysis/nine_class_recovery/stage3i/ai_pair_review.csv",
+        "field_name": "binary_image_path",
+        "populated_value_count": 429,
+        "row_count": 429,
+        "header_position": 3,
+        "observed_values": "[\"data/isic/data/test/benign/802.jpg\",\"data/isic/data/test/benign/1646.jpg\",\"data/isic/data/test/benign/678.jpg\",\"data/isic/data/test/benign/1191.jpg\",\"data/isic/data/test/benign/575.jpg\",\"data/isic/data/test/benign/1642.jpg\",\"data/isic/data/test/benign/1018.jpg\",\"data/isic/data/test/benign/1074.jpg\"]"
+      },
+      {
+        "source_file": "analysis/nine_class_recovery/stage3i/ai_pair_review.csv",
+        "field_name": "source_split",
+        "populated_value_count": 429,
+        "row_count": 429,
+        "header_position": 5,
+        "observed_values": "[\"test\",\"train\"]"
+      },
+      {
+        "source_file": "analysis/nine_class_recovery/stage3i/ai_pair_review.csv",
+        "field_name": "candidate_source",
+        "populated_value_count": 429,
+        "row_count": 429,
+        "header_position": 6,
+        "observed_values": "[\"HAM10000\",\"binary\"]"
+      },
+      {
+        "source_file": "analysis/nine_class_stage11b/primary_19_auto_evidence.csv",
+        "field_name": "review_id",
+        "populated_value_count": 19,
+        "row_count": 19,
+        "header_position": 1,
+        "observed_values": "[\"R01\",\"R02\",\"R03\",\"R04\",\"R05\",\"R06\",\"R07\",\"R08\"]"
+      },
+      {
+        "source_file": "analysis/nine_class_stage11b/primary_19_auto_evidence.csv",
+        "field_name": "candidate_pair_id",
+        "populated_value_count": 19,
+        "row_count": 19,
+        "header_position": 2,
+        "observed_values": "[\"0a448f51426f7e1c0e4edae917dec51119f912dc17829a73b33496d80b40ec75\",\"128f478e1351a0c65084176f12697b77de4f5ab847c4b6d83d175df55858be8b\",\"218f876f8b128bcd8abe0d9768976931fb883013b53efb50f1b5eb9f2cc04034\",\"2b17a23f409456aaa8a0a5d0caa4c07b4f13ac544be4b7a06673a191a11aa2b0\",\"458ff4c6e5c188d71fe7962f800db37f5fc16d6874aa1a6aebf94ea2a72803ff\",\"4643ce69daaac698e3790a195df603fac491855eb4e6f17298da8eacc37b3b87\",\"77888fbe6138fd540072f85134ab35bce450511c68964514124464fb28e8fdec\",\"785863f7ac3bc8e2c6f268922f7801d0a30221f71a2db975ecc25b9890947196\"]"
+      },
+      {
+        "source_file": "analysis/nine_class_stage11b/primary_19_auto_evidence.csv",
+        "field_name": "binary_image_path",
+        "populated_value_count": 19,
+        "row_count": 19,
+        "header_position": 4,
+        "observed_values": "[\"data/isic/data/test/benign/1443.jpg\",\"data/isic/data/test/benign/670.jpg\",\"data/isic/data/test/benign/1646.jpg\",\"data/isic/data/test/benign/1018.jpg\",\"data/isic/data/test/benign/1074.jpg\",\"data/isic/data/test/benign/912.jpg\",\"data/isic/data/test/benign/878.jpg\",\"data/isic/data/test/benign/802.jpg\"]"
+      }
+    ],
+    "explicit_top_candidate_lesion_id_rows": 83,
+    "direct_matching_queue_pairs": 83,
+    "queue_blank_counts": {
+      "source_a": 1258,
+      "source_b": 1258,
+      "source_split_a": 1258,
+      "source_split_b": 1258,
+      "image_id_a": 1258,
+      "image_id_b": 1258,
+      "patient_id_a": 1258,
+      "patient_id_b": 1258,
+      "lesion_id_a": 1258,
+      "lesion_id_b": 1258
+    }
+  },
+  "manifest": {
+    "listed_files": [
+      {
+        "filename": "evidence_provenance.csv",
+        "status": "MATCH"
+      },
+      {
+        "filename": "group_level_conflicts.csv",
+        "status": "MATCH"
+      },
+      {
+        "filename": "HUMAN_REVIEW_GUIDE.md",
+        "status": "MATCH"
+      },
+      {
+        "filename": "human_review_queue.csv",
+        "status": "MATCH"
+      },
+      {
+        "filename": "queue_exceptions.csv",
+        "status": "MATCH"
+      },
+      {
+        "filename": "queue_summary.json",
+        "status": "MATCH"
+      },
+      {
+        "filename": "source_row_archive.jsonl",
+        "status": "MATCH"
+      }
+    ],
+    "missing_listed_files": [],
+    "unlisted_actual_files": [
+      "CORRECTION_REPORT.md"
+    ]
+  },
+  "note": "Read-only audit of existing evidence and queue. No source, queue, image, model, or Git content was changed."
+}

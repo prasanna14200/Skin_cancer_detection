@@ -1,0 +1,2 @@
+pair_id,queue_row_number,human_decision,reviewer_id,review_timestamp_utc,visual_evidence_notes,decision_rationale
+PAIR_0001,1,SAME_PHOTO,,2026-11-16T08:17:26Z,"Matching lesion texture and distinctive landmarks, including the upper-middle dark cluster, left brown feature, lower-left speck, and lower-right brown cluster.","The two images show the same underlying photograph, with apparent differences consistent with resizing/cropping."

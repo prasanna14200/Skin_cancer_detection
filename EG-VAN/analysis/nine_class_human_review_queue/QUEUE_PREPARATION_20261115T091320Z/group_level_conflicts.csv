@@ -1,0 +1,4 @@
+source_file,source_row_number,duplicate_group,conflict_type,binary_paths,ham_paths,recommended_action
+analysis/nine_class_overlap_review/source_test_boundary_conflicts.csv,196,DG-f8e32066a54f843c,binary_test_HAM,data/isic/data/test/benign/335.jpg,data/raw/HAM10000_images_part_1/ISIC_0027698.jpg;data/raw/HAM10000_images_part_2/ISIC_0029666.jpg,exclude_binary_if_confirmed_keep_HAM
+analysis/nine_class_overlap_review/source_test_boundary_conflicts.csv,470,DG-f8e32066a54f843c,binary_train_test,data/isic/data/test/benign/335.jpg;data/isic/data/train/benign/1593.jpg,data/raw/HAM10000_images_part_1/ISIC_0027698.jpg;data/raw/HAM10000_images_part_2/ISIC_0029666.jpg,exclude_binary_keep_HAM
+analysis/nine_class_overlap_review/source_test_boundary_conflicts.csv,471,DG-681c50d4c60d4313,binary_train_test,data/isic/data/test/malignant/507.jpg;data/isic/data/train/malignant/439.jpg,,keep_test_exclude_train
