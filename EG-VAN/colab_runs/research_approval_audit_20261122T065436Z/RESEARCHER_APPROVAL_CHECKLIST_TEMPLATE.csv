@@ -1,0 +1,8 @@
+requirement_id,existing_status,existing_required_evidence,evidence_reference_to_add,reviewer_name,review_date_yyyy_mm_dd,researcher_decision_APPROVED_REJECTED_PENDING,notes
+source_label_policy,OPEN,Researcher-approved source-defined SIIM BENIGN interpretation and unchanged nine-class mapping,,,,,
+source_rights,OPEN,SIIM aggregate and image-level attribution plus Fanconic MALIGNANT source/version and image-level rights,,,,,
+identity_review,OPEN,"Independent, dated review of high-risk cross-source and within-SIIM photographic candidates",,,,,
+screening_validation,OPEN,Verified transformed positives and independently adjudicated difficult negatives; bounded detector limitations,,,,,
+eligible_class_counts,OPEN,"All nine approved classes with declared protected BENIGN validation, calibration and test group counts",,,,,
+calibration_gate,OPEN,Real approved four-way inventory/split and calibration freeze declarations; synthetic checks do not approve clinical data,,,,,
+researcher_approval,OPEN,"Named approval, rights/adjudication references, source inventory and frozen split hashes",,,,,

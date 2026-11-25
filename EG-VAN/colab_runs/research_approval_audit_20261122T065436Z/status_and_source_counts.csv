@@ -1,0 +1,14 @@
+field,value,count
+approval_status,NOT_APPROVED,10234
+automated_status,HAM_AVAILABLE_NOT_FINAL_ELIGIBLE,9310
+automated_status,BINARY_PROVISIONAL_SOURCE_TRAIN,680
+automated_status,PROTECTED_SOURCE_TEST_UNADJUDICATED,165
+automated_status,PRELIMINARY_NO_CANDIDATE_NOT_APPROVED,79
+research_status,EXPLORATORY_ONLY_NONCLINICAL_NOT_PAPER_REPRODUCTION,10234
+source_dataset,HAM10000,9310
+source_dataset,FANCONIC_LOCAL_UNVERIFIED_VERSION,845
+source_dataset,SIIM-ISIC 2020 training v2,79
+split,train,7080
+split,test,1103
+split,validation,1028
+split,calibration,1023

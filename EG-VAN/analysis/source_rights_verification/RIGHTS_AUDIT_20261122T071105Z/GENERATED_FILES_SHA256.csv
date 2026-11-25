@@ -1,0 +1,14 @@
+﻿file_name,sha256,scope_note
+CORRECTION_CHANGELOG.md,8667d9255b41bddd00d663ea2ea49dbd36021f5714b4c01986cb6ad4cfcfff5c,SHA-256 of exact file bytes; the manifest excludes itself.
+DATASET_LICENSE_COMPARISON.csv,df8ae0feab5806687b1d7f7278240afe07aeeb7161fba1a4f376798a58ba5f8d,SHA-256 of exact file bytes; the manifest excludes itself.
+FANCONIC_PROVENANCE_INVESTIGATION.md,c7966502da7131985048da070d55f54a297c4025c4fb6ed5bdce21b58b322994,SHA-256 of exact file bytes; the manifest excludes itself.
+HAM10000_DATAVERSE_V4_API_EVIDENCE.json,53d84613f8cd72f10a16370bbbfaf04ebb4755f53e0b4a8d8f86501b81577039,SHA-256 of exact file bytes; the manifest excludes itself.
+HAM10000_LICENSE_SCOPE_ANALYSIS.md,4f006c646e8d747dc6ad0bb82b2863aa00217e5bc5709acc81c01d3aebb261f2,SHA-256 of exact file bytes; the manifest excludes itself.
+OFFICIAL_SOURCE_REFERENCES.md,a4695a48b63bd1434043749b3a10202e91bad628afcfbcbc530a60622d50e5e4,SHA-256 of exact file bytes; the manifest excludes itself.
+PROTECTED_FILE_HASHES_AFTER.csv,4d033295a82cad01eed9f1c15ddb6afe98cefc51786c8825066e34b9590bc1ec,SHA-256 of exact file bytes; the manifest excludes itself.
+PROTECTED_FILE_HASHES_BEFORE.csv,2e180f7b5f3ce7ae568b1b351525638d93f631f2375d930e1d4ef5194ffccd9d,SHA-256 of exact file bytes; the manifest excludes itself.
+RESEARCHER_REVIEW_TEMPLATE.csv,0724c885029da220344a2492590e096b2955f999f39d439a7e76dbf139b7dd3d,SHA-256 of exact file bytes; the manifest excludes itself.
+SIIM_API_RECORD_REVALIDATION.csv,cb1e726769f413cd524be370605a56d2a176427acf5dad608e8b29680d5a4f02,SHA-256 of exact file bytes; the manifest excludes itself.
+SOURCE_RIGHTS_EVIDENCE_REGISTER.csv,f3a8f3f6d51225ebf867a39ac70e29d980b28264511ddd5b6f52176a4df8dede,SHA-256 of exact file bytes; the manifest excludes itself.
+SOURCE_RIGHTS_RESEARCH_REPORT.md,2f7b9a05450450f71b755946dea47c99bf1d92f90da99fb88e08a5c033475e20,SHA-256 of exact file bytes; the manifest excludes itself.
+UNRESOLVED_RIGHTS_QUESTIONS.csv,d9d63e46171333c76371c9af7bed37f00ede87a5c9b7aeae503cb2e648b2787f,SHA-256 of exact file bytes; the manifest excludes itself.

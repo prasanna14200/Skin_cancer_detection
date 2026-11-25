@@ -1,0 +1,3 @@
+experiment_id,partition,epoch,train_loss,train_accuracy,train_macro_f1,validation_loss,validation_accuracy,validation_macro_f1,weighted_f1,balanced_accuracy,n_samples,checkpoint_produced,notes
+PI-HIST-001,train,1,0.19806954249066147,0.6121468926553673,0.11036953821250885,,,,,7080,false,Only embedded train metrics from frozen checkpoint
+PI-HIST-001,validation,1,,,,0.19291715592382375,0.6108949416342413,0.0975323660847642,0.47172392509152283,0.118353347344944,1028,true,PI-HIST-001 is a historical checkpoint, not a completed 25-epoch run

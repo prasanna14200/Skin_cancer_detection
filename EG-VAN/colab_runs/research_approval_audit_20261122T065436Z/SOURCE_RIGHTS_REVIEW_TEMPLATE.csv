@@ -1,0 +1,4 @@
+source_dataset,image_count,source_version_or_release,official_license_or_terms_url,permitted_research_use_confirmed,commercial_use_status,required_attribution_text,image_level_attribution_location,evidence_file_or_reference,reviewer_name,review_date_yyyy_mm_dd,decision_APPROVED_REJECTED_PENDING,notes
+FANCONIC_LOCAL_UNVERIFIED_VERSION,845,,,,,,,,,,,
+HAM10000,9310,,,,,,,,,,,
+SIIM-ISIC 2020 training v2,79,,,,,,,,,,,

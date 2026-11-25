@@ -1,0 +1,44 @@
+{
+  "status": "EXPLORATORY_ONLY_NONCLINICAL_NOT_PAPER_REPRODUCTION",
+  "historical_model": {
+    "checkpoint": "analysis/nine_class_exploratory/runs/EXPLORATORY_ONLY_20261108T193315Z_d50a9c07/best.pt",
+    "checkpoint_sha256": "3336df387025a0d7438b444d10236f846eed1327910117635bbae38601133e08",
+    "state_dict_validation": "strict",
+    "epoch_index_embedded": 1,
+    "initialization": "random",
+    "architecture": "EG-VAN nine-class",
+    "class_order": [
+      "AKIEC",
+      "BCC",
+      "BKL",
+      "DF",
+      "MEL",
+      "NV",
+      "VASC",
+      "BENIGN",
+      "MALIGNANT"
+    ],
+    "preprocessing": "384 RGB, INTER_AREA, scale 255, ImageNet mean/std"
+  },
+  "split": {
+    "file": "analysis/nine_class_exploratory/exploratory_split.csv",
+    "sha256": "d4bce612e08cf2942cf2aefe45f807ad60e0d9dcc5aef41cf8e2fd560bbe740",
+    "approved": false,
+    "train_rows": 7080,
+    "validation_rows": 1028,
+    "calibration_rows": 1023,
+    "test_rows": 1103
+  },
+  "environment": {
+    "python": "3.13.5",
+    "torch": "2.14.0+cpu",
+    "torchvision": "0.29.0+cpu",
+    "cuda_available": false,
+    "gpu_available": false,
+    "ram_total_gb": 7.68,
+    "ram_free_gb_at_audit": 0.78,
+    "disk_free_gb": 63.02
+  },
+  "new_checkpoint": null,
+  "new_training_run": null
+}

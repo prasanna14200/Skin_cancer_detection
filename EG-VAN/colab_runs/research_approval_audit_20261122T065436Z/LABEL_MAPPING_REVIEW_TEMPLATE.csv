@@ -1,0 +1,10 @@
+source_dataset,original_label,class_name,class_index,official_source_definition,mapping_rationale,researcher_decision_APPROVED_REJECTED_PENDING,evidence_reference,reviewer_name,review_date_yyyy_mm_dd,notes
+FANCONIC_LOCAL_UNVERIFIED_VERSION,malignant,MALIGNANT,8,,,,,,,
+HAM10000,akiec,AKIEC,0,,,,,,,
+HAM10000,bcc,BCC,1,,,,,,,
+HAM10000,bkl,BKL,2,,,,,,,
+HAM10000,df,DF,3,,,,,,,
+HAM10000,mel,MEL,4,,,,,,,
+HAM10000,nv,NV,5,,,,,,,
+HAM10000,vasc,VASC,6,,,,,,,
+SIIM-ISIC 2020 training v2,benign,BENIGN,7,,,,,,,
